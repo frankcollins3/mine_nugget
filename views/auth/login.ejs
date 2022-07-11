@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <style>
+        body {
+            background-color: rgb(62, 50, 32);
+            display: flex;
+            /* flex-flow: row nowrap;
+            justify-content: center; */
+            flex-flow: column nowrap;
+            align-items: center;
+            margin-top: 5em;
+            text-align: center;
+        }
+        form {
+        color: papayawhip;
+        text-align: center;
+        margin-top: 10em;
+        max-width: 50%;
+        }        
+        .submitLabel {
+            color: transparent;
+        }
+         #submitBox {
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            text-align: center;
+        }
+        .flexLoginRow {
+            /* color: */
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+        }
+        .doublesize {
+            transform: scale(2.0);
+        }
+    </style>
+    <body>
+        
+<form action="/auth/login" method="POST">
+    <!-- <div class="formBox">
+        <label for="auth-username">username</label> <br>
+        <input id="auth-username" type="text" name="username" class="loginInput" <br>
+    </div> -->
+
+    <div id ="submitBox" class="formBox">
+    <input class="goldSubmit" type="submit" value="Log In"> <br>
+    <!-- <label for="submitBox" class="submitLabel"></label> -->
+            <div class="flexLoginRow">
+                <p class="letter"> l </p>
+                <p class="letter"> o </p>
+                <p class="letter"> g </p>
+                <p class="letter"> i </p>
+                <p class="letter"> n </p>
+                
+            </div>
+    </div>
+
+    <div class="formBox">
+      <label for="auth-email">Email</label> <br>
+      <input id="auth-email" type="email" name="email" class="loginInput"> <br>           <!-- this input type="email" comes with its own automatic flash-type messages like: ["please include an @"] they're not as pretty as they sound.-->
+      
+    </div>
+    
+    <br/>
+    <div class="formBox">
+      <label for="auth-password">Password</label> <br>
+      <input id="auth-password" type="password" name="password" class="loginInput"> <br>
+    </div>
+
+    <!-- <div class="formBox">
+      <label for="auth-password">Age</label> <br>
+      <input id="auth-password" type="password" name="password" class="loginInput"> <br>
+    </div> -->
+    
+  
+      
+    </div>
+    <!-- the animation function done in jq from alerts.ejs doesn't do what we want it to do here. -->
+    
+</form>
+
+</body>
+</html>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+ $('form')
+.addClass('doublesize')
+.css('color', 'papayawhip')
+.css('text-align', 'center')
+.css('margin-top', '10em')
+.css('max-width', '50%')
+
+$('.goldSubmit')        // this gold speck looking trick is not the first time doing this.  in AJAX-pokedex: (also in signup.ejs) the pokemon capcha look like little light showcases but they are the .openPokeball image cut out in a very cool way. This was a really annoying 70 minute problem where The image was posting and I couldn't see it because it was showing the outer most edge. Only when I made: .css(background'transparent'&&color'transparent') did the gold shimmer shine through. I love this trick of the background-size: cover being ambiguous and it being this sick looking thing. 
+// You really cannot make up how much cooler this looks like this than with .css(height & width 100px) if you're over here you don't mind anecdotes: I credit being into sound-design as hobby for this habit/pretty-much-predication of finding cool accidents. 
+// .css('height', '100px') 
+// .css('width', '100px')
+.css('color', 'transparent')
+.css('border', '1px solid transparent')
+.css('background-color', 'transparent')
+.css('margin-top', '4em')
+.css('background-image', "url('/img/gold.png')")
+.css('background-size', 'cover')
+.css('background-repeat', 'no-repeat')
+
+$('.formBox')
+.css('margin-top', '2em')
+// .css('border', '5px solid pink')
+
+
+$('.submitLabel')
+console.log( $('.submitLabel').text())
+console.log( $('.submitLabel').text().charAt(0))
+// $('.submitLabel').text().charAt(1).css('color', 'white')         doesnt work
+let string = $('.submitLabel').text()
+console.log(string)
+
+// take first letter of the string and then append that character to the label
+// let labelStringChar = string.charAt(0)
+let labelStringChar = 'login'
+let realLabel = document.createElement('label')
+
+const sl = $('.submitLabel')
+
+const row = $('.flexLoginRow')
+const letter = $('.letter')
+letter
+.css('color', 'transparent')
+
+// $('.submitLabel')
+// .append(realLabel)
+// .css('padding', '0')
+// .css('margin', '0')
+
+// we need to set individual moving parts with flexbox row so we have a different index of letter at every single part. +
+
+    let startPoint = letter.length - letter.length
+
+    console.log('startPoint')
+    console.log(startPoint)
+
+// for (let i = 0; i < letter.length; i++) {
+    // setInterval( () => {
+    //     const textAnimation = () => {
+    //         // let char = row[0]
+    //         let char = letter[`${startPoint++}`]
+    //         $(char).css('color', 'orange')
+    //         // .css('color', 'orange')
+    //     }   
+    //     textAnimation()
+    // }, "2000")
+// }
+const animateLoginRow = () => {         // good 2 hours on this. didn't want to use incrementer code from another project. 1) 30mins: [trying to change constant const=]      2) 45-60mins [if startpoint == 5] not setting this up properly. having outside of setInterval scope.
+    setInterval( () => {
+        const textAnimation = () => {
+            if (startPoint == 5) {
+                startPoint = 0
+                letter
+                .css('opacity', '1.0')
+                .css('text-shadow', '1px 1px 1px papayawhip')
+            }
+            
+            // if (startPoint == 5) {
+            //     startPoint = 0
+            //     letter
+            // }    
+            // .css('text-shadow', '1px 1px 1px papayawhip')
+
+            // let char = row[0]
+            let char = letter[`${startPoint++}`]
+            console.log('startpoint')
+            console.log(`${startPoint}`)
+            $(char)
+            .css('color', 'papayawhip')
+            .css('opacity', '1.0')
+            setTimeout( () => {
+                $(char)
+                .css('opacity', '0.1')
+                letter
+                // .css('text-shadow', '')
+                // .css('color', 'transparent')
+    
+            }, "1000")
+            // .css('color', 'orange')
+        }   
+        textAnimation()
+    }, "2000")
+}
+animateLoginRow()
+
+$('input').on('mouseenter', (event) => {
+    $(event.target)
+    .css('box-shadow', '3px 3px 6px papayawhip') // was going to do 
+    .css('box-shadow', '4px 1px 7px rgb(247, 208, 36)')
+    console.log($(event.target))            // during pokedex i used .children() probably 7-11x. I've used .parents() and .siblings() now once or twice with about an hour of brute force [attempt,attempt,attempt] for each successful use. Can feel mental-reflex of knowing a <label> would be a sibling to <input> within a <form>
+    console.log($(event.target).siblings())
+     
+
+
+    
+    // $('label')
+    // console.log('siblings 1')        
+    $(event.target).siblings()      // nice. 1) was really trying to access [$(target).sibling()[0]] which is the <form><LABEL>    2nd Attempt) [$(target).sibling()[0][0] was trying a second [0] for jq block. I also snuck .contents() into these attempts. it can respecify something as a jqObject.
+    // this solution could easily get in the way. I'm also surprised it isn't making our input value 22px which could look very strange. The more siblings you have and the more they could be affected by the font-size, the messier this solution/method-of-styling would be. 
+    .css('font-family', 'Urw Chancery L') 
+    .css('font-size', `22px`)    // font-size grows the input way bigger. was using accidentally on the input instead of the label.
+
+})
+
+$('input').on('mouseleave', () => {
+    $(event.target)
+    .css('box-shadow', '4px 1px 7px papayawhip')
+    .css('box-shadow', '3px 3px 6px rgb(247, 208, 36')      // little switchup to keep things a bit subtle but still .pretty()
+})
+
+// $('.input').on('mouseleave', )
+// '1px 1px 1px rgb(247, 208, 36)'
+
+// setInterval( () => {
+//     console.log("hey")
+//     console.log(letter[`${startPoint++}`])
+// }, "2000")
+
+// .css('color', 'white')
+
+
+
+
+
+// console.log( $('.submitLabel')[0].charAt(0))
+console.log('charAt')
+
+</script>
+
+

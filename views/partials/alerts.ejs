@@ -1,0 +1,94 @@
+<% if (alerts.error) { %>
+    <% alerts.error.forEach(msg => { %>
+        <div class="alert alert-error"> <%= msg %></div>         <!-- never thought about it but these would be great for a maze game -->
+    <% }) %>
+<% } %>
+
+<% if (alerts.success) { %>
+    <% console.log(alerts.success) %>
+    <div class="success alert"> <%= alerts.success %> </div>
+<% } %>
+
+<% if (alerts.smoke) { %> 
+    <% console.log(alerts.smoke) %>
+    <div class="smoke alert"> <%= alerts.smoke %></div>   
+<% } %>
+
+<% if (alerts.logout) { %>
+    <div class="logout alert"> <%= alerts.logout %></div>
+<% } %>
+
+<% if (alerts.age) { %>
+    <% alerts.age.forEach(agemsg => { %>
+        <div class="alert age"> <%= agemsg %></div>         <!-- never thought about it but these would be great for a maze game -->
+    <% }) %>
+<% } %>
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    $('.alert')
+    .css('color', 'papayawhip')
+    // .css('margin-top', '-12em')
+    
+    let success = $('.success')
+
+    setTimeout( () => {
+        // success.hide()
+        success
+        .css('margin-top', '-12em')
+        .animate({
+            opacity: 0.9,
+            color: 'rgb(247, 208, 36)'
+        }, "1000")
+        .animate({
+            opacity: 0.8,
+            color: 'papayawhip',
+        }, "1000")
+        .animate({
+            opacity: 0.7
+        }, "1000")
+        .animate({
+            opacity: 0.6,
+            color: 'rgb(247, 208, 36)',
+        }, "250")
+        .animate({
+            opacity: 0.5,
+            color: 'rgb(247, 208, 36)',
+        }, "250")
+        .animate({
+            opacity: 0.4,
+            color: 'rgb(247, 208, 36)',
+        }, "500")
+        .animate({
+            opacity: 0.1,
+            color: 'rgb(247, 208, 36)',
+        }, "250")
+        .animate({
+            opacity: 0.0,
+        }, "250")
+    })
+    if ($(location)[0].pathname == 'http://localhost:7777/') {
+    console.log('ours shows strain')
+}
+if ($(location)[0].pathname.includes('strain')) {
+    success.hide()
+    $('.age')
+    .css('color', 'papayawhip')
+    .css('margin-top', '2em')
+    // .css('margin-top', $(document).height().toFixed()*0.9)
+}
+    // .css()
+    // .css()
+    
+    
+    
+</script>
+ <!-- flash messages: -->
+ <!-- 0) req.flash() uses sessions it has to be put under sessions in the dependency importing list. -->
+ <!-- 1) app.use res.locals.alerts = req.flash() declare req.flash and how we'll be using it: in our alerts file-->
+ <!-- 2) set up alert file -->
+ <!-- 3) just put in the app.get('/') route req.flash() it doesn't have to be in the render. -->
+ <!-- Error: req.flash() requires sessions -->

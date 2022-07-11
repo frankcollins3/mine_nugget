@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <style>
+        .doublesize {
+            transform: scale(2.0);
+        }
+    </style>
+    <body>
+
+        <form method="POST" action="/auth" id="signup">   
+            <!-- this has a similar scope of require('.') it still assumes current reference relative to -->
+            <input type="submit" class="goldSubmit">
+            <div class="formbox">
+                <label for="username">Username</label> <br>
+                <input type="text" id="signupusername" name="username">
+            </div>
+        
+            <div class="formbox">
+                <label for="password">Password</label> <br>
+                <input type="password" id="signuppassword" name="password">
+            </div>
+        
+            <div class="formbox">
+                <label for="email">Email</label>    <br>    
+                <input type="email" id="signupemail" name="email">
+                <!-- type="email" id="" name="" multiple  CAN USE MULTIPLE WORD TO ALLOW MULTIPLE EMAIL ADDRESSES  -->
+            </div>
+        
+            <div class="formbox">
+                <label for="age">Age</label>    <br>    
+                <!-- <input type="select" id="signupage" name="signupage">  -->
+                <select id="signupage" name="age">             <!-- made an error didn't have name="age" -->
+        
+                    <!-- <option value="1">1</option>  --> 
+                </select>
+                
+            </div>
+            
+        <script src="" async defer></script>
+    </body>
+</html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+    let input = $('input')
+    let height = $(document).height().toFixed()
+
+    $('body')
+    .css('display', 'flex')
+    .css('flex-flow', 'column nowrap')
+    .css('align-items', 'center')
+    .css('background-color', 'rgb(62, 50, 32')
+
+    $('form')
+    .addClass('doublesize')
+    .css('color', 'papayawhip')
+    .css('text-align', 'center')
+    .css('margin-top', '12em')
+    .css('max-width', '50%')
+
+    $('#signup')
+    // .addClass()
+
+    // .css('height', '100px') 
+    // .css('width', '100px')
+    $('.goldSubmit')        
+    .css('color', 'transparent')
+    .css('border', '1px solid transparent')
+    .css('background-color', 'transparent')
+    .css('margin-top', '4em')
+    .css('background-image', "url('/img/gold.png')")
+    .css('background-size', 'cover')
+    .css('background-repeat', 'no-repeat')
+    // $(waterText).css('background-image', "url('/img/text/waterText.png')")
+
+    // .css('background-color', 'blue')
+    // .css('background-image', `url(${'/img/gold.png'})`) // background image finally working  I was going to 
+
+    // 'url(http://example.com/img.jpg)'
+
+    let eventCount = 0
+    let wholeCount = new Array()
+
+    $(document).on('mousemove', (e) => {    
+        if (e.clientY < parseInt(height/1.75)) {   // nice.
+            eventCount++
+            wholeCount.push(eventCount)
+            // if (wholeCount.length % 10 === 0) {
+            if (wholeCount.length < 33) {       
+                input.css('box-shadow', '3px 3px 6px papayawhip')
+            } else {
+                console.log('how is you doin that')
+                input.css('box-shadow', '')
+                $(document).unbind()   // this'll save client performance.                 // document.body.removeEventListener('mousemove')
+                // setTimeout( () => wholeCount.splice(0, wholeCount.length), "4000") // if someone wants to see this flash again I don't want the event to unbind()from the object. I just don't want this to be consistently firing, causing a performance loss. Hmm now it's stepping all over the animation from travelling inbetween the form and the focus on subtlety.
+            }
+        }
+    })
+
+    // let inputOption2 = document.createElement('option')         // this little form loop trick is not a 
+    // $(inputOption2).attr('value', "2")                  // .attr( attributeName, value ) from documentation
+    // $(inputOption2).text('2')   // always suckerpunched first with inputOption.text vs $(inputOption)
+    // console.log($(inputOption2))
+    for (let i = 18; i < 50; i++) {
+        let inputOption = document.createElement('option')
+        $(inputOption).attr('value', i.toString())          // had this put as i first with no .toString() was relively to see a huuuuge dropMenu of valueless gray. I also spelled 'value' as 'vale' this took about 7 minutes from idea to success. It may seem small but this is one of the most codey things I've ever done. Once I understood that .attr(VALUE) would be used in same way as .attr(ID) this next part might sound funny but: [i] can be annoying. I'm a little surprised you could do .toString() but it's annoying to work with (wow stopping sentence i never tried to do any $(i).css('') I am just about to type that I never got i.css to work and didn't do the $(i) if you even can.)
+        $(inputOption).text(i.toString())
+        // $(i).css('color', 'red') i dont think you can do this but it doesn't look like we could even do css right here. 
+        $('select').append($(inputOption))
+    } // ecstatic this works. plz dont mind :) 
+
+    let option50 = document.createElement('option')
+    $(option50).attr('value', '50+')
+    $('select').append($(option50))     // setTimeout($('select').append($(option50)), "2000") was worried about the for loop scope and there was a sync issue that setTimeout(option.append, enoughTimeToAllowLoopToComplete)
+    $(option50).text('50+')
+
+
+
+    $('input, select').on('mouseenter', (evt) => {
+        let et = $(evt.target)
+        et.css('box-shadow', '3px 3px 6px papayawhip') // was going to do 
+
+        et.on('mouseleave', () => {
+        et.css('box-shadow', '1px 1px 1px rgb(247, 208, 36)')
+        // console.log('et')
+        // console.log(et)
+        let id = et.context.id
+        let cleanid = id.slice(6)               // fiddled for about 40 minutes without the .charAt part. id.charAt(1).toUpperCase().id.slice(6)
+        console.log('cleanid')
+        console.log(cleanid)
+        // let cleanerid = cleanid.charAt(0).toUpperCase()
+        // let cleanerid = cleanid.charAt(4).toUpperCase() // The charAt() function returns the character at a given position in a string              oh wow nice to have a 10 minute tap out and google charAt() it's returning only the character at. 
+        // console.log('cleanerid')
+        // console.log(cleanerid)
+        let firstChar = cleanid.charAt(0).toUpperCase()
+        // let cleanidSlice = cleanid.slice(0, 1)
+        
+        //  spent close to 2 hours on this font-family function here.
+        let idlength = cleanid.length
+        
+        let cleanidSlice = cleanid.slice(1, cleanid.length)         // sername, assword, mail. took way too long to get this right.        let cleanestId = `${firstChar}${cleanidSlice}`  // pretty proud of this. I could've just changed the letter one lowercase letter down. Also could've just googled how to slice first letter off.
+        let cleanestId = `${firstChar}${cleanidSlice}`
+        // if (cleanid.includes('email' || 'password' || 'age' || 'username')) {  or .includes('email', 'password', 'age', etc.)
+            if (cleanid == 'email' || 'password' || 'age' || 'username') {            $('label').each( (text, index) => {                // $(index).html('hey') // a little confused why .html works and .css doesn't                // if ($(index).html().toString().toLowercase().includes(cleanid)) {          // quick catch on the Email vs email
+                if ($(index).html() == cleanestId) {          // quick catch on the Email vs email
+                    $(index).css('font-family', 'Urw Chancery L') // would feel funny putting letter-spacing on cursive text
+                    $(index).css('font-size', `22px`)
+                }
+                // console.log($(index).children())    //wow thought .contents() would save... $(index)[0]
+                // if ($(index).text() == cleanid ) {          // $(index).includes !func_err
+                //     console.log('ladies and gentleman')
+                //     $(index).css('border', '15px solid pink')
+                // }
+                // let thiss = $(this) a bit surprised $(this) $(this.target) dont return errors $(this)[0] does. 
+            })
+        }
+        })
+    }) 
+
+     
+    
+    // $('select > option').css('color', 'green') never tried to do css on a 
+
+    // $('.ageInput').append($(inputOption2))
+
+    // for (let i = 18; i < 35)
+
+    // if (optionvalue = 35. optionvalue = '35+')
+
+    // possible: click if you want to 
+
+    // $('input')  // .nonPretty()
+    $('.formbox')
+    .css('margin-top', '2em')
+</script>

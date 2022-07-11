@@ -1,0 +1,467 @@
+<div class="navbody">
+    <img src="/img/barrels.png" id="barrel">
+    <% if (!sessionUser) { %>
+        <div class="userContainer">
+            <div class="columncontainer">
+                <a class="nameOrNugget"> Mine Nugget</a>
+                <img class="sign" src="/img/gold.png" id="signupsign1">
+                <img class="sign" src="/img/gold-bars.png" id="briefcase">
+            </div>
+            <div class="columncontainer">
+                <a href="auth/signup" id="signup">signup</a>
+                <img class="sign" src="/img/signupsigns.png" id="signupsign2">
+            </div>
+            <div class="columncontainer">
+                <a href="/auth/login" id="login">login</a>
+                <img class="sign" src="/img/signupsigns.png" id="loginsign">
+            </div>
+            
+        </div>
+        <% } else { %>
+            <div class="userContainer">                 <!-- bookmark. might take this off -->
+                <div class="columncontainer">
+                    <a class="nameOrNugget"> <%= sessionUser.username %> </a>
+                    <img class="sign" src="/img/gold-bars.png" id="briefcase">
+                    <img class="sign" src="/img/gold.png" id="signupsign1">
+                </div>
+                <div class="columncontainer">
+                    <a href="/strain" id="strain">mine</a>
+                    <img class="sign" src="/img/signupsigns.png" id="loginsign">
+                </div>
+                <div class="columncontainer">
+                    <a href="/strain/familytree">family tree</a>
+                    <img class="sign" src="/img/signupsigns.png" id="loginsign">
+                </div>
+                <div class="columncontainer">
+                    <a href="/auth/logout">logout</a>
+                    <img class="sign" src="/img/signupsigns.png" id="loginsign">
+                </div>
+                    
+            </div>
+    <% } %>
+        </div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+// let nav = $('nav')
+// nav
+let height = $(document).height().toFixed()
+let width = $(document).width().toFixed()
+
+
+$('.navbody')
+.css('font-size', '28px')
+.css('display', 'flex')
+.css('flex-flow', 'row nowrap')
+.css('align-content', 'flex-end')
+.css('color', 'papayawhip')
+.css('font-family', 'brush script MT')
+
+// $('.navbody').children()
+$('.userContainer').children()
+.css('text-decoration', 'none')
+.css('margin', '0px 200px 0px 200px')
+.css('color', 'papayawhip')
+
+let sign = $('.sign')
+sign
+.css('height', '45px')
+.css('width', '45px')
+
+signup1 = $('#signupsign1')
+signup1
+.hide()
+
+let container = $('.userContainer') 
+container
+.css('margin-top', '0em')
+.css('display', 'flex')
+.css('flex-flow', 'row')
+.css('justify-content', 'center')
+.hide()
+
+let column = $('.columncontainer')
+column
+.css('display', 'flex')
+.css('flex-flow', 'column wrap')
+.css('align-items', 'space-between')
+column.children()
+
+
+// .on('hover', (event) => {
+//     if ( $(event.target).context.innerHTML == 'signup') {        
+//     }
+//     if ( $(event.target).context.innerHTML == 'login') {
+//         $('img')[1]
+//         .css('position', 'relative')
+//         ,css('left', '200px')
+//     }
+//     // if ( $(event.target) == column.children()[0]) {
+//     //     console.log('got the first one')
+//     // }
+//     // if ( $(event.target) == column.children()[1]) {
+//     //     console.log('got the second one')
+//     // }
+// })
+// column.children()
+$('a')
+.css('color', 'papayawhip')
+.css('text-decoration', 'none')
+.css('margin', '2em 0em 0em 5em')
+.css('text-decoration', 'none')
+// .on('hover', (event) => {
+//     console.log(event)
+
+let name = $('.nameOrNugget')
+name
+.css('opacity', '0.0')
+// .hide()  // .hide() throws off the layout 
+
+
+
+barrel = $('#barrel')
+barrel
+.css('margin-top', '2.2em') // tried 3.3
+.css('width', '125px')
+.css('height', '125px')
+.on('mouseenter', () => {
+    barrel.detach()
+    container.show()
+})
+
+let strain = $('#strain')
+strain
+if ($(location)[0].pathname.includes('strain')) {
+    console.log("in the strain checking for actual userName for a conditional that will res.redirect")
+    console.log($('.nameOrNugget').html())
+    if ($('.nameOrNugget').text().includes('Mine Nugget')) {  
+    // if ($('.nameOrNugget').text().toString() == 'Mine Nugget') {       // also had .html() == 'Mine Nugget' [first_broken_solution]: .html('.nameNugget').html('Mine Nugget') didn't work. had to invoke html and then directly invoke .toString() and check for strict equality.
+    // poor man's protected route speeding onward to a react project. I did this project to use ejs to render relational data.
+        location.href = '/' 
+        console.log("you better believe it")
+    }
+
+    $('.success').hide()
+    container.show()
+    barrel.hide()
+    strain.removeAttr('href')
+    strain.siblings().hide() // first time I ever thought of using this.
+    strain.css('color', 'transparent')
+    strain.css('background-image', `url(${'/img/mine.png'})`)
+    strain.css('background-size', 'cover')
+    strain.css('background-repeat', 'no-repeat')
+    $('.age')
+    .show()
+    .css('margin-top', '1em')
+        let goldCount = 0;
+        let wholeGoldCount = new Array()
+        // doing this inside of the .ejs file it looks 
+//    $('.nameOrNugget').siblings().on('mouseenter', () => { // nice. this works. second time using it. Didn't want to have to hover over the text since it says to hover over the bars. I could done $('.nav img') $('.nav > img') n friends.. etc.
+//                     goldCount++
+//                     wholeGoldCount.push(goldCount)
+//                     // if (wholeGoldCount.length > 2) {
+//                         if (wholeGoldCount.length % 2 == 0) {
+//                             $('.containerCont').hide()
+                            
+//                             // strainCont.hide()
+//                         } else {
+//                             $('.containerCont').show()
+//                             // strainCont.show()
+//                         }
+
+//                     // container.hide()
+//    })
+
+    // let navmine = $('#strain')
+    let navMineHover = 0
+    let mineCounterBucket = []
+    strain
+    .on('mouseenter', (event) => {
+        navMineHover++
+        mineCounterBucket.push(navMineHover)
+        // console.log($(event.target).context.attributes.style.nodeValue.slice(85, 107))
+        let minebackground = $(event.target).context.attributes.style.nodeValue.slice(85, 107) // wish for fun way to do this. just manual character counting. More exciting than just manually writing let mine = '/img/mine.png'
+        // $('#strainId').hide
+
+        if (mineCounterBucket.length % 2 == 0) {
+            console.log("we are in the % 2 portion of if block")
+            $('.mineform').children().detach()
+            $('.mineimg').hide()
+            $('.shovel').show()
+            // $(mineLi).hide() // thought declaring let mineLi = doc.createElem('li') twice would allow us to use .hide() from here. 
+            
+            
+        } else { 
+            
+            console.log($(event.target))
+            console.log($(event.target).parents())
+            
+            // $('input').detach()
+            $('.shovel').hide() 
+            let mineimg = document.createElement('img')
+            $(mineimg)
+            .addClass('mineimg')
+            .css('height', '45px')   
+            .css('width', '45px')   
+            .css('box-shadow', '10px 10px 10px papayawhip')
+            .css('border-radius', '50%')
+            .attr('src', '/img/mine.png')           
+            .on('mouseenter', (event) => {               // if you this under .show() [line206]  $('.mineimg').show() you have to hover over the first goldbar 3x to see the event pop up.
+            // if ($('.mineinput').length % 2 == 0) {          // bit proud of this non-working non-solution tbh. seems codey to even think of that. autoSet to .nonPretty() unfortunately.
+                //     $('.mineinput').detach()
+                // }
+                const strainIdForPostRoute = $(mineimg).parents()[1].innerText
+             
+
+                console.log("we are hovering on the other mine photos")
+                let mineform = document.createElement('form') 
+                $(mineform)
+                .addClass('mineform')
+                .attr('method', 'GET')
+                .attr('action', '/strain/digmine')
+
+                // console.log('mineform')
+                // console.log(mineform)
+                let mineinput = document.createElement('input')
+                $(mineinput)
+                .attr('type', 'text')
+                .attr("name", "mine") 
+                .addClass('mineinput')
+                .css('margin-top', '1.1em')
+                .css('box-shadow', '1px 1px 1px papayawhip') // maybe i dont dig enough, but functionality/singleresponsibility/reusability && design-concepts/reusability/not-adding-too-much-to-cake all close friends. Dont wanna have [/.ejs<input>.green] && [/strain.ejs<input>.blue] things vary too much. 
+                // .css('box-shadow', '4px 1px 7px rgb(247, 208, 36)')
+                .css('width', '125px')
+                .css('height', '15px')
+                .attr('id', 'mineinput')
+                .attr('value', 'click&review mine')
+
+                // $(document).append($('.mineinput')) // ha ('.mineinput') .append('string')
+                // mine == review. At this point got lucky enough on theming/design that i dont see a need for strain pictures. i see similar redundancy: pokeContainer pokeObject, pokeForm ---> mineForm, strainRouter. strainContainer. It's definitely clearly enough of a cannabis app and if people want the pictures they can definitely look them up as well. I'd rather not be conveying it anymore than i am && really appreciate lucking out enough to make this call. I really did this for join tables psql before moving on to react.js 
+                
+                
+                // $(mineform).attr('method', 'POST')
+                // $('.mineinput')
+                // .addClass('mineinput')
+                // .attr('type', 'text')
+                // .attr('name', 'mine')
+                // .css('', '')
+                
+                // $(mineform).append($(mineinput))
+                
+                //  
+                $('.mineform')          // this page took about 2 days @ 10hrs a day. 
+
+                // .css('border', '2px solid rgb(247,208,36)')
+                /* border: 5px solid rgb(247, 208, 36); */
+                console.log('weird length')
+                console.log($(event.target).parents().length)
+                // if ($(event.target).parents().has(('.mineinput')))
+                //  if ($(event.target).parents()[0].children().length ) {         // like #4 time doing data.dontAppendWithDuplicate() functionality.
+                
+                
+                if ($('.mineform .mineinput').length < 1) {        
+                    $(mineform).append(mineinput)
+                    $(mineform).on('mouseenter', () => {       // 10 minutes: leaving the .on'mouseenter' (event) within the $(mineinput).on('click') wondering why console.log wouldn't work.
+                        console.log('hover while length is 1')
+                        console.log($(mineform).children())
+                    })
+                    
+                    $('.effectContainer').on('mouseleave', () => {
+                        console.log("we are leaving that local scope of being within <div></div>")
+                        $('.effectContainer .mineinput').detach()
+                    })
+                    // no submit button on our very basic form. [cool2see]: form.submit() vs $(evt.target).val()
+                    $(mineinput).on('click', (evt) => {         // a more visually appealing, but still .nonPretty() .nonFlowsWell() solution. 
+                        console.log('we are leaving this thing')
+                        console.log($(evt.target))
+                        console.log('look at the value')
+                        console.log($(evt.target).val())        // 
+                        let mineinputvalue = $(evt.target).val()
+                        $.ajax({          
+                            type: "POST",
+                            // url: '/auth',   
+                            url: '/strain/digmine',   
+                            data: {
+                                // userkeyword: `${formName}`, we dont need userInfo. it is not about of the [db.strain&&db.mine] association.
+                                strainKeyword: `${strainIdForPostRoute}`,
+                                mine: `${mineinputvalue}`
+                            }
+                            }).then( (mine) => {
+                                console.log(mine)
+                                console.log(`mine: ${mine.get().mine || 'no mine'}`)
+                            })
+                    // $(evt.target).detach()
+                    // $(mineform).submit()
+                })
+
+
+                    // $('.effectContainer').append(mineform)
+                    console.log('mom and dad')
+                    console.log( $(event.target).parents())
+                    $(event.target).parents()[0].append(mineform)
+                    // $('.effectContainer').append(mineform)
+                    // $('.mineform')
+                    // $(event.target)
+                    // $('mineform').show()
+                    // $('mineinput').show()
+                    // $('.effectContainer').prepend($(mineform))
+                    // $(event.target).parents()
+
+                    // $('.mineform').append($('.mineinput'))
+
+                }
+
+                // $('.effectContainer')
+                // .append($(mineform))
+
+                // .append($('.mineform'))
+                
+            })
+            // .css('background-image', `url(${'/img/cookies.png'})`)
+            //  .attr('src', `url(${'/img/mine.png'})`)  
+
+
+            $(mineimg).attr('src', )
+            $('.mineimg')
+            .show()
+            // have to say it twice for safety.
+            if ( $('.effectContainer .mineimg').length < 2) {
+                $('.effectContainer').append($(mineimg))
+            }
+    }
+})
+    let hoverCounter = 0;
+    let wholeCounter = []
+    
+    let strainNavName = $('.nameOrNugget').html()
+    // let textOptions = ['mousepan for gold!', 'hover for gold!']     // let wordOptions = ['mousepan', 'hover']
+    // let randomword = wordOptions[Math.floor(Math.random() * wordOptions.length)] both of these random functions not working. not too important.
+    // let randomTextOption = textOptions[Math.floor(Math.random() * textOptions.length)]
+
+    const goldBarAdvice = async () => {
+        await setInterval( () => {
+            hoverCounter++
+            wholeCounter.push(hoverCounter)
+            if (wholeCounter.length < 4) {
+                name.css("font-family", "Urw Chancery L") 
+                const runConcurrent = async () => {
+                 await   setTimeout( () => name.text('Hover'), "1000")
+                 await   setTimeout( () => name.text('For'), "2000")
+                 await   setTimeout( () => name.text('Gold'), "3000")
+                }
+                runConcurrent()
+                // $(name).text(`Hover for Gold!`)      // ${randomTextOption} using variables like that is giving us a stickiness where we keep selecting the same random value. Trying to find ways of stepping away from "scope"/"reference": [like instead of picking 1of2 random phrase. Set the random phrase and have the 1 word that would be changed be the only thing the randomValueFunction has to grab. 
+            }
+        }, "4000")
+         setInterval( () => {
+            if (wholeCounter.length < 5) {
+                $(name).text(strainNavName) // pretty sure we won't have access to <3 sessionUser.name %>        
+                $(name).css('font-family', 'brush script MT')
+            }
+        }, "8000")
+        setTimeout(name.text(strainNavName), "20000")
+    }
+    goldBarAdvice()
+    // let cactus = document.createElement("img") // insane to even think about using the navbar to set a footer. would have a footer.ejs partials instead of course.
+    // $(cactus).addClass('cactus')
+    // $(cactus).attr('src', '/img/cactus.png')
+    // $('footer').append($(cactus))
+}
+
+// if ($(location)[0].pathname == 'http://localhost:7777/') {
+
+// }
+const goldencasing = () => {
+        // $(signupsign1).on('mouseenter', () => {
+            $('.parent')
+            // .css('box-shadow', '4px 14px 4px rgb(rgb(247, 208, 36)')
+            .css('box-shadow', '4px 4px 4px rgb(247, 208, 36)')
+            .css('border: 2px solid papayawhip')
+            // .css('height', '500px')
+        // })
+    }
+
+
+if ( $(location)[0].pathname.includes("tree")) {
+
+    $('#signupsign1').on('mouseenter', () => {
+        $('#strain').css('border-bottom', '3px solid rgb(247, 208, 36)')
+    })
+    $('#signupsign1').on('mouseleave', () => {
+        $('#strain').css('border-bottom', '1px solid transparent')
+    })
+
+    
+    
+    // console.log($('.nameOrNugget').text())
+
+    // reminder to turn this into a req.flash('')&&/alerts.ejs msg w/  (alerts.ejs) jquery to animate out the message. 
+
+    console.log('got the a tags')
+    let plainOrangeBucket = []
+    const confirmAtag = () => {
+        for (let i = 0; i < $('a').length; i++) {
+            console.log( $('a')[i])
+            if ($('a')[i].href.includes('tree')) {
+                console.log('man its papi el vrio')
+                console.log($('a')[i].href)
+                let hreff = $('a')[i].href
+                plainOrangeBucket.push(hreff)
+            }
+        }
+    }
+    confirmAtag()
+    const returnValue = () => {
+        console.log('lets verify')
+        return plainOrangeBucket[0]
+    }
+
+    
+
+
+
+
+    console.log($('a'))
+    $('.userContainer')
+    // .css('border', '12px solid pink')
+    .css('margin-top', '-6em')
+
+    console.log("yeah weve got the tree background")
+} else {
+    console.log("no .includes 'tree' so we're not in the family tree route")
+}
+
+let briefcase = $('#briefcase')
+briefcase
+.css('border-radius', '50%')
+.on('hover', () => {
+    briefcase.hide(),
+     signup1.show()
+    name.css('opacity', '1.0')       // if you use name.hide() && name.show() we hurt the even layout with flexbox. 
+})
+setTimeout( () => {
+    if (briefcase) {           // toggling (!briefcase) will make the code encased by the if (){block/statement} not work since there is existence of the if("briefcase")
+        briefcase.hide()
+        signup1.show()
+        name.css('opacity', '1.0')
+        goldencasing() // 1) hmm.. no scope 2) phew... 5 minute very quick problem. was within the if statement now am in the else statement. 3) wow 10 minutes total. It wasn't working and the problem was that it was still set up as a mouseevent. 
+    }
+}, "6000")
+// setTimeout( () => {
+    // setInterval( () => {
+        const goldshadow = async () => {
+            briefcase.css('box-shadow', '5px 5px 5px papayawhip')
+        }
+        const noshadow = async () => {
+            briefcase.css('box-shadow', '')
+        }
+        setInterval(noshadow, 3000)
+        setInterval(goldshadow, 2000)
+
+    // }, "2000")
+
+// }, "4000")
+// if ($(location) !== '/') { 'roadsign'.hide()} 
+
+</script>

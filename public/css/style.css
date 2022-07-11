@@ -1,0 +1,60 @@
+body {
+    overflow: hidden;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    width: 100%;
+    /* background-color: rgb(46, 38, 25); back up black*/
+    background-color: rgb(62, 50, 32);
+
+    /* border: 5px solid rgb(247, 208, 36); */
+    /* background-color: rgb(247, 208, 36); */
+}
+
+.section {
+    display: flex;
+    flex-direction: column wrap;
+    align-items: center;
+    margin-top: 15em;
+    /* padding: 5em; */
+    /* border: 5px solid black; */
+    height: 15em;
+    width: 30%;
+}
+
+/* no jquery transform  */
+.unlit { transform: rotate(200deg); position: relative; left: 10em;}
+.cactus { 
+    transform: scale(0.10);
+    position: relative;
+    top: -4em;
+}
+.mine {
+    background-image: url('/img/mine.png')
+}
+#part2 {
+    /* background-color: blue;     */
+    border: 3px solid papayawhip;
+    /* background-image: url('/img/background.png');  */
+    /* background-size: 100% 100%;
+    background-repeat: no-repeat;  */
+}
+
+
+
+
+
+ /* strain page  */
+ #doublesize {
+    transform: scale(2.0);
+ }
+
+
+ /* ::-webkit-scrollbar {
+    //   width: 10px;
+    // }
+    
+    // /* Track */
+   
