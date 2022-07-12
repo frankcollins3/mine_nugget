@@ -51,6 +51,32 @@
             letter-spacing: 0.33em;
             color: papayawhip;
         }
+        .fakeBoop  {
+    position: relative;
+    /* border: 15px solid royalblue; */
+    animation: animate 5s;
+    }
+
+    @keyframes animate {
+        0% {
+        top: -2px   
+        }
+        20% {
+        top: 5px
+        }
+        40% {
+        top: -4px
+        }
+        60% {
+        top: 5px;
+        }
+        80% {
+        top: -2px
+        }
+        100% {
+        top: 5px
+        }
+    }
             /* transform: scale(1.75); 
             padding: 0, 3em, 0, 3em */
     </style>
@@ -208,6 +234,7 @@
     // * * * * thought of trick: change flex-direction from column to row [upon behavior] so that we get a little life on the page. I kind of don't like the /auth/login.ejs l-o-g-i-n animation for the same reason I don't like this idea. I'll keep the l-o-g... letter-by-letter .setTimeout()text animation and toss this one out. 
     box
     .children().on('mouseenter', (event) => {   // it shouldn't be surprising but it is a little that we can use .children() down here. 
+    $('*').removeClass('fakeBoop')
     jewelCounter++
     wholeJewelCounter.push(jewelCounter)
         if (wholeJewelCounter.length == 4) {
@@ -370,7 +397,6 @@
 
                                                             let answerobj = document.createElement('p')
                                                             $(answerobj)
-                                                            .attr("id", 'correct')
                                                             .html(answerText)
                                                             .addClass('p')
                                                             .addClass('goldShadow')
@@ -380,15 +406,16 @@
                                                             
                                                             let incorrect1 = document.createElement('p')
                                                             $(incorrect1)
-                                                            .attr("id", "incorrect1")
+                                                            .addClass('incorrect1')
+                                                            // .attr("id", "incorrect1")
                                                             .text(incorrectText1)
                                                             .addClass('p')
                                                             .addClass('goldShadow')
                                                             $('#childContainer').append($(incorrect1))
-
+                                                            
                                                             let incorrect2 = document.createElement('p')
                                                             $(incorrect2)
-                                                            .add('id', 'incor')
+                                                            .addClass('incorrect1')
                                                             .text(incorrectText2)
                                                             .addClass('p')
                                                             .addClass('goldShadow')
@@ -457,56 +484,114 @@
                         
                         let wrongCounter = 0
                         let wholeWrong = []
-                        $(document).on('mousemove', () => {     // finally dont have to guess and hover over a non-highlighted [opacity, 0.1]
+                        $($('#childContainer')).on('mouseenter', () => {     // finally dont have to guess and hover over a non-highlighted [opacity, 0.1] i had this set up as document.mousemove
+                            $('#playBtn').css('opacity', '0.4')
+                            box.css("opacity", "0.4")
                             // if ($(event.target).attr('id', 'correct')) {
                             $('.p')
                             .on('mouseenter', (event) => {
-                                console.log('see some id')
+                                
+                                let fakethis = $(event.target)
                                 $(event.target).attr('id')
-                                    if (!$(event.target).hasClass('correct')) {            // kind of confused it is such a nightmare with .attr() but that's okay. 
-                                    wrongCounter++
-                                    wholeWrong.push(wrongCounter)
-                                    if (wholeWrong.length == 1) {
-                                        const hide = (jqObj) => $(jqObj).hide()     // this feels a good bit codey. 
-                                        const show = (jqObj) => $(jqObj).show()
-                                        hide($('#playBtn'))
+                                if (!$(event.target).hasClass('correct')) {            // kind of confused it is such a nightmare with .attr() but that's okay. 
+                                console.log("it doesn't have the class correct")
+                                wrongCounter++
+                                wholeWrong.push(wrongCounter)
+                                console.log(`wholeWrong.length in dynamite1 ${wholeWrong.length}`)
+                                    $(event.target).hide()
+                                    // const hide = (jqObj) => $(jqObj).hide()     // this feels a good bit codey. 
+                                    // const show = (jqObj) => $(jqObj).show()
+                                    if (wholeWrong.length == 1) {            // given our out of control/non-linearly-incrementing wholeWrong.length; i'm guessing our adventure is coming from the doc.on('mousemove') evt.
+                                    const dynamiteToGold = (element) => {
+                                        console.log("alright this is cool")
+                                        $(element)
+                                        .css('opacity', '0.5')
+                                        .attr('src', '/img/dynamite.png')
+                                        setTimeout( () => {
+                                                $(element)
+                                                .css('opacity', '1.0')
+                                                .attr('src', '/img/gold.png')
+                                            }, "2000")
+                                    }
+                                    dynamiteToGold($('#playBtn'))
+                                    // } else if ($(event.target).hasClass('incorrect1') || $(event.target).hasClass('incorrect2')) {
+                                    //     console.log(`wholeWrong.length in D N Y A M I T E ${wholeWrong.length}`)
+                                    //     console.log('down here wittit')
+                                    //     console.log('p length == !!!!!')
+                                    //     console.log(`doesnt .has('correct') ${wholeWrong.length}`)                                       
+                                    } else if (wholeWrong.length == 2) {
+                                        const dynamiteGold2 = (element) => {
+                                            $(element)
+                                            .css('opacity', '1.0')
+                                            setTimeout($('*').css('background-color', '#F00D0D'), "1000")       // i would go back and clean up our promise hell type situation but i've think weve used the design well. This project was really proof of concept on relational data.
+                                            // .css('box-shadow', '150px 150px 150px red') cant do 500px 500px 500px                                        
+                                            // ('opacity', '1.0')
+                                            // ('box-shadow', '30px 30px 30px red') // it almost looks like you could do this as well. 
+                                                // bod.css('background-color', 'red')
+                                                const blowUp = () => {                                            
+                                                    location.href = '/strain/familytree' 
+                                                    //    $(window).location = '/strain/familytree'                                          //    $(window).location = '/strain/familytree'
+                                                }
+                                                setTimeout(blowUp, "1000")                                    
+                                        }
+                                        dynamiteGold2($('#playBtn'))
+                                    }                                
+                                        // hide($('#playBtn'))
                                         // ( () => $('#playBtn').hide()) nonworking anonymous func   
-                                        const wrongAlert = () => {
-                                            let dynamite = document.createElement("img")
-                                            $(dynamite)
-                                            .addClass($(dynamite))
-                                            .attr("src", `/img/dynamite.png`)
-                                            .css('height', '100px')
-                                            .css('width', '100px')                        
-                                            .css('opacity', '0.3')                
-                                            $(dynamite).insertBefore($('#childContainer'))
-                                        }
-                                        setTimeout(wrongAlert, "1000")
-                                        setTimeout(hide($('.dynamite')), "2000")
-
+                                        // const wrongAlert = () => {
+                                        //     let dynamite = document.createElement("img")
+                                        //     $(dynamite)
+                                        //     .addClass($(dynamite))
+                                        //     .attr("src", `/img/dynamite.png`)
+                                        //     .css('height', '100px')
+                                        //     .css('width', '100px')                        
+                                        //     .css('opacity', '0.3')                
+                                        //     $(dynamite).insertBefore($('#childContainer'))
+                                        //     setTimeout( hide($('.dynamite')), "3000")
+                                        // }
+                                        // const runTimeouts = async () => {
+                                        //     await setTimeout(wrongAlert, "1000")
+                                        //     await setTimeout( show($('#playBtn')), "6000")
+                                        // }                                                                                
                                         // oops background-image wont change img src of course. My next plan was to hide the $('#playBtn')                                                                        
-                                        }
-                                        // .css('background-image', "url('/img/dynamite.png") kind of weird that .hide()&&.opacity entirely have the $('#playBtn')/goldbar selected and successfully manipulated to our css specifications, and then with the background-image it appends a new background-image on top of the gold bar. nice. just realized why.
-
-
-
-                                        // .css('background-size', 'cover')
-
-                                        // .appendBefore
-
-                                        // .css('opacity', '1.0')
-
-                                        // .hide()
-                                        // .css('background-image', '')
-                                        // .css('background-repeat', 'no-repeat')  
-                                        
-
-                                        // $('#playBtn').css('height', '500px')
-
-                                        // .css('background-image', "url('/img/gold.png')")
                                 } else {
-                                    console.log("event.target has the .addClass('correct')")
-                                    console.log($(event.target).attr('id'))
+                                    // $('*').css('border', '2px solid pink')   
+                                    setTimeout( ()=> {
+                                        // $('*')
+                                        box.children().addClass('fakeBoop')   // .boop is a method in react i believe it's a gentle bounce up and down.
+                                        $('#playBtn').addClass('fakeBoop')
+                                        // .unbind() was seeing if unbind() && bind() would fix our little issue. I'd like to reset everything but i like that this has been done in 8 days. I definitely can go back and strip this whole page and do this correctly with [scoreKeeping inc++] && [proper reset defaults to continue game] I spent 6 months on AJAX-pokedex. It's worth heading into a new topic. I got lucky even seeing this could be a game in the first place. 
+                                    }, "1000")
+
+                                    setTimeout( () => {
+                                        // setTimeout(bod.children().removeClass('fakeBoop'), "3000") 
+                                        console.log("events binded")
+                                        // $('*').bind()
+                                        $('#childContainer').children().detach()
+                                        $('.newContainer').children().detach()
+                                        box.children().bind('mouseenter')
+                                         jewelCounter = 0
+                                        wholeJewelCounter.splice(0, wholeJewelCounter.length)
+                                         goldCounter = 0
+                                        wholeGold.splice(0, wholeGold.length)
+                                         parentCounter = 0
+                                        wholeParents.splice(0, parentCounter.length)
+                                        wrongCounter = 0
+                                        wholeWrong.splice(0, wholeWrong.length)
+                                        // setTimeout($('*').removeClass('fakeBoop'), "3000")
+
+                                    }, "000")
+
+                                    $('#playBtn')
+                                    // setTimeout(location.href = '/strain/familytree', "7000")
+                                    // .addClass('fakeBoop')
+
+
+
+                                    
+                                    // .css('height', '500px')
+                                    // console.log("event.target has the .addClass('correcst')")
+                                    // console.log($(event.target).attr('id'))
                                  }  
                             })
                         })
@@ -524,7 +609,6 @@
                             checkforptaglength()    // this will return our [correctVal, incorrectval1(), incorrectval2()]
                             // setInterval(findWrongAnswer, "1000")
                             // setInterval(findWrongAnswer) // oops this works?!
-                            console.log("loginsign .hover were triggering the findWrongAnswer")
                             // $('.p')
                             // .on('mouseenter', (event) => {
                             //     console.log('THE GAME')
@@ -557,8 +641,8 @@
                         // wholeJewelCounter.splice(0, wholeJewelCounter.length)
                         // let goldCounter = 0
                         // wholeGold.splice(0, wholeGold.length)
-                        let parentCounter = 0
-                        wholeParents.splice(0, parentCounter.length)
+                        // let parentCounter = 0
+                        // wholeParents.splice(0, parentCounter.length)
                     }
                          // if goldCount.length % 2
                     }) // ajax end
