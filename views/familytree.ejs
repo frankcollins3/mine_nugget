@@ -262,8 +262,9 @@
                                                 
                                                     // console.log("yeah we got that the <p> tag  length = 2 in container2 mom.onmouseenter")
                                           
-                                                    let correctAnswer = randomStrain.strain
+                                                    const correctAnswer = randomStrain.strain
                                                     console.log('this is correctly set as the randomStrain from gh api. well append it to container with 2 incorrects')
+                                                    console.log('correctAnswer')
                                                     console.log(correctAnswer)
 
                                                     let preAnswer = strains[Math.floor(Math.random()*strains.length)]
@@ -361,7 +362,7 @@
                                                             console.log("lets see if were all hooked up okay")
                                                             console.log('returnArray: [correct valu, incorrect value, incorrectvalue2')
                                                             // let returnArray = [answer1(), answer2()]
-                                                            let returnArray = [answer, incorrectAnswer1(), incorrectAnswer2()]
+                                                            let returnArray = [correctAnswer, incorrectAnswer1(), incorrectAnswer2()]
                                                             
                                                             let answerText = returnArray[0]
                                                             let incorrectText1 = returnArray[1]
@@ -457,19 +458,52 @@
                         let wrongCounter = 0
                         let wholeWrong = []
                         $(document).on('mousemove', () => {     // finally dont have to guess and hover over a non-highlighted [opacity, 0.1]
+                            // if ($(event.target).attr('id', 'correct')) {
                             $('.p')
                             .on('mouseenter', (event) => {
                                 console.log('see some id')
                                 $(event.target).attr('id')
-                                // if ($(event.target).attr('id', 'correct')) {
                                     if (!$(event.target).hasClass('correct')) {            // kind of confused it is such a nightmare with .attr() but that's okay. 
                                     wrongCounter++
                                     wholeWrong.push(wrongCounter)
                                     if (wholeWrong.length == 1) {
-                                        $('#playBtn')
-                                        console.log("it doesnt has that class")
-                                        console.log($(event.target).attr('id'))
-                                    }
+                                        const hide = (jqObj) => $(jqObj).hide()     // this feels a good bit codey. 
+                                        const show = (jqObj) => $(jqObj).show()
+                                        hide($('#playBtn'))
+                                        // ( () => $('#playBtn').hide()) nonworking anonymous func   
+                                        const wrongAlert = () => {
+                                            let dynamite = document.createElement("img")
+                                            $(dynamite)
+                                            .addClass($(dynamite))
+                                            .attr("src", `/img/dynamite.png`)
+                                            .css('height', '100px')
+                                            .css('width', '100px')                        
+                                            .css('opacity', '0.3')                
+                                            $(dynamite).insertBefore($('#childContainer'))
+                                        }
+                                        setTimeout(wrongAlert, "1000")
+                                        setTimeout(hide($('.dynamite')), "2000")
+
+                                        // oops background-image wont change img src of course. My next plan was to hide the $('#playBtn')                                                                        
+                                        }
+                                        // .css('background-image', "url('/img/dynamite.png") kind of weird that .hide()&&.opacity entirely have the $('#playBtn')/goldbar selected and successfully manipulated to our css specifications, and then with the background-image it appends a new background-image on top of the gold bar. nice. just realized why.
+
+
+
+                                        // .css('background-size', 'cover')
+
+                                        // .appendBefore
+
+                                        // .css('opacity', '1.0')
+
+                                        // .hide()
+                                        // .css('background-image', '')
+                                        // .css('background-repeat', 'no-repeat')  
+                                        
+
+                                        // $('#playBtn').css('height', '500px')
+
+                                        // .css('background-image', "url('/img/gold.png')")
                                 } else {
                                     console.log("event.target has the .addClass('correct')")
                                     console.log($(event.target).attr('id'))
