@@ -159,6 +159,11 @@
     let parentCounter = 0
     let wholeParents = []
 
+    let correctAnswerBucket = new Array()
+
+    let gameCounter = 0
+    let wholeGameCounter = []
+
     let round = false //s
 
     let box = $('.jewelrybox')
@@ -245,10 +250,8 @@
             .css("opacity", "1.0")
         }
         $('#playBtn').on('hover', () => {
-        goldCounter++
+        goldCounter++  //                                     let randomStrain = strains[Math.floor(Math.random()*strains.length)]
         wholeGold.push(goldCounter)
-        console.log('our modulo is set to activate upon even result [% 2 == 0]')
-
         if (wholeGold.length % 2 !== 0) {
             $('#playBtn').css('opacity', '0.1')
             parentCounter ++
@@ -261,38 +264,139 @@
                                 url: strainUrl,
                                 dataTypes: 'json',
                             }).then( (ajdata) => {
+                                let optionBucket = []
                                 let strains = ajdata.strains
+
+                                console.log("hey atleast were right over here")
+                                if (optionBucket.length < 2) {
+                                    for (let i = 0; i < strains.length; i++) {
+                                        // console.log("were in the forloop")
+                                        // console.log(strains[i].strain)
+                                        optionBucket.push(strains[i]) // little error pushing up just the strains because then when we add the parents the object endpoints gone.
+                                    }
+                                }
+
+                                // console.log('optionBucket')
+                                // console.log(optionBucket)
+                                // console.log(optionBucket[1])
 
                                 // let randomFact = randomStrain.funfact 
                                 // randomStrainParents
                                 if (wholeParents.length == 1) {
-                                    let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                    console.log(`THIS IS OUR RANDOM STRAIN: ${randomStrain.strain}`)
+                                    console.log('optionBucket before')
+                                    console.log(optionBucket)
+                                    let strainMaterial = optionBucket[optionBucket.length-1]
 
-                                let rsp = randomStrain.parents
-                                let gameOptionparent = rsp.split(',')   // unexpected array trick i didn't know you could even access those values so easily.
+                                    optionBucket.pop()
+                                    console.log('optionBucket after')
+                                    console.log(optionBucket)
+                                    
+                                    console.log('strain api')
+                                    console.log(strainMaterial)
+                                    // interesting. cant do a 1 liner function and use a return statement without brackets as far as this code below me is saying
+                                    // let notSoRandomStrain = () => {return optionBucket.sort( ()=> Math.random -1)}
+                                    
+                                    console.log('*** RANDOM STRANGE DURING VARIABLE DECLARE ******')
+                                    // console.log(randomStrain)
+                                    // optionBucket.push(randomStrain.strain)
+                                    // console.log(`THIS IS OUR RANDOM STRAIN: ${randomStrain.strain}`)
+                                    
+                                let randomStrain = strains[Math.floor(Math.random()*strains.length)]
+                                // let rsp = randomStrain.parents
 
+                                let parents = strainMaterial.parents
+                                let gameOptionparent = parents.split(',')    // or rsp || randomstrainparents
+                                
                                 let gameoption1 = gameOptionparent[0]
-                                let gameoption2 = gameOptionparent[1]       // you would ideally put these in single-responsibility functions but then our scope would give us a few problems. this is a bit: [over-interactive || upon-behavior] similar to pokedex in that there's a fair bit of theming going on 
-
-                                // can also loop, limited by specified length.  2:17am saving fuel for duplicate containers.
+                                let gameoption2 = gameOptionparent[1]       
+                                
                                 let msg1 = document.createElement('p')
                                 $(msg1).text(gameoption1)
                                 let msg2 = document.createElement('p')
                                 $(msg2).text(gameoption2)
-
+                                
+                                // unexpected array trick i didn't know you could even access those values so easily.
+                                // you would ideally put these in single-responsibility functions but then our scope would give us a few problems. this is a bit: [over-interactive || upon-behavior] similar to pokedex in that there's a fair bit of theming going on 
+                                // can also loop, limited by specified length.  2:17am saving fuel for duplicate containers.
                             
 
                                     let checkforptaglength = async () => {
-                                        console.log("check for ptag length")
+                                        // console.log("check for ptag length")
                                         if ($('p').length == 2) {
+                                                        const correctAnswer = randomStrain.strain
                                                 
                                                     // console.log("yeah we got that the <p> tag  length = 2 in container2 mom.onmouseenter")
-                                          
-                                                    const correctAnswer = randomStrain.strain
-                                                    console.log('this is correctly set as the randomStrain from gh api. well append it to container with 2 incorrects')
-                                                    console.log('correctAnswer')
-                                                    console.log(correctAnswer)
+                                                
+                                                        const correctAnsw = () => {         
+                                                                return strain
+                                                                // console.log(optionBucket.sort(()=> Math.random() - 1))
+                                                                // optionBucket.sort( () => Math.random() - 1)
+                                                                // if (optionBucket.length === strains.length) {
+                                                                //     console.log('strict equality successfully between apilength & available array items evaluated')
+                                                                //     let value = optionBucket[optionBucket.length-1]
+                                                                //     console.log('correct value')
+                                                                //     console.log(value)
+                                                                //     optionBucket.pop()
+                                                                //     return value
+                                                                //     console.log('optionBucket down low in function with array manipulations/changes.')
+                                                                //     console.log(optionBucket)
+                                                                // }                                                                                              
+                                                                // console.log('optionBucket correctAnswer')   
+                                                                // console.log(optionBucket)   
+                                                                // console.log('randomStrain in the correctAnswer() functions')
+                                                                // console.log(randomStrain)
+                                                                // if (box.children().hasClass('gameplayed')) {
+                                                                //     let newValue = strains[Math.floor(Math.random()* strains.length)]
+                                                                //     console.log('newValue before our reset')
+                                                                //     console.log(newValue)
+                                                                //     for (let i = 0; i < strains.length; i++) {
+                                                                //         if (newValue == optionBucket[i]) {
+                                                                //             console.log("yeah they are equal to each other what will we do!")
+                                                                //             console.log('newValue after our reset')
+                                                                //             newValue = ''
+                                                                //             newValue = strains[Math.floor(Math.random() * strains.length)]
+                                                                //             return newValue
+                                                                //         } else {
+                                                                //             return randomStrain.strain
+                                                                //         }                                                                    
+                                                                //     }
+
+                                                                //     console.log("weve done a round we can clean up our functionality!")
+                                                                // } else {
+                                                                //     return randomStrain.strain
+                                                                // }
+
+
+                                                        //     correctAnswerBucket.push(correctAnswer)
+                                                        //     console.log('correctAnswerBucket')
+                                                        //     console.log(correctAnswerBucket)
+                                                        //     if (correctAnswerBucket.length < 1) {
+                                                        //         console.log('untouched correctAnswer bucket')
+                                                        //         return correctAnswer
+                                                        //     } else if (correctAnswerBucket.length < strains.length) {
+                                                        //         console.log('correctAnswer bucket is less than the strains')
+                                                        //         let newCorrectAnswer = strains[Math.random(Math.floor()*strains.length)]
+                                                        //         console.log('newCorrrectAnswer')
+                                                        //         console.log(newCorrectAnswer)
+                                                        //         for (let i = 0; i < correctAnswerBucket.length; i++) {
+                                                        //             if (newCorrectAnswer = correctAnswerBucket[i]) {
+                                                        //                 console.log("weve got that value in there")
+                                                        //                  tertiaryAnswer = strains[Math.random(Math.floor()*strains.length)]
+                                                        //                  console.log('tertiaryAnswer')
+                                                        //                  console.log(tertiaryAnswer)
+                                                        //                  return tertiaryAnswer
+                                                                    }
+                                                                // }                                                                                                                             
+                                                            //     return newCorrectAnswer
+                                                            // } else if (correctAnswerBucket.length === strains.length) {
+                                                            //     correctAnswerBucket.splice(0, correctAnswerBucket.length)
+                                                            // }
+                                                            // return correctAnswer
+                                                        // }
+                                                        // console.log("here it goes")
+                                                        // correctAnsw()
+                                                    // console.log('this is correctly set as the randomStrain from gh api. well append it to container with 2 incorrects')
+                                                 
 
                                                     let preAnswer = strains[Math.floor(Math.random()*strains.length)]
                                                     let answer = preAnswer.strain
@@ -303,19 +407,19 @@
                                                         // console.log(/'anotherRandomStrain')
                                                         // console.log(anotherRandomStrain)
 
-                                                        console.log('strain name')
-                                                        console.log('randomStrainName')
-                                                        console.log(randomStrainName)
+                                                        // console.log('strain name')
+                                                        // console.log('randomStrainName')
+                                                        // console.log(randomStrainName)
                                                         if (randomStrainName == correctAnswer) {
-                                                            console.log('we had a correct answer this is our manipulation attempt at retrieving a falsy value')
+                                                            // console.log('we had a correct answer this is our manipulation attempt at retrieving a falsy value')
                                                          anotherRandomStrain = ''
                                                          anotherRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                         console.log(anotherRandomStrain)
-                                                         console.log(anotherRandomStrain.strain)
+                                                        //  console.log(anotherRandomStrain)
+                                                        //  console.log(anotherRandomStrain.strain)
                                                         } else {
-                                                            console.log("anotherrandomstrain is not equal to correct answer this is our correct value:")
-                                                            console.log('anotherRandomStrain.strain')
-                                                            console.log(anotherRandomStrain.strain)
+                                                            // console.log("anotherrandomstrain is not equal to correct answer this is our correct value:")
+                                                            // console.log('anotherRandomStrain.strain')
+                                                            // console.log(anotherRandomStrain.strain)
                                                             return anotherRandomStrain.strain
                                                         }
                                                     }
@@ -327,19 +431,12 @@
                                                         // console.log(/'anotherRandomStrain')
                                                         // console.log(anotherRandomStrain)
 
-                                                        console.log('strain name')
-                                                        console.log('randomStrainName')
-                                                        console.log(randomStrainName)
+                                                        // console.log('strain name')
+                                                        // console.log('randomStrainName')
+                                                        // console.log(randomStrainName)
                                                         if (randomStrainName == correctAnswer) {
-                                                            console.log('******************got an incorrect value in incorrectAnswer2*************')
-                                                         anotherRandomStrain = ''
-                                                         anotherRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                         console.log(anotherRandomStrain)
-                                                         console.log(anotherRandomStrain.strain)
-                                                        } else {
-                                                            console.log("***********************incorrect answer2")
-                                                            console.log('anotherRandomStrain.strain')
-                                                            console.log(anotherRandomStrain.strain)
+                                                            anotherRandomStrain = ''                                            
+                                                        } else {                                 
                                                             return anotherRandomStrain.strain
                                                         }
                                                     }
@@ -385,16 +482,17 @@
                                                         // }
                                                         const returnValues = () => {
                                                             // we could also auto-eliminate the value (correctAnswer) that wed like to eliminate from our options that let [randomStrain = strains[Math()str.len]] the gh data repoData from Ajax we access with our randomizer functions
-
-                                                            console.log("lets see if were all hooked up okay")
-                                                            console.log('returnArray: [correct valu, incorrect value, incorrectvalue2')
+                                                            
+                                                            // console.log("lets see if were all hooked up okay")
+                                                            // console.log('returnArray: [correct valu, incorrect value, incorrectvalue2')
                                                             // let returnArray = [answer1(), answer2()]
-                                                            let returnArray = [correctAnswer, incorrectAnswer1(), incorrectAnswer2()]
+                                                            let returnArray = [correctAnsw(), incorrectAnswer1(), incorrectAnswer2()]
+                                                            // let returnArray = [ incorrectAnswer1(), incorrectAnswer2()]
                                                             
                                                             let answerText = returnArray[0]
                                                             let incorrectText1 = returnArray[1]
                                                             let incorrectText2 = returnArray[2]
-
+                                                            
                                                             let answerobj = document.createElement('p')
                                                             $(answerobj)
                                                             .html(answerText)
@@ -402,7 +500,7 @@
                                                             .addClass('goldShadow')
                                                             .addClass("correct")
                                                             $('#childContainer').append($(answerobj))
-                                                        //    do a forEach for this code possibly.
+                                                            //    do a forEach for this code possibly.
                                                             
                                                             let incorrect1 = document.createElement('p')
                                                             $(incorrect1)
@@ -420,9 +518,10 @@
                                                             .addClass('p')
                                                             .addClass('goldShadow')
                                                             $("#childContainer").append($(incorrect2))
-
+                                                            box.children().addClass('gameplayed')
+                                                            
                                                             // return returnArray        
-
+                                                            
                                                         }
                                                         returnValues()
                                                         // real world example of infinite-loop. The else statement keeps going automatically if you we don't have a return. [ha. ignore. setInterval(func) works with no "1000"] second argument.
