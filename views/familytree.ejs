@@ -61,30 +61,47 @@
             letter-spacing: 0.33em;
             color: papayawhip;
         }
+
         .fakeBoop  {
     position: relative;
     /* border: 15px solid royalblue; */
-    animation: animate 5s;
+    animation: animate 5s infinite;                /* [animate infinite] not correct */
+
     }
 
     @keyframes animate {
         0% {
-        top: -2px   
+        top: -1px   
+        }
+        10% {
+        top: 1px
         }
         20% {
-        top: 5px
+        top: -1px
+        }
+        30% {
+        top: 1px;
         }
         40% {
-        top: -4px
+        top: -1px
+        }
+        50% {
+        top: 1px
         }
         60% {
-        top: 5px;
+        top: -2px   
+        }
+        70% {
+        top: 2px
         }
         80% {
         top: -2px
         }
+        90% {
+        top: 2px;
+        }
         100% {
-        top: 5px
+        top: -2px
         }
     }
             /* transform: scale(1.75); 
@@ -169,6 +186,9 @@
     let jewelryCount = 0
     let wholeJewelryCount = new Array()
 
+
+    let goldHoverCount = 0
+    let wholeGoldCount = []
     // functinos!
 
     
@@ -212,10 +232,7 @@
                         .append($(gameText2))                        
                     }    
 
-
-
-
-                const addBox = () => {      
+                const addBox = (event) => {      
                     console.log('dad length')
                     console.log($('.parent').length)
                     let textBox = document.createElement('div')
@@ -271,20 +288,35 @@
                         .attr('src', '/img/gold.png')
                         .attr('id', 'playBtn')
                         .css('opacity', '1.0')
+                        .addClass('fakeBoop')
+
+                        // .on('mouseenter', () => getParents())   // :)
+                        .on('mouseenter', () => {
+                            goldHoverCount++
+                            wholeGoldCount.push(goldHoverCount)
+                            if (wholeGoldCount.length == 1) {
+                                getParents()
+                                // $('#playBtn').addClass('fakeBoop')
+                            } else if (wholeGoldCount.length == 2) {
+                                // goldHoverCount = 1           
+                                // wholeGoldCount.splice(0, wholeGoldCount.length)
+                                // this will be our game reset for when the user wins or loses. We can append a trophy or dynamite upon win/lose and check for the existence of the appended image as our [if(statement block)]
+                                console.log('lets see the goldCount hovered twice')
+                            }
+                        })
+
                         // .bind('click', getParents())
                         // .bind('click', ()=> getParents())
-                        .on('mouseenter', () => getParents())
                         // .on('mouseenter', () => console.log("heyy"))
 
                         // .css('opacity', '0.1')
                         bod
                         .append($(playButton))       // very neat to see everything fall in line.
                         .append($(childContainer))  // kind of trying to break camelcase after reading it seems to make it more unreadable and i'd agree. try to stay consistent when already jammed with having set a few things into camelCase format.
+
+                        // event.unbind('mouseenter', addBox())
                         // setTimeout($('#playBtn').hide(), "3000")
                 }  // addBox function
-
-
-
                     
                 const goldBottomAnimation = (event) => {        // callbacks were so confusing until using $(event.target) over and over again. $(event.target) is a specific targeting while (event) is a would-be/could-be-nearly-anything placeholder. callbacks like this, and following the obj.forEach(PLACEHOLDER) the placeholder in forEach and the changing of the term for how the sets of data/elements are described: quite challenging 
                 event.css('border-bottom', '2px solid papayawhip')
@@ -326,13 +358,16 @@
                     box.children().on('mouseenter', (event) => {                // if ($('#playBtn').length < 1) {
                     jewelryCount++
                     wholeJewelryCount.push(jewelryCount)
-                    if (wholeJewelryCount.length == 1) {
+                    if (wholeJewelryCount.length == 1) {        // poor man's unbind()
                     goldBottomAnimation(($(event.target)))      // sweet.
                     setTimeout(addBox, "1000")  // 3000 perf.
+                    $(event.target).unbind()
+                    // $(event).unbind('mouseenter', addBox())
                     }
+                })   
                     if (wholeJewelryCount.length == 2) {
+                    
                     }
-                    })   
                     
 
                     // getParents = (jqObj) => {
