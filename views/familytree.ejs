@@ -259,33 +259,97 @@
                     //     }
                     // }
                     // for (let i = 0; i < $('.newContainer').length; i++) {
-                    for (i; i < contlen; i++) {
-                        // console.log("over here")
-                        // console.log($('.newContainer')[i].text())
-                        // console.log($('.newContainer').text([i])) // wow
-                        // console.log($('.newContainer').text([i]))
-                        if ($('.newContainer').length) {
-                            console.log(`heres the text: ${   $('.newContainer')[i].innerText}`)
-
-                            childrenContainerBucket.push($('.newContainer')[i].innerText)
-                            console.log('strains')
-                            console.log(strains)
-                            for (i; i < strainlen; i++) {
-                                if (strains[i].parents.includes(childrenContainerBucket[0])) {      // that [used to/sometimes still does] MESS ME UP: the if statement can break up the fact that if you [console.log(strain[i])] it will be ran for every single strain in the full index of strains.length. the if statement reduces us down to only the elements within the index that satisfy the conditional. a bit confusing. 
-                                    console.log("strainlen")
-                                    console.log(strains[i])         
-                                    let correctAnswer = document.createElement('p')
-                                    $(correctAnswer)
-                                    .text(strains[i].strain)
-                                    .addClass('parentLabel')
-                                    $('#childContainer').append($(correctAnswer))
+                    const correctAnswer = () => {
+                        for (i; i < contlen; i++) {
+                            // console.log("over here")
+                            // console.log($('.newContainer')[i].text())
+                            // console.log($('.newContainer').text([i])) // wow
+                            // console.log($('.newContainer').text([i]))
+                            if ($('.newContainer').length) {
+                                // console.log(`heres the text: ${   $('.newContainer')[i].innerText}`)
+    
+                                childrenContainerBucket.push($('.newContainer')[i].innerText)
+                                // console.log('strains')
+                                // console.log(strains)
+                                for (i; i < strainlen; i++) {
+                                    if (strains[i].parents.includes(childrenContainerBucket[0])) {      // that [used to/sometimes still does] MESS ME UP: the if statement can break up the fact that if you [console.log(strain[i])] it will be ran for every single strain in the full index of strains.length. the if statement reduces us down to only the elements within the index that satisfy the conditional. a bit confusing. 
+                                        // console.log("strainlen")
+                                        // console.log(strains[i])         
+                                        let correctAnswer = document.createElement('p')
+                                        $(correctAnswer)
+                                        .text(strains[i].strain)
+                                        .addClass('parentLabel')
+                                        $('#childContainer').append($(correctAnswer))
+                                    }
+    
                                 }
-
                             }
                         }
                     }
-                    console.log('childrenContainerBucket')
-                    console.log(childrenContainerBucket)
+                    correctAnswer()
+                    const incorrectAnswers = () => {
+                        console.log('incorrect answers function')
+                        // strainlen.forEach( (index, strain) => {
+                            // strains.forEach( (strain, index) => {
+                            // console.log('strain')
+                            // console.log(`this is our strain: ${strain.strain}`)
+                            // if (strain.parents.includes(childrenContainerBucket[0])) {
+                            //     console.log('oh yeah weve got our strain') 
+                            // }
+                            for (let i = 0; i < strains.length; i++) {
+                                if (strains[i].parents.includes(childrenContainerBucket[0])) {      
+                                    console.log("yeah weve got our strain")
+                                    // console.log(strains[i].parents)
+                                    // let randStrainLoop = strains[i][Math.floor(Math.random()* strains[i].length)]
+                                    // let randStrainLoop = ajdata[Math.floor(Math.random()* ajdata.length)]
+                                    const strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
+                                    console.log('strainLoopRandom')
+                                    console.log(strainLoopRandom)
+                                    if (strainLoopRandom.strain == strains[i].strain) {
+                                        console.log('yes theyre equal')
+                                        console.log(strains[i].strain)
+                                        strainLoopRandom = 'hey'
+                                        strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
+                                        // let strainLoopStrain = 
+                                        console.log('strainLoopRandom')
+                                        console.log(strainLoopRandom)
+                                        console.log('strainLoopStrain')
+                                        console.log(strainLoopStrain)
+                                    } else {
+                                        console.log('guess theyre not equal')
+                                        let incorrectAnswer1 = document.createElement('p')
+                                        $(incorrectAnswer1)
+                                        .text(strainLoopRandom.strain)
+                                        .addClass('parent')
+                                        $('#childContainer').append($(incorrectAnswer1))
+                                    }
+                                    // else if (strainLoopRandom.strains !== strains[i]) {
+                                    //     console.log('strainLoopStrain')
+                                    //     console.log(strainLoopStrain)
+                                    //     let incorrectAnswer1 = document.createElement('p')
+                                    //     console.log('incorrectAnswer1')
+                                    //     console.log(incorrectAnswer1)
+                                    //     $(incorrectAnswer1)
+                                    //     .text(strainLoopStrain)
+                                    //     .addClass('parent')
+                                    //     console.log('incorrectAnswer1')
+                                    //     console.log(incorrectAnswer1)
+                                    //     $('#childContainer').append($(incorrectAnswer1))
+                                    //     // $('#childContainer').append($(incorrectAnswer1))
+                                    // }
+                                    //     console.log(strainLoopRandom.strain)
+                                    //     console.log('strainLoopRandom')
+                                    //     console.log(`in the loopstrain = strains[i] ${strainLoopRandom.strain}`)
+                                    // }
+                                    console.log('outside of the strainLoopRandom')
+                                    // console.log(strainLoopRandom)
+                                    
+                                }     
+                            }
+                            
+                            // })  // forEach end
+                        }
+                        incorrectAnswers()
                 }
                 // $('.playBtn').click(getChildren())
     
@@ -503,8 +567,7 @@
                 // })
                 // console.log('strains')
                 // console.log(strains)
-                // let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                // console.log('randomStrain')
+cx                // console.log('randomStrain')
                 // console.log(randomStrain)
             // }
             // console.log('fire away!')
