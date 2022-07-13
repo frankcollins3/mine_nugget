@@ -70,7 +70,7 @@
     }
 
     @keyframes animate {
-        0% {
+        0%, 100% {
         top: -1px   
         }
         10% {
@@ -99,9 +99,6 @@
         }
         90% {
         top: 2px;
-        }
-        100% {
-        top: -2px
         }
     }
             /* transform: scale(1.75); 
@@ -191,9 +188,10 @@
     let wholeGoldCount = []
     // functinos!
 
-    
+    let playBtn = $('.playBtn')
 
 
+    let childrenContainerBucket = []
 
     // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
     
@@ -212,7 +210,23 @@
                 }).then( (ajdata) => {          // this ajdata isn't available to other function scope without it being specifically declared.
                 const strains = ajdata.strains
 
-                getParents = () => {
+                // const vanish = (elem) => { $(elem).hide() }        // easy to think you'd need $(elem).hide() [in my opinion]
+                const vanish = (elem) => { elem.hide() }        
+                const appear = (elem) => { $(elem).show()}
+
+
+
+              const  getParents = (elem) => {
+                        // setTimeout($('.playBtn').hide(), "10000")
+
+                        // setTimeout( () => vanish($('.playBtn')), "1000")
+                        // setTimeout( () => {
+                        //     appear($('.playBtn'))
+                        //     $('.playBtn').addClass('fakeBoop')
+                        // }, "3000")
+
+                        // setTimeout($('.playBtn').show(), "3000")
+                        // setTimeout(playBtn.bind(vanish), "1000")
                         console.log("were over here making a scene")
                         const randomStrain = strains[Math.floor(Math.random()*strains.length)]
                         const parents = randomStrain.parents.split(',') // oops left the comment out. 
@@ -231,6 +245,50 @@
                         $('#parentCont2')
                         .append($(gameText2))                        
                     }    
+
+                const getChildren = () => {
+                    console.log("ayyooo")
+                    console.log($('.newContainer').html())
+                    let i = 0
+                    let contlen = $('.newContainer').length
+                    let strainlen = strains.length
+                    // for (i; i < elemlen; i++) {
+                    //     if ($('.newContainer')) {
+                    //         console.log('hey were over here now')
+                    //         console.log($('.newContainer')[i].html())
+                    //     }
+                    // }
+                    // for (let i = 0; i < $('.newContainer').length; i++) {
+                    for (i; i < contlen; i++) {
+                        // console.log("over here")
+                        // console.log($('.newContainer')[i].text())
+                        // console.log($('.newContainer').text([i])) // wow
+                        // console.log($('.newContainer').text([i]))
+                        if ($('.newContainer').length) {
+                            console.log(`heres the text: ${   $('.newContainer')[i].innerText}`)
+
+                            childrenContainerBucket.push($('.newContainer')[i].innerText)
+                            console.log('strains')
+                            console.log(strains)
+                            for (i; i < strainlen; i++) {
+                                if (strains[i].parents.includes(childrenContainerBucket[0])) {      // that [used to/sometimes still does] MESS ME UP: the if statement can break up the fact that if you [console.log(strain[i])] it will be ran for every single strain in the full index of strains.length. the if statement reduces us down to only the elements within the index that satisfy the conditional. a bit confusing. 
+                                    console.log("strainlen")
+                                    console.log(strains[i])         
+                                    let correctAnswer = document.createElement('p')
+                                    $(correctAnswer)
+                                    .text(strains[i].strain)
+                                    .addClass('parentLabel')
+                                    $('#childContainer').append($(correctAnswer))
+                                }
+
+                            }
+                        }
+                    }
+                    console.log('childrenContainerBucket')
+                    console.log(childrenContainerBucket)
+                }
+                // $('.playBtn').click(getChildren())
+    
 
                 const addBox = (event) => {      
                     console.log('dad length')
@@ -282,22 +340,26 @@
 
                     const playButton = document.createElement('img')
                         $(playButton)
+                        .attr('id', 'playBtn')
                         .addClass('playBtn')
                         .css('height', '100px')
                         .css('width', '100px')
                         .attr('src', '/img/gold.png')
-                        .attr('id', 'playBtn')
                         .css('opacity', '1.0')
                         .addClass('fakeBoop')
-
-                        // .on('mouseenter', () => getParents())   // :)
+                        .click( () => getChildren())
                         .on('mouseenter', () => {
                             goldHoverCount++
                             wholeGoldCount.push(goldHoverCount)
                             if (wholeGoldCount.length == 1) {
+                                // $('.playBtn').hide()
+                                console.log('playBtn')
+                                console.log(playBtn)
+                                // playBtn.hide()
                                 getParents()
                                 // $('#playBtn').addClass('fakeBoop')
                             } else if (wholeGoldCount.length == 2) {
+
                                 // goldHoverCount = 1           
                                 // wholeGoldCount.splice(0, wholeGoldCount.length)
                                 // this will be our game reset for when the user wins or loses. We can append a trophy or dynamite upon win/lose and check for the existence of the appended image as our [if(statement block)]
@@ -361,14 +423,20 @@
                     if (wholeJewelryCount.length == 1) {        // poor man's unbind()
                     goldBottomAnimation(($(event.target)))      // sweet.
                     setTimeout(addBox, "1000")  // 3000 perf.
-                    $(event.target).unbind()
+                    // $(event.target).unbind()
                     // $(event).unbind('mouseenter', addBox())
                     }
                 })   
                     if (wholeJewelryCount.length == 2) {
+
                     
                     }
                     
+
+                    // $('*').on('click', () => {
+                    playBtn.on('click', () => {
+                    console.log("we are now clicking")
+                })
 
                     // getParents = (jqObj) => {
                     
@@ -386,9 +454,7 @@
         
 
         //    bod.click(() => {
-        let playBtn = $('#playBtn')
-        console.log('playBtn')
-        console.log(playBtn)
+
            
         // $('.playBtn').click(() => {
 
