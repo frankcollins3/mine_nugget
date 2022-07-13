@@ -192,6 +192,7 @@
 
 
     let childrenContainerBucket = []
+    let roundBucket = []
 
     // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
     
@@ -276,6 +277,7 @@
                                         // console.log("strainlen")
                                         // console.log(strains[i])         
                                         let correctAnswer = document.createElement('p')
+                                        roundBucket.push(strains[i].strain)
                                         $(correctAnswer)
                                         .text(strains[i].strain)
                                         .addClass('parentLabel')
@@ -288,69 +290,86 @@
                     }
                     correctAnswer()
                     const incorrectAnswers = () => {
-                        console.log('incorrect answers function')
-                        // strainlen.forEach( (index, strain) => {
-                            // strains.forEach( (strain, index) => {
-                            // console.log('strain')
-                            // console.log(`this is our strain: ${strain.strain}`)
-                            // if (strain.parents.includes(childrenContainerBucket[0])) {
-                            //     console.log('oh yeah weve got our strain') 
-                            // }
-                            for (let i = 0; i < strains.length; i++) {
-                                if (strains[i].parents.includes(childrenContainerBucket[0])) {      
-                                    console.log("yeah weve got our strain")
-                                    // console.log(strains[i].parents)
-                                    // let randStrainLoop = strains[i][Math.floor(Math.random()* strains[i].length)]
-                                    // let randStrainLoop = ajdata[Math.floor(Math.random()* ajdata.length)]
-                                    const strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
-                                    console.log('strainLoopRandom')
-                                    console.log(strainLoopRandom)
-                                    if (strainLoopRandom.strain == strains[i].strain) {
-                                        console.log('yes theyre equal')
-                                        console.log(strains[i].strain)
-                                        strainLoopRandom = 'hey'
-                                        strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
-                                        // let strainLoopStrain = 
-                                        console.log('strainLoopRandom')
-                                        console.log(strainLoopRandom)
-                                        console.log('strainLoopStrain')
-                                        console.log(strainLoopStrain)
-                                    } else {
-                                        console.log('guess theyre not equal')
-                                        let incorrectAnswer1 = document.createElement('p')
-                                        $(incorrectAnswer1)
-                                        .text(strainLoopRandom.strain)
-                                        .addClass('parent')
-                                        $('#childContainer').append($(incorrectAnswer1))
-                                    }
-                                    // else if (strainLoopRandom.strains !== strains[i]) {
-                                    //     console.log('strainLoopStrain')
-                                    //     console.log(strainLoopStrain)
-                                    //     let incorrectAnswer1 = document.createElement('p')
-                                    //     console.log('incorrectAnswer1')
-                                    //     console.log(incorrectAnswer1)
-                                    //     $(incorrectAnswer1)
-                                    //     .text(strainLoopStrain)
-                                    //     .addClass('parent')
-                                    //     console.log('incorrectAnswer1')
-                                    //     console.log(incorrectAnswer1)
-                                    //     $('#childContainer').append($(incorrectAnswer1))
-                                    //     // $('#childContainer').append($(incorrectAnswer1))
-                                    // }
-                                    //     console.log(strainLoopRandom.strain)
-                                    //     console.log('strainLoopRandom')
-                                    //     console.log(`in the loopstrain = strains[i] ${strainLoopRandom.strain}`)
-                                    // }
-                                    console.log('outside of the strainLoopRandom')
-                                    // console.log(strainLoopRandom)
-                                    
-                                }     
+                        const wrong1 = () => {
+                            console.log('incorrect answers function')
+                                for (let i = 0; i < strains.length; i++) {
+                                    if (strains[i].parents.includes(childrenContainerBucket[0])) {      
+                                        // let randStrainLoop = strains[i][Math.floor(Math.random()* strains[i].length)]
+                                        // let randStrainLoop = ajdata[Math.floor(Math.random()* ajdata.length)]
+                                        let strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
+                                        if (strainLoopRandom.strain == strains[i].strain) {
+                                            strainLoopRandom = 'hey'
+                                            strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
+                                            // let strainLoopStrain = 
+                                        } else {
+                                            roundBucket.push(strainLoopRandom.strain)
+                                            console.log('guess theyre not equal')
+                                            let incorrectAnswer1 = document.createElement('p')
+                                            $(incorrectAnswer1)
+                                            .text(strainLoopRandom.strain)
+                                            .addClass('parent')
+                                            .addClass('childoption')
+                                            $('#childContainer').append($(incorrectAnswer1))
+                                        }
+                                        console.log('outside of the strainLoopRandom')
+                                        // console.log(strainLoopRandom)                                    
+                                    }     
+                                }     // else statement in the wrong1 block end.                        
                             }
-                            
-                            // })  // forEach end
-                        }
+                            const wrong2 = () => {
+                                console.log("lets see some p stats")                            
+                                console.log($('.childoption'))
+                                console.log($('.childoption')[0])
+                                
+                                
+
+                                for (let i = 0; i < strains.length; i++) {
+                                    if (strains[i].parents.includes(childrenContainerBucket[0])) {
+                                        let otherRandomStrain = strains[Math.floor(Math.random()*strains.length)]                                         
+                                        // if (otherRandomStrain == strains[i].strain || roundBucket[0].includes(strains[i].strain) || roundBucket[1].includes(strains[i].strain)) {
+                                        if (otherRandomStrain == strains[i].strain) {
+                                            console.log('WE HAVE THIS STRAIN VALUE IN THE WRONG2 FUNCTION OR THE ROUNDBUCKET!')
+                                            otherRandomStrain = 'randomstring to reset Math.floor func() random strain output'
+                                        } else {
+                                            console.log('lets also see the text')
+                                            console.log($('#childContainer'))
+                                            if (otherRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
+                                                console.log("YES IT DOES EQUAL THAT!!!!!!!!")
+                                                 let newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
+                                                 console.log("this is the first newRandomSTRAIN!")
+                                                 if (newRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
+                                                     console.log("THIS IS THE SECOND !!!!!!!!! !!!!!! newRandomSTRAIN!")
+                                                     newRandomStrain = 'reset'
+                                                    newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
+                                                 } else {
+                                                     let incorrectAnswer2 = document.createElement("p")
+                                                     $(incorrectAnswer2)
+                                                     .text(newRandomStrain.strain)
+                                                     .addClass('parent')
+                                                     .addClass('childoption')
+                                                     $('#childContainer').append($(incorrectAnswer2))
+                                                    }
+                                                                                                                                        
+                                            } else {
+                                                let incorrectAnswer2 = document.createElement("p")
+                                                $(incorrectAnswer2)
+                                                .text(otherRandomStrain.strain)
+                                                .addClass('parent')
+                                                .addClass('childoption')
+                                                $('#childContainer').append($(incorrectAnswer2))
+                                            }                                               
+                                        }
+                                    }
+                                }
+                            }   // wrong 1 end
+                            wrong1()
+                            wrong2()
+                        }   // incorrectAnswers end.
+                        // })  // forEach end
                         incorrectAnswers()
-                }
+                    }
+
+
                 // $('.playBtn').click(getChildren())
     
 
@@ -423,7 +442,7 @@
                                 getParents()
                                 // $('#playBtn').addClass('fakeBoop')
                             } else if (wholeGoldCount.length == 2) {
-
+                                $('#playBtn').removeClass('fakeBoop')
                                 // goldHoverCount = 1           
                                 // wholeGoldCount.splice(0, wholeGoldCount.length)
                                 // this will be our game reset for when the user wins or loses. We can append a trophy or dynamite upon win/lose and check for the existence of the appended image as our [if(statement block)]
@@ -601,6 +620,14 @@ cx                // console.log('randomStrain')
                         // .addClass('parentlabel')
                         // .text('parent')
                         // $(containerContainer).prepend($(newContainerLabel))
+
+                                                // strainlen.forEach( (index, strain) => {
+                            // strains.forEach( (strain, index) => {
+                            // console.log('strain')
+                            // console.log(`this is our strain: ${strain.strain}`)
+                            // if (strain.parents.includes(childrenContainerBucket[0])) {
+                            //     console.log('oh yeah weve got our strain') 
+                            // }
                                             
 */
 </script>
