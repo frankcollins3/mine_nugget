@@ -11,12 +11,22 @@
     </head>
     <style>
         .containerContainer{
+            text-align: center;
                 display: flex;
              flex-direction: row;
              justify-content: space-between;
              width: 75%;
              height: 25%;
         }
+        .parentlabel {
+            color: rgb(247, 208, 36);
+            font-family: 'URW Chancery L';
+            font-size: 22px;
+        }
+                
+
+
+
         .newContainer {
             /* display: grid;
             grid-template-columns: 1fr 1fr;
@@ -134,7 +144,7 @@
     .css('flex-flow', 'column nowrap')
     .css('margin-top', '10em')
 
-
+    
     let parents = $('.parent')
     parents
     .hide()
@@ -178,17 +188,51 @@
                         let newContainer = document.createElement('div')        
                         // was doing this for about an hour before seeing its better to make two containers.  1 for the parents 1 for the .childnren()
                         $(newContainer)
+                        .attr('id', 'parentCont1')
                         .addClass('newContainer')
                         // .attr('id', 'newcontainer1')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
-                    
+                        
+                        // let newContainerLabel = document.createElement('p')
+                        // let newContainerLabel = document.createElement('label')
+                        // $(newContainerLabel)
+                        // .attr("for", $('#newContainer'))
+                        // .addClass('parentlabel')
+                        // .text('parent')
+                        // $(containerContainer).prepend($(newContainerLabel))
+                                            
                         let newContainer2 = document.createElement('div')        
                         $(newContainer2)
+                        .attr('id', 'parentCont2')
                         .addClass('newContainer')
                         // .attr('id', 'newcontainer2')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
+                        
+                        //     for (let i = 0; i < 2; i++) {
+                        //     let newContainerLabels = document.createElement('p')
+                        //     $(newContainerLabels)
+                        //     .addClass('parent')
+                        //     .html('parent')
+                        //     // $(newContainerLabels)[0]
+                        //     $(newContainerLabels[0])
+                        //     .attr('id', 'parentContLabel1')
+                        //     // $(newContainerLabels)[1]
+                        //     $(newContainerLabels[1])
+                        //     .html('parent')
+                        //     .attr('id', 'parentContLabel2')
+                        //     $(newContainer).append($('#parentContLabel1'))
+                        //     $(newContainer2).append($('#parentContLabel2'))
+                        // }
+                        // console.log($(newContainerLabels)[1])
+                            // if (newContainerLabels[0]) {
+                            //     $(newContainer).append($(newContainerLabels)[0])
+                            // } else if (newContainerLabels[1]) {
+                            //     $(newContainer2).append($(newContainerLabels)[1])
+                            // }
+                        
+
 
                         let childContainer = document.createElement('div')
                         $(childContainer)
@@ -215,7 +259,8 @@
                         .css('width', '100px')
                         .attr('src', '/img/gold.png')
                         .attr('id', 'playBtn')
-                        .css('opacity', '0.1')
+                        .css('opacity', '1.0')
+                        // .css('opacity', '0.1')
 
                         bod
                         .append($(playButton))       // very neat to see everything fall in line.
@@ -223,7 +268,10 @@
                         // setTimeout($('#playBtn').hide(), "3000")
                 }  // addBox function
 
-                const goldBottomAnimation = (event) => {     
+                // realizing while doing callbacks: more ideal to import functions, we are tethered to jquery <script>scope<script>
+
+
+                const goldBottomAnimation = (event) => {        // callbacks were so confusing until using $(event.target) over and over again. $(event.target) is a specific targeting while (event) is a would-be/could-be-nearly-anything placeholder. callbacks like this, and following the obj.forEach(PLACEHOLDER) the placeholder in forEach and the changing of the term for how the sets of data/elements are described: quite challenging 
                 event.css('border-bottom', '2px solid papayawhip')
                event.siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
                // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
@@ -233,24 +281,71 @@
                // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
                setTimeout( () => $(event).siblings().css('padding', '0 6em 0 6em'), "1000")
                setTimeout( () => $(event).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
-               setTimeout(unBorder, "2000")
+            //    setTimeout(unBorder, "2000")
+                setTimeout( () => {
+                    unBorder
+                    box.children().siblings()       // hmm surprised event.siblings() doesn't do what this code does.
+                    // event.siblings()
+                    .css('opacity', '0.4') // didn't use siblings at first and it applies to just the one sibling we hover on. I thought since our [event: box.children()] that it would select both of them. We'd have to apply it to the siblings in the event-scope-code.
+                }, "2000")
+
                setTimeout( () => {
     
                }, "2000")      // this will trigger the function to happen after.
             }
+
+            // ******** STRAIN API *************
             let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
-            const getGitStrains = () => {
+            const getGitStrains = (data) => {
                 $.ajax({
                     method: 'GET',
                     url: strainUrl,
                     dataTypes: 'json'
                 }).then( (ajdata) => {
                     console.log(ajdata)
-                    return ajdata
+                    let dataBucket = []
+                    dataBucket.push(ajdata)
+                    return dataBucket
+                    // return ajdata //.toJSON() wont work.
+                    
                 })
             }
             console.log('here are the strains')
-            console.log(getGitStrains())
+            // getGitStrains()
+            // console.log(getGitStrains())
+
+
+            // surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
+            // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
+            // i'm super surprised we cant just get the strain data from this function, or atleast how i'm doing it isn't working. 
+
+            const getStrainAPIparents = async () => {     // there is no reusability without doing code in this callback way. wow.
+                console.log('were over here now')
+                //  let data = getGitStrains().values()
+                  getGitStrains()
+                  let newBucket = [getGitStrains] // GitStrains()
+                  console.log('newBucket')
+                  console.log(newBucket)
+                //  console.log(data)
+                
+
+                // getGitStrains().then( (data) => {
+                //     console.log(data)
+                // })
+
+                // getGitStrains().then( (data) => {
+                //     console.log(data)
+                // })
+                // console.log('strains')
+                // console.log(strains)
+                // let randomStrain = strains[Math.floor(Math.random()*strains.length)]
+                // console.log('randomStrain')
+                // console.log(randomStrain)
+            }
+            console.log('fire away!')
+            getStrainAPIparents()
+
+                
             //     const goldBottomAnimation = (event) => {     
             //     $(event.target).css('border-bottom', '2px solid papayawhip')
             //    $(event.target).siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
@@ -281,7 +376,7 @@
             // }
             if (wholeJewelryCount.length == 1) {
                 goldBottomAnimation(($(event.target)))      // sweet.
-                setTimeout(addBox, "4000")
+                setTimeout(addBox, "1000")  // 3000 perf.
             }
             if (wholeJewelryCount.length == 2) {
 
@@ -289,7 +384,7 @@
            })
        
                 
-            console.log('WE ARE AT LENGTH of 1!!!!!!!*****')
+            // console.log('WE ARE AT LENGTH of 1!!!!!!!*****')
 
 
 
