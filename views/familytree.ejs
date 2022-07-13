@@ -170,7 +170,42 @@
     let wholeJewelryCount = new Array()
 
     // functinos!
-    const addBox = () => {
+
+    getParents = () => {
+                        console.log("were over here making a scene")
+                        const randomStrain = strains[Math.floor(Math.random()*strains.length)]
+                        const parents = randomStrain.parents.split(',') // oops left the comment out. 
+                        let rsp1 = parents[0]
+                        let rsp2 = parents[1]
+
+                        console.log('rsp')
+                        console.log(rsp1)
+                        console.log(rsp2)
+
+                        let gameText = document.createElement('p')
+                        let gameText2 = document.createElement('p')
+                        
+                        $(gameText)
+                        .addClass('parent')
+                        .text(rsp1)
+                        $(newContainer)
+                        .append($(gameText))
+                        
+                        $(gameText2)
+                        .addClass('parent')
+                        .text(rsp2)
+                        $(newContainer2)
+                        .append($(gameText))
+
+                        // console.log('randomStrain')
+                        // console.log(randomStrain)
+                        console.log('parents')
+                        console.log(parents)
+                    }
+
+
+
+    const addBox = () => {      // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
                     console.log('dad length')
                     console.log($('.parent').length)
                     // for (let i = 0; i < parents.length; i++) {
@@ -255,11 +290,13 @@
 
                         const playButton = document.createElement('img')
                         $(playButton)
+                        .addClass('playBtn')
                         .css('height', '100px')
                         .css('width', '100px')
                         .attr('src', '/img/gold.png')
                         .attr('id', 'playBtn')
                         .css('opacity', '1.0')
+                        .bind('click', getParents())
                         // .css('opacity', '0.1')
 
                         bod
@@ -294,77 +331,42 @@
                }, "2000")      // this will trigger the function to happen after.
             }
 
-            // ******** STRAIN API *************
-            let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
-            const getGitStrains = (data) => {
-                $.ajax({
-                    method: 'GET',
-                    url: strainUrl,
-                    dataTypes: 'json'
-                }).then( (ajdata) => {
-                    console.log(ajdata)
-                    let dataBucket = []
-                    dataBucket.push(ajdata)
-                    return dataBucket
-                    // return ajdata //.toJSON() wont work.
-                    
-                })
-            }
-            console.log('here are the strains')
-            // getGitStrains()
-            // console.log(getGitStrains())
+            
+
+
 
 
             // surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
             // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
-            // i'm super surprised we cant just get the strain data from this function, or atleast how i'm doing it isn't working. 
 
-            const getStrainAPIparents = async () => {     // there is no reusability without doing code in this callback way. wow.
-                console.log('were over here now')
-                //  let data = getGitStrains().values()
-                  getGitStrains()
-                  let newBucket = [getGitStrains] // GitStrains()
-                  console.log('newBucket')
-                  console.log(newBucket)
-                //  console.log(data)
+            // ******** STRAIN API *************
+            let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
+            // const getGitStrains = (data) => {       // we dont want this as a function we want everything to just have access to this information without it being
+                $.ajax({
+                    method: 'GET',
+                    url: strainUrl,
+                    dataTypes: 'json'
+                }).then( (ajdata) => {          // this ajdata isn't available to other function scope without it being specifically declared.
+                    console.log('ajdata')
+                    console.log(ajdata)
+                
+                    const strains = ajdata.strains
+                    console.log('strains')
+                    console.log(strains)
+                    
+
+                    
+
+                    // getParents = (jqObj) => {
+                    
+                // getGitStrains()
+                // getParents()
                 
 
-                // getGitStrains().then( (data) => {
-                //     console.log(data)
-                // })
-
-                // getGitStrains().then( (data) => {
-                //     console.log(data)
-                // })
-                // console.log('strains')
-                // console.log(strains)
-                // let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                // console.log('randomStrain')
-                // console.log(randomStrain)
-            }
-            console.log('fire away!')
-            getStrainAPIparents()
-
                 
-            //     const goldBottomAnimation = (event) => {     
-            //     $(event.target).css('border-bottom', '2px solid papayawhip')
-            //    $(event.target).siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
-            //    // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
-            //    // $(event.target).parents().children().css('border-bottom', '2px solid papayawhip') 
-            //    const unBorder = () => box.children().css('border-bottom', '')
-            //    console.log('hey now were over here')
-            //    // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
-            //    setTimeout( () => $(event.target).siblings().css('padding', '0 6em 0 6em'), "1000")
-            //    setTimeout( () => $(event.target).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
-            //    setTimeout(unBorder, "2000")
-            //    setTimeout( () => {
-    
-            //    }, "2000")      // this will trigger the function to happen after.
-            // }
-
-
-
-
+            
+                
+                
 
     // .children().hide() i dont know why this isn't hiding the rings and the watch but that's okay
     // if (wholeJewelCounter.length == 1) {    // this very simple line is our anti-duplicate safeguard since the second time you hover the count will be: [].length == 2] invalidating this condition, forbidding the $(body).append$(container)
@@ -381,20 +383,67 @@
             if (wholeJewelryCount.length == 2) {
 
             }
-           })
-       
-                
-            // console.log('WE ARE AT LENGTH of 1!!!!!!!*****')
+           })   // box.children.mouse
+
+
+        //    bod.click(() => {
+        let playBtn = $('#playBtn')
+        console.log('playBtn')
+        console.log(playBtn)
+           
+        // $('.playBtn').click(() => {
+
+            // playBtn.bind('mouseenter', () => {
+            //     console.log("hey")
+            // })
+
+
+        //    const playButton = document.createElement('img')
+        //                 $(playButton)
+        //                 .css('height', '100px')
+        //                 .css('width', '100px')
+        //                 .attr('src', '/img/gold.png')
+        //                 .attr('id', 'playBtn')
+        //                 .css('opacity', '1.0')
+                        // .css('opacity', '0.1')
 
 
 
 
-        //     for (let i = 18; i < 50; i++) {
-        // let inputOption = document.createElement('option')
-        // $(inputOption).attr('value', i.toString())          
-        // $(inputOption).text(i.toString())
-        // $('select').append($(inputOption))
-        // }
+      
 
 
+
+        })  // ajax end. everything should be contained within this scope so we always have access to the straindata without having to initiate behavior [i.e. 'mouseenter'] to retrieve it.
+            // }
+
+
+/*
+// surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
+            // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
+            // i'm super surprised we cant just get the strain data from this function, or atleast how i'm doing it isn't working. 
+            // const getStrainAPIparents = async () => {     // there is no reusability without doing code in this callback way. wow.
+                // console.log('were over here now')
+                //  let data = getGitStrains().values()
+                //  let goodGuy = getGitStrains()
+                //  console.log('goodGuy')
+                //  console.log(goodGuy)                 
+                //  console.log(data)        
+                // getGitStrains().then( (data) => {
+                //     console.log(data)
+                // })
+
+                // getGitStrains().then( (data) => {
+                //     console.log(data)
+                // })
+                // console.log('strains')
+                // console.log(strains)
+                // let randomStrain = strains[Math.floor(Math.random()*strains.length)]
+                // console.log('randomStrain')
+                // console.log(randomStrain)
+            // }
+            // console.log('fire away!')
+            // getStrainAPIparents()            
+*/
 </script>
+
