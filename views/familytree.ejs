@@ -171,56 +171,63 @@
 
     // functinos!
 
-    getParents = () => {
+    
+
+
+
+    // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
+    
+                // realizing while doing callbacks: more ideal to import functions, we are tethered to jquery <script>scope<script>
+
+            // surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
+            // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
+
+            // ******** STRAIN API *************
+            let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
+            // const getGitStrains = (data) => {       // we dont want this as a function we want everything to just have access to this information without it being
+                $.ajax({
+                    method: 'GET',
+                    url: strainUrl,
+                    dataTypes: 'json'
+                }).then( (ajdata) => {          // this ajdata isn't available to other function scope without it being specifically declared.
+                const strains = ajdata.strains
+
+                getParents = () => {
                         console.log("were over here making a scene")
                         const randomStrain = strains[Math.floor(Math.random()*strains.length)]
                         const parents = randomStrain.parents.split(',') // oops left the comment out. 
                         let rsp1 = parents[0]
-                        let rsp2 = parents[1]
-
-                        console.log('rsp')
-                        console.log(rsp1)
-                        console.log(rsp2)
-
+                        let rsp2 = parents[1]                    
                         let gameText = document.createElement('p')
-                        let gameText2 = document.createElement('p')
-                        
+                        let gameText2 = document.createElement('p')                        
                         $(gameText)
                         .addClass('parent')
                         .text(rsp1)
-                        $(newContainer)
-                        .append($(gameText))
-                        
+                        $('#parentCont1')
+                        .append($(gameText))                        
                         $(gameText2)
                         .addClass('parent')
                         .text(rsp2)
-                        $(newContainer2)
-                        .append($(gameText))
-
-                        // console.log('randomStrain')
-                        // console.log(randomStrain)
-                        console.log('parents')
-                        console.log(parents)
-                    }
+                        $('#parentCont2')
+                        .append($(gameText2))                        
+                    }    
 
 
 
-    const addBox = () => {      // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
+
+                const addBox = () => {      
                     console.log('dad length')
                     console.log($('.parent').length)
-                    // for (let i = 0; i < parents.length; i++) {
-                        let textBox = document.createElement('div')
+                    let textBox = document.createElement('div')
                         $(textBox)
                         .css('height', '100px')
                         .css('width', '100px')
                         .css('background-color', 'white')
-                        // .css('border', '5px solid green')
 
-                        let containerContainer = document.createElement('div')
+                    let containerContainer = document.createElement('div')
                         $(containerContainer)
                         .addClass('containerContainer')
-
-                        let newContainer = document.createElement('div')        
+                    let newContainer = document.createElement('div')        
                         // was doing this for about an hour before seeing its better to make two containers.  1 for the parents 1 for the .childnren()
                         $(newContainer)
                         .attr('id', 'parentCont1')
@@ -228,48 +235,16 @@
                         // .attr('id', 'newcontainer1')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
-                        
                         // let newContainerLabel = document.createElement('p')
-                        // let newContainerLabel = document.createElement('label')
-                        // $(newContainerLabel)
-                        // .attr("for", $('#newContainer'))
-                        // .addClass('parentlabel')
-                        // .text('parent')
-                        // $(containerContainer).prepend($(newContainerLabel))
-                                            
-                        let newContainer2 = document.createElement('div')        
+                    let newContainer2 = document.createElement('div')        
                         $(newContainer2)
                         .attr('id', 'parentCont2')
                         .addClass('newContainer')
                         // .attr('id', 'newcontainer2')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
-                        
-                        //     for (let i = 0; i < 2; i++) {
-                        //     let newContainerLabels = document.createElement('p')
-                        //     $(newContainerLabels)
-                        //     .addClass('parent')
-                        //     .html('parent')
-                        //     // $(newContainerLabels)[0]
-                        //     $(newContainerLabels[0])
-                        //     .attr('id', 'parentContLabel1')
-                        //     // $(newContainerLabels)[1]
-                        //     $(newContainerLabels[1])
-                        //     .html('parent')
-                        //     .attr('id', 'parentContLabel2')
-                        //     $(newContainer).append($('#parentContLabel1'))
-                        //     $(newContainer2).append($('#parentContLabel2'))
-                        // }
-                        // console.log($(newContainerLabels)[1])
-                            // if (newContainerLabels[0]) {
-                            //     $(newContainer).append($(newContainerLabels)[0])
-                            // } else if (newContainerLabels[1]) {
-                            //     $(newContainer2).append($(newContainerLabels)[1])
-                            // }
-                        
-
-
-                        let childContainer = document.createElement('div')
+                                                                                                            
+                    let childContainer = document.createElement('div')
                         $(childContainer)
                         .attr('id', 'childContainer')
                         .css('height', `${famheight/20}`)
@@ -288,7 +263,7 @@
                         .append(newContainer)
                         .append(newContainer2)
 
-                        const playButton = document.createElement('img')
+                    const playButton = document.createElement('img')
                         $(playButton)
                         .addClass('playBtn')
                         .css('height', '100px')
@@ -296,18 +271,21 @@
                         .attr('src', '/img/gold.png')
                         .attr('id', 'playBtn')
                         .css('opacity', '1.0')
-                        .bind('click', getParents())
-                        // .css('opacity', '0.1')
+                        // .bind('click', getParents())
+                        // .bind('click', ()=> getParents())
+                        .on('mouseenter', () => getParents())
+                        // .on('mouseenter', () => console.log("heyy"))
 
+                        // .css('opacity', '0.1')
                         bod
                         .append($(playButton))       // very neat to see everything fall in line.
                         .append($(childContainer))  // kind of trying to break camelcase after reading it seems to make it more unreadable and i'd agree. try to stay consistent when already jammed with having set a few things into camelCase format.
                         // setTimeout($('#playBtn').hide(), "3000")
                 }  // addBox function
 
-                // realizing while doing callbacks: more ideal to import functions, we are tethered to jquery <script>scope<script>
 
 
+                    
                 const goldBottomAnimation = (event) => {        // callbacks were so confusing until using $(event.target) over and over again. $(event.target) is a specific targeting while (event) is a would-be/could-be-nearly-anything placeholder. callbacks like this, and following the obj.forEach(PLACEHOLDER) the placeholder in forEach and the changing of the term for how the sets of data/elements are described: quite challenging 
                 event.css('border-bottom', '2px solid papayawhip')
                event.siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
@@ -331,30 +309,30 @@
                }, "2000")      // this will trigger the function to happen after.
             }
 
-            
-
-
-
-
-            // surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
-            // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
-
-            // ******** STRAIN API *************
-            let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
-            // const getGitStrains = (data) => {       // we dont want this as a function we want everything to just have access to this information without it being
-                $.ajax({
-                    method: 'GET',
-                    url: strainUrl,
-                    dataTypes: 'json'
-                }).then( (ajdata) => {          // this ajdata isn't available to other function scope without it being specifically declared.
-                    console.log('ajdata')
-                    console.log(ajdata)
                 
-                    const strains = ajdata.strains
-                    console.log('strains')
-                    console.log(strains)
-                    
+                    // const introAnimAddBox = (event) => {        // cb func not liking the two separate/multiple [timeOut && eventBased] expressions running together.s
+                    //     jewelryCount++
+                    //     wholeJewelryCount.push(jewelryCount)
+                    //     if (wholeJewelryCount.length == 1) {
+                    //         // goldBottomAnimation(event)
+                    //         goldBottomAnimation()
+                    //         setTimeout(addBox, "1000")
+                    //     }
+                    // }
+                    // box.children().on('mouseenter', introAnimAddBox)
 
+                    // box.children().bind('mouseenter', introAnimAddBox())
+                    
+                    box.children().on('mouseenter', (event) => {                // if ($('#playBtn').length < 1) {
+                    jewelryCount++
+                    wholeJewelryCount.push(jewelryCount)
+                    if (wholeJewelryCount.length == 1) {
+                    goldBottomAnimation(($(event.target)))      // sweet.
+                    setTimeout(addBox, "1000")  // 3000 perf.
+                    }
+                    if (wholeJewelryCount.length == 2) {
+                    }
+                    })   
                     
 
                     // getParents = (jqObj) => {
@@ -370,21 +348,7 @@
 
     // .children().hide() i dont know why this isn't hiding the rings and the watch but that's okay
     // if (wholeJewelCounter.length == 1) {    // this very simple line is our anti-duplicate safeguard since the second time you hover the count will be: [].length == 2] invalidating this condition, forbidding the $(body).append$(container)
-        box.children().on('mouseenter', (event) => {
-            jewelryCount++
-            wholeJewelryCount.push(jewelryCount)
-            // if ($('#playBtn').length < 1) {
-            //     addBox()
-            // }
-            if (wholeJewelryCount.length == 1) {
-                goldBottomAnimation(($(event.target)))      // sweet.
-                setTimeout(addBox, "1000")  // 3000 perf.
-            }
-            if (wholeJewelryCount.length == 2) {
-
-            }
-           })   // box.children.mouse
-
+        
 
         //    bod.click(() => {
         let playBtn = $('#playBtn')
@@ -444,6 +408,36 @@
             // }
             // console.log('fire away!')
             // getStrainAPIparents()            
+
+                    //     for (let i = 0; i < 2; i++) {
+                        //     let newContainerLabels = document.createElement('p')
+                        //     $(newContainerLabels)
+                        //     .addClass('parent')
+                        //     .html('parent')
+                        //     // $(newContainerLabels)[0]
+                        //     $(newContainerLabels[0])
+                        //     .attr('id', 'parentContLabel1')
+                        //     // $(newContainerLabels)[1]
+                        //     $(newContainerLabels[1])
+                        //     .html('parent')
+                        //     .attr('id', 'parentContLabel2')
+                        //     $(newContainer).append($('#parentContLabel1'))
+                        //     $(newContainer2).append($('#parentContLabel2'))
+                        // }
+                        // console.log($(newContainerLabels)[1])
+                            // if (newContainerLabels[0]) {
+                            //     $(newContainer).append($(newContainerLabels)[0])
+                            // } else if (newContainerLabels[1]) {
+                            //     $(newContainer2).append($(newContainerLabels)[1])
+                            // }
+
+                                           // let newContainerLabel = document.createElement('label')
+                        // $(newContainerLabel)
+                        // .attr("for", $('#newContainer'))
+                        // .addClass('parentlabel')
+                        // .text('parent')
+                        // $(containerContainer).prepend($(newContainerLabel))
+                                            
 */
 </script>
 
