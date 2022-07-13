@@ -98,8 +98,8 @@
     </body>
     </html>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
     console.log('a tag nugget')
     console.log($('.nameOrNugget'))
     let animatedName = $('.nameOrNugget')
@@ -112,6 +112,7 @@
     // setTimeout( animatedName.hide(), "7000")
     // setTimeout($('.nameOrNugget').hide(), "7000")
 
+    // ******* Global Variables and Declarations
     let dad = $('#parent1') // coming from advantaged ground of not rendering cannabis images, dad == 'parent1' mom == 'parent2' not so bad
     dad 
     .css('height', '85px')
@@ -148,31 +149,17 @@
         parents
         .css('margin-top', '7em')
         .show()
-
     })
-    let jewelCounter = 0
-    let wholeJewelCounter = new Array()
-
-    let goldCounter = 0
-    let wholeGold = new Array()
-
-    let parentCounter = 0
-    let wholeParents = []
-
-    let correctAnswerBucket = new Array()
-
-    let gameCounter = 0
-    let wholeGameCounter = []
-
-    let round = false //s
-
     let box = $('.jewelrybox')
     box
     .css('margin-top', '2em')
-    // .children().hide() i dont know why this isn't hiding the rings and the watch but that's okay
     .css('display', 'flex')
-    .css('flex-direction', 'row') // would've done .on('mouseenter')()-> [flex-direction, row] ----- [flex-direction, column].toggle()
+    .css('flex-direction', 'row') 
 
+    let jewelryCount = 0
+    let wholeJewelryCount = new Array()
+
+    // functinos!
     const addBox = () => {
                     console.log('dad length')
                     console.log($('.parent').length)
@@ -192,14 +179,14 @@
                         // was doing this for about an hour before seeing its better to make two containers.  1 for the parents 1 for the .childnren()
                         $(newContainer)
                         .addClass('newContainer')
-                        .attr('id', 'newcontainer1')
+                        // .attr('id', 'newcontainer1')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
                     
                         let newContainer2 = document.createElement('div')        
                         $(newContainer2)
-                        .attr('id', 'newcontainer2')
                         .addClass('newContainer')
+                        // .attr('id', 'newcontainer2')
                         .css('height', `${famheight/12}`)
                         .css('width', `${famwidth/10}`)
 
@@ -233,543 +220,78 @@
                         bod
                         .append($(playButton))       // very neat to see everything fall in line.
                         .append($(childContainer))  // kind of trying to break camelcase after reading it seems to make it more unreadable and i'd agree. try to stay consistent when already jammed with having set a few things into camelCase format.
-                        setTimeout($('#playBtn').hide(), "3000")
+                        // setTimeout($('#playBtn').hide(), "3000")
                 }  // addBox function
 
-    // * * * * thought of trick: change flex-direction from column to row [upon behavior] so that we get a little life on the page. I kind of don't like the /auth/login.ejs l-o-g-i-n animation for the same reason I don't like this idea. I'll keep the l-o-g... letter-by-letter .setTimeout()text animation and toss this one out. 
-    box
-    .children().on('mouseenter', (event) => {   // it shouldn't be surprising but it is a little that we can use .children() down here. 
-    $('*').removeClass('fakeBoop')
-    jewelCounter++
-    wholeJewelCounter.push(jewelCounter)
-        if (wholeJewelCounter.length == 4) {
-
-            // checkforptaglength() 
-            $('.navBody').hide()
-            $('#playBtn')
-            .css("opacity", "1.0")
-        }
-        $('#playBtn').on('hover', () => {
-        goldCounter++  //                                     let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-        wholeGold.push(goldCounter)
-        if (wholeGold.length % 2 !== 0) {
-            $('#playBtn').css('opacity', '0.1')
-            parentCounter ++
-            wholeParents.push(parentCounter)
-
-    let strainUrl =  `https://bigcode69er.github.io/strainuous/strain.json`   
-                        if (wholeJewelCounter.length >= 1) {
-                            $.ajax({
-                                method: 'GET',
-                                url: strainUrl,
-                                dataTypes: 'json',
-                            }).then( (ajdata) => {
-                                let optionBucket = []
-                                let strains = ajdata.strains
-
-                                console.log("hey atleast were right over here")
-                                if (optionBucket.length < 2) {
-                                    for (let i = 0; i < strains.length; i++) {
-                                        // console.log("were in the forloop")
-                                        // console.log(strains[i].strain)
-                                        optionBucket.push(strains[i]) // little error pushing up just the strains because then when we add the parents the object endpoints gone.
-                                    }
-                                }
-
-                                // console.log('optionBucket')
-                                // console.log(optionBucket)
-                                // console.log(optionBucket[1])
-
-                                // let randomFact = randomStrain.funfact 
-                                // randomStrainParents
-                                if (wholeParents.length == 1) {
-                                    console.log('optionBucket before')
-                                    console.log(optionBucket)
-                                    let strainMaterial = optionBucket[optionBucket.length-1]
-
-                                    optionBucket.pop()
-                                    console.log('optionBucket after')
-                                    console.log(optionBucket)
-                                    
-                                    console.log('strain api')
-                                    console.log(strainMaterial)
-                                    // interesting. cant do a 1 liner function and use a return statement without brackets as far as this code below me is saying
-                                    // let notSoRandomStrain = () => {return optionBucket.sort( ()=> Math.random -1)}
-                                    
-                                    console.log('*** RANDOM STRANGE DURING VARIABLE DECLARE ******')
-                                    // console.log(randomStrain)
-                                    // optionBucket.push(randomStrain.strain)
-                                    // console.log(`THIS IS OUR RANDOM STRAIN: ${randomStrain.strain}`)
-                                    
-                                let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                // let rsp = randomStrain.parents
-
-                                let parents = strainMaterial.parents
-                                let gameOptionparent = parents.split(',')    // or rsp || randomstrainparents
-                                
-                                let gameoption1 = gameOptionparent[0]
-                                let gameoption2 = gameOptionparent[1]       
-                                
-                                let msg1 = document.createElement('p')
-                                $(msg1).text(gameoption1)
-                                let msg2 = document.createElement('p')
-                                $(msg2).text(gameoption2)
-                                
-                                // unexpected array trick i didn't know you could even access those values so easily.
-                                // you would ideally put these in single-responsibility functions but then our scope would give us a few problems. this is a bit: [over-interactive || upon-behavior] similar to pokedex in that there's a fair bit of theming going on 
-                                // can also loop, limited by specified length.  2:17am saving fuel for duplicate containers.
-                            
-
-                                    let checkforptaglength = async () => {
-                                        // console.log("check for ptag length")
-                                        if ($('p').length == 2) {
-                                                        const correctAnswer = randomStrain.strain
-                                                
-                                                    // console.log("yeah we got that the <p> tag  length = 2 in container2 mom.onmouseenter")
-                                                
-                                                        const correctAnsw = () => {         
-                                                                return strain
-                                                                // console.log(optionBucket.sort(()=> Math.random() - 1))
-                                                                // optionBucket.sort( () => Math.random() - 1)
-                                                                // if (optionBucket.length === strains.length) {
-                                                                //     console.log('strict equality successfully between apilength & available array items evaluated')
-                                                                //     let value = optionBucket[optionBucket.length-1]
-                                                                //     console.log('correct value')
-                                                                //     console.log(value)
-                                                                //     optionBucket.pop()
-                                                                //     return value
-                                                                //     console.log('optionBucket down low in function with array manipulations/changes.')
-                                                                //     console.log(optionBucket)
-                                                                // }                                                                                              
-                                                                // console.log('optionBucket correctAnswer')   
-                                                                // console.log(optionBucket)   
-                                                                // console.log('randomStrain in the correctAnswer() functions')
-                                                                // console.log(randomStrain)
-                                                                // if (box.children().hasClass('gameplayed')) {
-                                                                //     let newValue = strains[Math.floor(Math.random()* strains.length)]
-                                                                //     console.log('newValue before our reset')
-                                                                //     console.log(newValue)
-                                                                //     for (let i = 0; i < strains.length; i++) {
-                                                                //         if (newValue == optionBucket[i]) {
-                                                                //             console.log("yeah they are equal to each other what will we do!")
-                                                                //             console.log('newValue after our reset')
-                                                                //             newValue = ''
-                                                                //             newValue = strains[Math.floor(Math.random() * strains.length)]
-                                                                //             return newValue
-                                                                //         } else {
-                                                                //             return randomStrain.strain
-                                                                //         }                                                                    
-                                                                //     }
-
-                                                                //     console.log("weve done a round we can clean up our functionality!")
-                                                                // } else {
-                                                                //     return randomStrain.strain
-                                                                // }
-
-
-                                                        //     correctAnswerBucket.push(correctAnswer)
-                                                        //     console.log('correctAnswerBucket')
-                                                        //     console.log(correctAnswerBucket)
-                                                        //     if (correctAnswerBucket.length < 1) {
-                                                        //         console.log('untouched correctAnswer bucket')
-                                                        //         return correctAnswer
-                                                        //     } else if (correctAnswerBucket.length < strains.length) {
-                                                        //         console.log('correctAnswer bucket is less than the strains')
-                                                        //         let newCorrectAnswer = strains[Math.random(Math.floor()*strains.length)]
-                                                        //         console.log('newCorrrectAnswer')
-                                                        //         console.log(newCorrectAnswer)
-                                                        //         for (let i = 0; i < correctAnswerBucket.length; i++) {
-                                                        //             if (newCorrectAnswer = correctAnswerBucket[i]) {
-                                                        //                 console.log("weve got that value in there")
-                                                        //                  tertiaryAnswer = strains[Math.random(Math.floor()*strains.length)]
-                                                        //                  console.log('tertiaryAnswer')
-                                                        //                  console.log(tertiaryAnswer)
-                                                        //                  return tertiaryAnswer
-                                                                    }
-                                                                // }                                                                                                                             
-                                                            //     return newCorrectAnswer
-                                                            // } else if (correctAnswerBucket.length === strains.length) {
-                                                            //     correctAnswerBucket.splice(0, correctAnswerBucket.length)
-                                                            // }
-                                                            // return correctAnswer
-                                                        // }
-                                                        // console.log("here it goes")
-                                                        // correctAnsw()
-                                                    // console.log('this is correctly set as the randomStrain from gh api. well append it to container with 2 incorrects')
-                                                 
-
-                                                    let preAnswer = strains[Math.floor(Math.random()*strains.length)]
-                                                    let answer = preAnswer.strain
-
-                                                    let incorrectAnswer1 = () => {       // this is ANTI-dry for sure. idk if this is what promise hell is all about but were way too interwoven for our own good were gonnan have to be a little extra specific about targeting, and variable declaration.
-                                                        let anotherRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                        let = randomStrainName = anotherRandomStrain.strain
-                                                        // console.log(/'anotherRandomStrain')
-                                                        // console.log(anotherRandomStrain)
-
-                                                        // console.log('strain name')
-                                                        // console.log('randomStrainName')
-                                                        // console.log(randomStrainName)
-                                                        if (randomStrainName == correctAnswer) {
-                                                            // console.log('we had a correct answer this is our manipulation attempt at retrieving a falsy value')
-                                                         anotherRandomStrain = ''
-                                                         anotherRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                        //  console.log(anotherRandomStrain)
-                                                        //  console.log(anotherRandomStrain.strain)
-                                                        } else {
-                                                            // console.log("anotherrandomstrain is not equal to correct answer this is our correct value:")
-                                                            // console.log('anotherRandomStrain.strain')
-                                                            // console.log(anotherRandomStrain.strain)
-                                                            return anotherRandomStrain.strain
-                                                        }
-                                                    }
-                                                    await incorrectAnswer1()
-
-                                                    let incorrectAnswer2 = () => {       // this is ANTI-dry for sure. idk if this is what promise hell is all about but were way too interwoven for our own good were gonnan have to be a little extra specific about targeting, and variable declaration.
-                                                        let anotherRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                        let = randomStrainName = anotherRandomStrain.strain
-                                                        // console.log(/'anotherRandomStrain')
-                                                        // console.log(anotherRandomStrain)
-
-                                                        // console.log('strain name')
-                                                        // console.log('randomStrainName')
-                                                        // console.log(randomStrainName)
-                                                        if (randomStrainName == correctAnswer) {
-                                                            anotherRandomStrain = ''                                            
-                                                        } else {                                 
-                                                            return anotherRandomStrain.strain
-                                                        }
-                                                    }
-                                                    await incorrectAnswer2()
-                                                    // let returnvalues [correctAnswer. incorrectValue1, incorrectValue2]
-                                                    // invoke returnValuesFunction()
-
-                                                    // function answer1() {
-                                                    //     if (answer == correctAnswer) {
-                                                    //         console.log("container2 findWrongAnswer() Answer1()")
-                                                    //         preAnswer = ''
-                                                    //         answer = ''
-                                                    //         console.log(`preanswer changed to nothing ${preAnswer}`)
-                                                    //         let newPreAnswer = strains[Math.floor(Math.random()*strains.length)]
-                                                    //         let newAnswer = newPreAnswer.strain
-                                                    //         if (newAnswer !== correcAnswer) {
-                                                    //             console.log("if correctAnswer -> if strains != correctAnswer now wwe set values")
-                                                    //             console.log('successfully grabbed incorrect value newAnswer:')
-                                                    //             return newAnswer
-                                                    //         }
-                                                    //         // let preAnswer = strains[Math.floor(Math.random()*strains.length)]
-                                                    //         // let answer = preAnswer.strain
-                                                    //     } else {        
-                                                    //         console.log("in findwronganswer else block successful incorrect answer return value")
-                                                    //         console.log("returned preAnswer.strain from else block")
-                                                    //         return answer = preAnswer.strain
-                                                    //     }
-                                                    // }
-
-
-                                                        // // so we wouldn't run these function since were going to store the values as arrays and wouldn't want the overarching functional scope to execute and return while leaving code below return statement unrun.
-                                                        // function answer2() {
-                                                        //     preAnswer = ''
-                                                        //     answer = ''
-                                                        //     if (answer == correctAnswer) {
-                                                        //         console.log("were in the answer2 function and answer == correct anaswer")
-                                                        //         preAnswer = strains[Math.floor(Math.random()*strains.length)]
-                                                        //         answer = preAnswer.strain
-                                                        //     } else {
-                                                        //         console.log("answer 2 function answer !== DOES NOT EQUAL CORRECT ANSWER we have the falsy value we want to use as options for our simple little api-endpoint based data game of suggestion and choice.")
-                                                        //         return answer
-                                                        //     }
-                                                        // }
-                                                        const returnValues = () => {
-                                                            // we could also auto-eliminate the value (correctAnswer) that wed like to eliminate from our options that let [randomStrain = strains[Math()str.len]] the gh data repoData from Ajax we access with our randomizer functions
-                                                            
-                                                            // console.log("lets see if were all hooked up okay")
-                                                            // console.log('returnArray: [correct valu, incorrect value, incorrectvalue2')
-                                                            // let returnArray = [answer1(), answer2()]
-                                                            let returnArray = [correctAnsw(), incorrectAnswer1(), incorrectAnswer2()]
-                                                            // let returnArray = [ incorrectAnswer1(), incorrectAnswer2()]
-                                                            
-                                                            let answerText = returnArray[0]
-                                                            let incorrectText1 = returnArray[1]
-                                                            let incorrectText2 = returnArray[2]
-                                                            
-                                                            let answerobj = document.createElement('p')
-                                                            $(answerobj)
-                                                            .html(answerText)
-                                                            .addClass('p')
-                                                            .addClass('goldShadow')
-                                                            .addClass("correct")
-                                                            $('#childContainer').append($(answerobj))
-                                                            //    do a forEach for this code possibly.
-                                                            
-                                                            let incorrect1 = document.createElement('p')
-                                                            $(incorrect1)
-                                                            .addClass('incorrect1')
-                                                            // .attr("id", "incorrect1")
-                                                            .text(incorrectText1)
-                                                            .addClass('p')
-                                                            .addClass('goldShadow')
-                                                            $('#childContainer').append($(incorrect1))
-                                                            
-                                                            let incorrect2 = document.createElement('p')
-                                                            $(incorrect2)
-                                                            .addClass('incorrect1')
-                                                            .text(incorrectText2)
-                                                            .addClass('p')
-                                                            .addClass('goldShadow')
-                                                            $("#childContainer").append($(incorrect2))
-                                                            box.children().addClass('gameplayed')
-                                                            
-                                                            // return returnArray        
-                                                            
-                                                        }
-                                                        returnValues()
-                                                        // real world example of infinite-loop. The else statement keeps going automatically if you we don't have a return. [ha. ignore. setInterval(func) works with no "1000"] second argument.
-                                                        // let randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                        // console.log('answer')
-                                                        // console.log(answer)                                                         
-                                                    }     
-                                                    }
-                                
-
-
-
-
-                                const appendToAll3 = async () => {
-
-                                    const container1 = () => {
-
-                                        if ($('#newcontainer1').children().length == 0) {
-                                            $('.navBody').hide()
-                                            dad.on('mouseenter', (evt) => {
-                                                $(evt.target).css('opacity', '0.1')
-                                                $('#newcontainer1').append($(msg1)) //
-                                                // console.log('container1 children after append')
-                                                // $('#newcontainer1').children().length
-                                                // console.log($('#newcontainer1').children().length)
-                                                // console.log("u got a big length')")
-                                                // console.log( $('p').length )
-                                                // if ($('#newcontainer1').has('p') && $('#newcontainer2').has('p')) { 
-                                                //     console.log("we do have a p tag")
-                                                //     $('#playBtn').css('opacity', '1.0')
-                                                // }  // 3 minute solution to an > 3 hour problem. 
-                                                // if ($('p').length == 1) {       // Anti DRY functions. sorry!
-                                                //     console.log("yeah we got that the <p> tag  length = 2 in container1 dad.onmouseenter")
-                                                //     $('#playBtn').css("opacity", "1.0")
-                                                //     console.log('randomStrain')
-                                                //     console.log(randomStrain)
-                                                //     let correctAnswer = randomStrain.strain
-                                                //     let answerText = document.createElement('p')
-                                                //     $('p')
-                                                //     .addClass('actualanswerptag')                                                
-                                                //     console.log('correctAnswer')                                                    
-                                                // }
-                                            })
-                                        }
-                                    }
-                                    container1()   
-                                    const container2 = (event) => {
-                                        if ($('#newcontainer2').children().length == 0) {
-                                            mom.on('mouseenter', (event) => {
-                                                $(event.target).css("opacity", "0.1")
-                                                $('#newcontainer2').append($(msg2)) //
-                                                console.log('container1 children after append')                                                                                                
-                                                        // hmm at the idea of having 1 hover check for length of < 1 and the other one check fo3                                                                                                             
-                                                    // }                                                                                                
-                                            })
-                            }
-                        }
-                        container2()                                
-                        
-                        let wrongCounter = 0
-                        let wholeWrong = []
-                        $($('#childContainer')).on('mouseenter', () => {     // finally dont have to guess and hover over a non-highlighted [opacity, 0.1] i had this set up as document.mousemove
-                            $('#playBtn').css('opacity', '0.4')
-                            box.css("opacity", "0.4")
-                            // if ($(event.target).attr('id', 'correct')) {
-                            $('.p')
-                            .on('mouseenter', (event) => {
-                                
-                                let fakethis = $(event.target)
-                                $(event.target).attr('id')
-                                if (!$(event.target).hasClass('correct')) {            // kind of confused it is such a nightmare with .attr() but that's okay. 
-                                console.log("it doesn't have the class correct")
-                                wrongCounter++
-                                wholeWrong.push(wrongCounter)
-                                console.log(`wholeWrong.length in dynamite1 ${wholeWrong.length}`)
-                                    $(event.target).hide()
-                                    // const hide = (jqObj) => $(jqObj).hide()     // this feels a good bit codey. 
-                                    // const show = (jqObj) => $(jqObj).show()
-                                    if (wholeWrong.length == 1) {            // given our out of control/non-linearly-incrementing wholeWrong.length; i'm guessing our adventure is coming from the doc.on('mousemove') evt.
-                                    const dynamiteToGold = (element) => {
-                                        console.log("alright this is cool")
-                                        $(element)
-                                        .css('opacity', '0.5')
-                                        .attr('src', '/img/dynamite.png')
-                                        setTimeout( () => {
-                                                $(element)
-                                                .css('opacity', '1.0')
-                                                .attr('src', '/img/gold.png')
-                                            }, "2000")
-                                    }
-                                    dynamiteToGold($('#playBtn'))
-                                    // } else if ($(event.target).hasClass('incorrect1') || $(event.target).hasClass('incorrect2')) {
-                                    //     console.log(`wholeWrong.length in D N Y A M I T E ${wholeWrong.length}`)
-                                    //     console.log('down here wittit')
-                                    //     console.log('p length == !!!!!')
-                                    //     console.log(`doesnt .has('correct') ${wholeWrong.length}`)                                       
-                                    } else if (wholeWrong.length == 2) {
-                                        const dynamiteGold2 = (element) => {
-                                            $(element)
-                                            .css('opacity', '1.0')
-                                            setTimeout($('*').css('background-color', '#F00D0D'), "1000")       // i would go back and clean up our promise hell type situation but i've think weve used the design well. This project was really proof of concept on relational data.
-                                            // .css('box-shadow', '150px 150px 150px red') cant do 500px 500px 500px                                        
-                                            // ('opacity', '1.0')
-                                            // ('box-shadow', '30px 30px 30px red') // it almost looks like you could do this as well. 
-                                                // bod.css('background-color', 'red')
-                                                const blowUp = () => {                                            
-                                                    location.href = '/strain/familytree' 
-                                                    //    $(window).location = '/strain/familytree'                                          //    $(window).location = '/strain/familytree'
-                                                }
-                                                setTimeout(blowUp, "1000")                                    
-                                        }
-                                        dynamiteGold2($('#playBtn'))
-                                    }                                
-                                        // hide($('#playBtn'))
-                                        // ( () => $('#playBtn').hide()) nonworking anonymous func   
-                                        // const wrongAlert = () => {
-                                        //     let dynamite = document.createElement("img")
-                                        //     $(dynamite)
-                                        //     .addClass($(dynamite))
-                                        //     .attr("src", `/img/dynamite.png`)
-                                        //     .css('height', '100px')
-                                        //     .css('width', '100px')                        
-                                        //     .css('opacity', '0.3')                
-                                        //     $(dynamite).insertBefore($('#childContainer'))
-                                        //     setTimeout( hide($('.dynamite')), "3000")
-                                        // }
-                                        // const runTimeouts = async () => {
-                                        //     await setTimeout(wrongAlert, "1000")
-                                        //     await setTimeout( show($('#playBtn')), "6000")
-                                        // }                                                                                
-                                        // oops background-image wont change img src of course. My next plan was to hide the $('#playBtn')                                                                        
-                                } else {
-                                    // $('*').css('border', '2px solid pink')   
-                                    setTimeout( ()=> {
-                                        // $('*')
-                                        box.children().addClass('fakeBoop')   // .boop is a method in react i believe it's a gentle bounce up and down.
-                                        $('#playBtn').addClass('fakeBoop')
-                                        // .unbind() was seeing if unbind() && bind() would fix our little issue. I'd like to reset everything but i like that this has been done in 8 days. I definitely can go back and strip this whole page and do this correctly with [scoreKeeping inc++] && [proper reset defaults to continue game] I spent 6 months on AJAX-pokedex. It's worth heading into a new topic. I got lucky even seeing this could be a game in the first place. 
-                                    }, "1000")
-
-                                    setTimeout( () => {
-                                        // setTimeout(bod.children().removeClass('fakeBoop'), "3000") 
-                                        console.log("events binded")
-                                        // $('*').bind()
-                                        $('#childContainer').children().detach()
-                                        $('.newContainer').children().detach()
-                                        box.children().bind('mouseenter')
-                                         jewelCounter = 0
-                                        wholeJewelCounter.splice(0, wholeJewelCounter.length)
-                                         goldCounter = 0
-                                        wholeGold.splice(0, wholeGold.length)
-                                         parentCounter = 0
-                                        wholeParents.splice(0, parentCounter.length)
-                                        wrongCounter = 0
-                                        wholeWrong.splice(0, wholeWrong.length)
-                                        // setTimeout($('*').removeClass('fakeBoop'), "3000")
-
-                                    }, "000")
-
-                                    $('#playBtn')
-                                    // setTimeout(location.href = '/strain/familytree', "7000")
-                                    // .addClass('fakeBoop')
-
-
-
-                                    
-                                    // .css('height', '500px')
-                                    // console.log("event.target has the .addClass('correcst')")
-                                    // console.log($(event.target).attr('id'))
-                                 }  
-                            })
-                        })
-
-                        $('#playBtn').on('mouseenter', () => {
-                            // let dynamite = document.createElement('img')
-                            // $(dynamite)
-                            // .css('height', '100px')
-                            // .css('width', '100px')
-                            // .attr('src', '/img/dynamite.png')
-                            // .css('opacity', '0.1')
-                            // $(bod).append($(dynamite)) nvm change img is fine enough
-                            
-
-                            checkforptaglength()    // this will return our [correctVal, incorrectval1(), incorrectval2()]
-                            // setInterval(findWrongAnswer, "1000")
-                            // setInterval(findWrongAnswer) // oops this works?!
-                            // $('.p')
-                            // .on('mouseenter', (event) => {
-                            //     console.log('THE GAME')
-                            //     // }
-                            // })
-
-                                // console.log($(this).attr("id"))
-                                // console.log($(event.target)[0].attr('id'))
-                                // console.log($(event.target).attr('id'))
-                                // if ($(event.target).attr('id').includes("correct")) {
-                                    // console.log("we have correctness")
-                                // } else {
-                                    // console.log("we dont have shit correct")
-                            // console.log(findWrongAnswer())
-                            // setTimeout(checkforptaglength, "1000")  
-                                                        })  // wrong answer end
-                                                    } // append to all 3 end
-                                                        
-                        
-
-                        appendToAll3()                        // this function is pretty much to preserve async/await ability
-                                        // if ($('#newcontainer1').children().length ==1 &&
-                            }   // wholeparents.length
-
-                            })
-                        }
-                    } else {
-                        box.children().css('opacity', '1.0')
-                        // let jewelCounter = 0
-                        // wholeJewelCounter.splice(0, wholeJewelCounter.length)
-                        // let goldCounter = 0
-                        // wholeGold.splice(0, wholeGold.length)
-                        // let parentCounter = 0
-                        // wholeParents.splice(0, parentCounter.length)
-                    }
-                         // if goldCount.length % 2
-                    }) // ajax end
-
-
-
-
-
-
-                    // ANTI DUPLICATE FUNCTION!
-        if (wholeJewelCounter.length == 1) {    // this very simple line is our anti-duplicate safeguard since the second time you hover the count will be: [].length == 2] invalidating this condition, forbidding the $(body).append$(container)
-            if ($('#playBtn').length < 1) {
-                addBox()
+                const goldBottomAnimation = (event) => {     
+                event.css('border-bottom', '2px solid papayawhip')
+               event.siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
+               // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
+               // $(event.target).parents().children().css('border-bottom', '2px solid papayawhip') 
+               const unBorder = () => box.children().css('border-bottom', '')
+               console.log('hey now were over here')
+               // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
+               setTimeout( () => $(event).siblings().css('padding', '0 6em 0 6em'), "1000")
+               setTimeout( () => $(event).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
+               setTimeout(unBorder, "2000")
+               setTimeout( () => {
+    
+               }, "2000")      // this will trigger the function to happen after.
             }
+            let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
+            const getGitStrains = () => {
+                $.ajax({
+                    method: 'GET',
+                    url: strainUrl,
+                    dataTypes: 'json'
+                }).then( (ajdata) => {
+                    console.log(ajdata)
+                    return ajdata
+                })
+            }
+            console.log('here are the strains')
+            console.log(getGitStrains())
+            //     const goldBottomAnimation = (event) => {     
+            //     $(event.target).css('border-bottom', '2px solid papayawhip')
+            //    $(event.target).siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
+            //    // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
+            //    // $(event.target).parents().children().css('border-bottom', '2px solid papayawhip') 
+            //    const unBorder = () => box.children().css('border-bottom', '')
+            //    console.log('hey now were over here')
+            //    // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
+            //    setTimeout( () => $(event.target).siblings().css('padding', '0 6em 0 6em'), "1000")
+            //    setTimeout( () => $(event.target).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
+            //    setTimeout(unBorder, "2000")
+            //    setTimeout( () => {
+    
+            //    }, "2000")      // this will trigger the function to happen after.
+            // }
 
+
+
+
+
+    // .children().hide() i dont know why this isn't hiding the rings and the watch but that's okay
+    // if (wholeJewelCounter.length == 1) {    // this very simple line is our anti-duplicate safeguard since the second time you hover the count will be: [].length == 2] invalidating this condition, forbidding the $(body).append$(container)
+        box.children().on('mouseenter', (event) => {
+            jewelryCount++
+            wholeJewelryCount.push(jewelryCount)
+            // if ($('#playBtn').length < 1) {
+            //     addBox()
+            // }
+            if (wholeJewelryCount.length == 1) {
+                goldBottomAnimation(($(event.target)))      // sweet.
+                setTimeout(addBox, "4000")
+            }
+            if (wholeJewelryCount.length == 2) {
+
+            }
+           })
+       
+                
             console.log('WE ARE AT LENGTH of 1!!!!!!!*****')
-             $(event.target).css('border-bottom', '2px solid papayawhip')
-            $(event.target).siblings().css('border-bottom', '2px solid rgb(247, 208, 36)')
-            // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
-            // $(event.target).parents().children().css('border-bottom', '2px solid papayawhip') 
-            const unBorder = () => box.children().css('border-bottom', '')
-            // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
-            setTimeout( () => $(event.target).siblings().css('padding', '0 6em 0 6em'), "1000")
-            setTimeout( () => $(event.target).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
-            setTimeout(unBorder, "2000")
-            setTimeout( () => {
 
-            }, "2000")      // this will trigger the function to happen after.
+
 
 
         //     for (let i = 18; i < 50; i++) {
@@ -777,94 +299,7 @@
         // $(inputOption).attr('value', i.toString())          
         // $(inputOption).text(i.toString())
         // $('select').append($(inputOption))
-        }
+        // }
 
-        if (wholeJewelCounter.length == 2) {
-            // $('#playBtn').css('opacity', '1.0')
-            $('#playBtn').show()
-            $('#playBtn').css("opacity", '1.0')
-            
-
-
-            box.children().css('opacity', '0.1')
-            console.log('now at a length of 2')
-            // const addBox = () => {
-            //         console.log('dad length')
-            //         console.log($('.parent').length)
-            //         // for (let i = 0; i < parents.length; i++) {
-            //             let textBox = document.createElement('div')
-            //             $(textBox)
-            //             .css('height', '100px')
-            //             .css('width', '100px')
-            //             .css('background-color', 'white')
-            //             // .css('border', '5px solid green')
-
-            //             let containerContainer = document.createElement('div')
-            //             $(containerContainer)
-            //             .addClass('containerContainer')
-
-            //             let newContainer = document.createElement('div')        
-            //             // was doing this for about an hour before seeing its better to make two containers.  1 for the parents 1 for the .childnren()
-            //             $(newContainer)
-            //             .addClass('newContainer')
-            //             .attr('id', 'newcontainer1')
-            //             .css('height', `${famheight/12}`)
-            //             .css('width', `${famwidth/10}`)
-                    
-            //             let newContainer2 = document.createElement('div')        
-            //             $(newContainer2)
-            //             .attr('id', 'newcontainer2')
-            //             .addClass('newContainer')
-            //             .css('height', `${famheight/12}`)
-            //             .css('width', `${famwidth/10}`)
-
-            //             let childContainer = document.createElement('div')
-            //             $(childContainer)
-            //             .css('height', `${famheight/20}`)
-            //             .css('width', `${famwidth/20}`)
-            //             .css("display", 'flex')
-            //             .css("justify-content", 'center')
-            //             .css("margin-top", '5em')
-            //             .css("background-color", 'rgb(62, 50, 32')
-            //             .css("border", '5px solid papayawhip')
-            //             .css("box-shadow", '15px 15px 15px rgb(247, 208, 36')
-            //             .css("padding", '0em 10em 0em 10em')
-
-            //             bod.append($(containerContainer))
-
-            //             $(containerContainer)
-            //             .append(newContainer)
-            //             .append(newContainer2)
-
-            //             bod
-            //             .append($(playButton))       // very neat to see everything fall in line.
-            //             .append($(childContainer))
-            //     }  // addBox function
-                // addBox()
-
-          
-            $('#playBtn').click( () => {
-                console.log("we just clicked the gold********************")
-            })
-
-
-
-
-
-
-
-
-                
-            }
-
-        })
-
-
-        // very cool! for the same reason .parents() literally takes all the parents. You can grab the siblings() .siblings() and it'll do what i thought 
-        // anecdotal, sorry. I see past hobby of skateboarding/diving helping. A 360 flip in skateboarding is 2 pop shuvits and a kickflip. The instinct of being able to catch something thats a combination of other individual spins/flips:  like .parents().children() or .siblings().siblings() together. 
-    
-
-
-    
 
 </script>
