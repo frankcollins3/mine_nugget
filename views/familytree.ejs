@@ -216,10 +216,30 @@
                 const appear = (elem) => { $(elem).show()}
                 const gone = (jqObj) => { $(jqObj).detach()}
                 const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
-                // const dynamite = (elem, dynamite) => {
-                //     $(elem)
-                //     .attr('/im')
-                // }
+
+                const optionSelectionAnimation = (jqObj) => {
+                    console.log('in the animation scope')
+                    $(jqObj)
+
+                    .animate({
+                        opacity: '0.1',
+                        letterSpacing: '-0.125em'
+                        // nice to remember that. within (correctAnswerCB)=> i accidentally deleted the [].css('justify-content','center')] Quickly thought of using .parents().css('center') and realizing well access the whole page up to the [<html> && $(document)]
+                    }, "1000")
+                    .animate({
+                        opacity: '1.0',
+                    }, "500", () => {
+                        gone($(jqObj))
+                    })
+                    // .animate({
+                    //     opacity: '0.5',
+                    //     // letterSpacing: '-0.125em'
+                    // }, "500", () => {
+                    //     setTimeout(gone($(jqObj)))
+                    // })
+                }
+                                    
+                
 
 
               const  getParents = (elem) => {
@@ -431,11 +451,13 @@
                                             // setTimeout(vanish($(event.target)), "2000")
                                             // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
                                             const hideHoldUp = async () => {
+                                                optionSelectionAnimation($(event.target))
                                                 console.log("were in the hide hold up function")
-                                                await setTimeout( () => console.log("hey"), "1000")
-                                                await setTimeout( () => gone ($(event.target)))
-                                                $('#childContainer').css('justify-content', 'center')
+                                                setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
                                                 $('#childContainer').children().css('padding', '0em 6em 0em 6em')
+                                                // await setTimeout( () => console.log("hey"), "1000")
+                                                // await setTimeout( () => gone ($(event.target)))
+
                                                 // if ($('#childContainer').length < 3) {
                                                 //     $('#childContainer').css('justify-content', 'center')
                                                 // }
