@@ -254,18 +254,33 @@
                     let parents = $('.newContainer').children().text()  
                     // const divorce = parents.split(',') // blew 40 mins. not realizing that accessing the strain API and splitting the endpoint is different than working with text. 
                     // let parents = $('.newContainer').children().text()
-                    console.log('parents')
-                    console.log(parents)
+                    // console.log('parents')
+                    // console.log(parents)
                     // const marriage = parents.split(' ').join(', ')      // [#1-> split('') NO!]      agghh we get stuck with: [sour, dubb, chocolate, diesel] for GG#4. no good! if we changed API to: [sourdubb chocolatediesel]
                     const marriage = parents.split(' ')
+                    console.log('marriage.length')
+                    console.log(marriage.length)
                     // parent1 = `${marriage[0]}`.split(' ')`${marriage[1]}` // hmm can we access .charAt(), pull the last character off and use the last character to add white space beyond it?
-                    parent1 = marriage[0].split()
-                    console.log('parent1')
-                    console.log(parent1)
-                    // firstParent = parents.split(' ')
 
-                    console.log('marriage')
-                    console.log(marriage)
+                    // parent1 = marriage[0].charAt(marriage[1].length-1) 
+
+                    // if (marriage.length == 4) {
+                    //     parent1 = `${marriage[0]} ${marriage[1]}`
+                    //     console.log(parent1)
+                    // } else if (marriage.length == 5) {
+                    //     parent1 == `${marriage[0]} ${marriage[1]}`
+                    //     console.log(parent1)
+                    //     parent2 == `${marriage[0]} ${marriage[1]} ${marriage[2]}`
+                    // }  else if (marriage.length == 6) {
+                    //     parent1 = `${marriage[0]} ${marriage[1]} ${marriage[2]}`
+                    //     console.log(parent1)
+                    // }
+
+                    
+
+
+                    // console.log('marriage')
+                    // console.log(marriage)
 
                     for (let i = 0; i < strains.length; i++) {
                         // console.log('api parents')
@@ -286,8 +301,35 @@
                  
                     for (let i = 0; i < strains.length; i++) {
                         if (eventStrain === strains[i].strain) {
-                            console.log("hoverEvent exists within strains[index")
-                            console.log(strains[i].parents)
+                            let strainFromEvent = strains[i] 
+                            console.log('strainFromEvent')
+                            console.log(strainFromEvent)
+
+                            if (strainFromEvent.parents.includes(marriage[0] || marriage[1] || marriage[2] || marriage[3] || marriage[4])) {
+                                console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
+                            } else {
+                                console.log("parents dont include the marriage[0] or marriage[1] n friends")
+                            }
+
+                            let splitParents = strains[i].parents.split(', ')
+
+                            // if (parent1.includes(splitParents)) {
+                            //     console.log('parent includes parent we are here THIS IS CORRECT!!!!')
+                            // } else {
+                            //     console.log("parent doesn't include parent. WRONG WRONG WRONG")
+                            // }
+
+                            // if (strains[i].parents.includes(parent1)) {
+                            // // if (strains[i].parents.includes(parent1) || strains[i].strain == eventStrain) {
+                            //     console.log('yeah they include the parents')
+                            //     console.log('parent1')
+                            //     console.log(parent1)
+                            // } else {
+                            //     console.log('we dont have a win! WRONG GUESS!')
+                            // }
+                            
+                            // console.log("hoverEvent exists within strains[index")
+                            // console.log(strains[i].parents)
                             // if (parents ===strains[i].parents) {
                             //     console.log('yep weve got the strain')
                             // }
@@ -319,7 +361,6 @@
                         } else {
                             // console.log(strains[i].strain)
                             // console.log(strains[i].parents)
-                            console.log('LOSE!!! wrong pick!')
                         }
                             
                         }
