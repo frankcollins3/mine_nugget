@@ -228,9 +228,12 @@
 
                         // setTimeout($('.playBtn').show(), "3000")
                         // setTimeout(playBtn.bind(vanish), "1000")
-                        console.log("were over here making a scene")
+                        // console.log("were over here making a scene")
                         const randomStrain = strains[Math.floor(Math.random()*strains.length)]
                         const parents = randomStrain.parents.split(',') // oops left the comment out. 
+                        // console.log('parents')
+                        // console.log(parents)
+                        // console.log(parents)
                         let rsp1 = parents[0]
                         let rsp2 = parents[1]                    
                         let gameText = document.createElement('p')
@@ -247,9 +250,84 @@
                         .append($(gameText2))                        
                     }    
 
+                const getWinOrLose = (event) => {
+                    let parents = $('.newContainer').children().text()  
+                    // const divorce = parents.split(',') // blew 40 mins. not realizing that accessing the strain API and splitting the endpoint is different than working with text. 
+                    // let parents = $('.newContainer').children().text()
+                    console.log('parents')
+                    console.log(parents)
+                    // const marriage = parents.split(' ').join(', ')      // [#1-> split('') NO!]      agghh we get stuck with: [sour, dubb, chocolate, diesel] for GG#4. no good! if we changed API to: [sourdubb chocolatediesel]
+                    const marriage = parents.split(' ')
+                    // parent1 = `${marriage[0]}`.split(' ')`${marriage[1]}` // hmm can we access .charAt(), pull the last character off and use the last character to add white space beyond it?
+                    parent1 = marriage[0].split()
+                    console.log('parent1')
+                    console.log(parent1)
+                    // firstParent = parents.split(' ')
+
+                    console.log('marriage')
+                    console.log(marriage)
+
+                    for (let i = 0; i < strains.length; i++) {
+                        // console.log('api parents')
+                        // console.log(strains[i].parents) 
+                        // if (strains[i].parents == parents) {
+                        //     console.log('parents match with the strain here we go')
+                        //     console.log(parents)
+                        // } else {
+                        //     console.log("there are no parents and we are over here now")
+                        // }
+                    }
+                   
+                    // let divorce = parents.split(',')
+
+                                     
+
+                    let eventStrain = $(event)[0].currentTarget.outerText                
+                 
+                    for (let i = 0; i < strains.length; i++) {
+                        if (eventStrain === strains[i].strain) {
+                            console.log("hoverEvent exists within strains[index")
+                            console.log(strains[i].parents)
+                            // if (parents ===strains[i].parents) {
+                            //     console.log('yep weve got the strain')
+                            // }
+
+                            // console.log('heres our strains')
+                            // console.log(strains[i])
+                            // console.log(strains[i].strain)
+                            // console.log(strains[i].parents)
+                            let strainsplit = strains[i].parents
+                            // if (strains[i].parents.split(',').includes(`${parents}`)) {
+
+                                // if (parents.split === strainsplit) {
+                                //     console.log("weve got strict equality between the 2 values. CORRECT GUESS!") 
+                                // } else {
+                                //     console.log('weve got an incorrect guess. WRONG WRONG WRONG !!')
+                                // }
+
+                                    
+                            //     if (strainsplit[0].includes == parents || strainsplit[1].includes(parents)) {
+                            //         console.log('the strain index includes parents CORRECT GUESS!!!!!!!!')                             
+                            // } else {
+                            //     console.log('we dont have the parents so this is a WRONG guess')
+                            // }
+                            
+
+                            // console.log('looks like we have our winner')
+                            // console.log('heres our eventStrain if statement')
+                            // console.log(strains[i].parents)
+                        } else {
+                            // console.log(strains[i].strain)
+                            // console.log(strains[i].parents)
+                            console.log('LOSE!!! wrong pick!')
+                        }
+                            
+                        }
+                    }
+                
+
                 const getChildren = () => {
-                    console.log("ayyooo")
-                    console.log($('.newContainer').html())
+                    
                     let i = 0
                     let contlen = $('.newContainer').length
                     let strainlen = strains.length
@@ -281,6 +359,7 @@
                                         $(correctAnswer)
                                         .text(strains[i].strain)
                                         .addClass('parentLabel')
+                                        .addClass('childoption')
                                         $('#childContainer').append($(correctAnswer))
                                     }
     
@@ -303,7 +382,6 @@
                                             // let strainLoopStrain = 
                                         } else {
                                             roundBucket.push(strainLoopRandom.strain)
-                                            console.log('guess theyre not equal')
                                             let incorrectAnswer1 = document.createElement('p')
                                             $(incorrectAnswer1)
                                             .text(strainLoopRandom.strain)
@@ -311,34 +389,21 @@
                                             .addClass('childoption')
                                             $('#childContainer').append($(incorrectAnswer1))
                                         }
-                                        console.log('outside of the strainLoopRandom')
                                         // console.log(strainLoopRandom)                                    
                                     }     
                                 }     // else statement in the wrong1 block end.                        
                             }
-                            const wrong2 = () => {
-                                console.log("lets see some p stats")                            
-                                console.log($('.childoption'))
-                                console.log($('.childoption')[0])
-                                
-                                
-
+                            const wrong2 = () => {                                
                                 for (let i = 0; i < strains.length; i++) {
                                     if (strains[i].parents.includes(childrenContainerBucket[0])) {
                                         let otherRandomStrain = strains[Math.floor(Math.random()*strains.length)]                                         
                                         // if (otherRandomStrain == strains[i].strain || roundBucket[0].includes(strains[i].strain) || roundBucket[1].includes(strains[i].strain)) {
                                         if (otherRandomStrain == strains[i].strain) {
-                                            console.log('WE HAVE THIS STRAIN VALUE IN THE WRONG2 FUNCTION OR THE ROUNDBUCKET!')
                                             otherRandomStrain = 'randomstring to reset Math.floor func() random strain output'
-                                        } else {
-                                            console.log('lets also see the text')
-                                            console.log($('#childContainer'))
+                                        } else {                                            
                                             if (otherRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
-                                                console.log("YES IT DOES EQUAL THAT!!!!!!!!")
                                                  let newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                 console.log("this is the first newRandomSTRAIN!")
                                                  if (newRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
-                                                     console.log("THIS IS THE SECOND !!!!!!!!! !!!!!! newRandomSTRAIN!")
                                                      newRandomStrain = 'reset'
                                                     newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
                                                  } else {
@@ -367,15 +432,16 @@
                         }   // incorrectAnswers end.
                         // })  // forEach end
                         incorrectAnswers()
+                        vanish($('.playBtn'))
+                        $('.childoption').bind('mouseenter', getWinOrLose)
+
                     }
 
 
                 // $('.playBtn').click(getChildren())
     
 
-                const addBox = (event) => {      
-                    console.log('dad length')
-                    console.log($('.parent').length)
+                const addBox = (event) => {                          
                     let textBox = document.createElement('div')
                         $(textBox)
                         .css('height', '100px')
@@ -435,9 +501,7 @@
                             goldHoverCount++
                             wholeGoldCount.push(goldHoverCount)
                             if (wholeGoldCount.length == 1) {
-                                // $('.playBtn').hide()
-                                console.log('playBtn')
-                                console.log(playBtn)
+                                // $('.playBtn').hide()                                
                                 // playBtn.hide()
                                 getParents()
                                 // $('#playBtn').addClass('fakeBoop')
@@ -446,7 +510,6 @@
                                 // goldHoverCount = 1           
                                 // wholeGoldCount.splice(0, wholeGoldCount.length)
                                 // this will be our game reset for when the user wins or loses. We can append a trophy or dynamite upon win/lose and check for the existence of the appended image as our [if(statement block)]
-                                console.log('lets see the goldCount hovered twice')
                             }
                         })
 
@@ -469,7 +532,6 @@
                // .parents().children() will escape the parent container up to the body and go down towards all children. funny to find this out. 
                // $(event.target).parents().children().css('border-bottom', '2px solid papayawhip') 
                const unBorder = () => box.children().css('border-bottom', '')
-               console.log('hey now were over here')
                // setTimeout((event.target).siblings().css('padding', '0, 5em, 0, 5em'), "2000")
                setTimeout( () => $(event).siblings().css('padding', '0 6em 0 6em'), "1000")
                setTimeout( () => $(event).siblings().siblings().css('padding', '0 6em 0 6em'), "1000") 
@@ -518,7 +580,6 @@
 
                     // $('*').on('click', () => {
                     playBtn.on('click', () => {
-                    console.log("we are now clicking")
                 })
 
                     // getParents = (jqObj) => {
