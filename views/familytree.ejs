@@ -24,8 +24,12 @@
             font-size: 22px;
         }
                 
-
-
+        .playBtn {
+            height: 100px;
+            width: 100px;                   /* i love this "trick"... i accidentally picked 10px and it looks amazing. 3rd accident that looks cool. on signup.ejs the <submit> button has a cut-off [/gold.png] image as well. It does look better with the full gold bar here imo. Happened once by accident on signup.ejs in pokedex. Then with the mine_nugget signup.ejs form<submit>[cut off gold drop version of gold bar]that was intentional and now this was an accident but doesn't look better than the full image here imo. */
+            margin-top: 3em; 
+            opacity: 1.0
+        }
 
         .newContainer {
             /* display: grid;
@@ -65,11 +69,11 @@
         .fakeBoop  {
     position: relative;
     /* border: 15px solid royalblue; */
-    animation: animate 5s infinite;                /* [animate infinite] not correct */
+    animation: movement 5s infinite;                /* [animate infinite] not correct. need the timing. */
 
     }
 
-    @keyframes animate {
+    @keyframes movement {
         0%, 100% {
         top: -1px   
         }
@@ -100,6 +104,9 @@
         90% {
         top: 2px;
         }
+    }
+    .preFade {
+        transform: scale(0.25)
     }
             /* transform: scale(1.75); 
             padding: 0, 3em, 0, 3em */
@@ -162,9 +169,7 @@
     let parents = $('.parent')
     parents
     .hide()
-    
-    // $('#cactus').on('mouseenter',(event)=> $(event.target).hide(), parents.show()) no.
-    
+        
     let cactus = $('#cactus')
     cactus
     .css('margin-top', '5em')
@@ -182,18 +187,14 @@
 
     let jewelryCount = 0
     let wholeJewelryCount = new Array()
-
-
+                                                        
     let goldHoverCount = 0
     let wholeGoldCount = []
     // functinos!
 
     let playBtn = $('.playBtn')
-
-
     let childrenContainerBucket = []
     let roundBucket = []
-
     // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
     
                 // realizing while doing callbacks: more ideal to import functions, we are tethered to jquery <script>scope<script>
@@ -210,17 +211,35 @@
                     dataTypes: 'json'
                 }).then( (ajdata) => {          // this ajdata isn't available to other function scope without it being specifically declared.
                 const strains = ajdata.strains
-
                 // const vanish = (elem) => { $(elem).hide() }        // easy to think you'd need $(elem).hide() [in my opinion]
                 const vanish = (elem) => { $(elem).hide() }        
-                const appear = (elem) => { $(elem).show()}
-                const gone = (jqObj) => { $(jqObj).detach()}
+                // const appear = (elem) => { $(elem).show()}
+                const appear = (elem) => {
+                    $(elem).show()
+                }
+
+                const gone = async (jqObj) => { 
+                    const runGone = async () => {
+                        await setTimeout(console.log("async speed bump"), "2000")
+    
+                        setTimeout($(jqObj).detach(), "2000")
+                    }
+                    setTimeout(runGone, "1000")
+                }
+                        
+
                 const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
 
+                // const hideHoldUp = async (jqObj) => {
+                //      optionSelectionAnimation($(jqObj))
+                //     setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
+                //     $('#childContainer').children().css('padding', '0em 6em 0em 6em')                                            
+                // }
+
                 const optionSelectionAnimation = (jqObj) => {
+                    $('#playBtn').show()
                     console.log('in the animation scope')
                     $(jqObj)
-
                     .animate({
                         opacity: '0.1',
                         letterSpacing: '-0.125em'
@@ -229,36 +248,16 @@
                     .animate({
                         opacity: '1.0',
                     }, "500", () => {
-                        gone($(jqObj))
+                        // gone($(jqObj))   // this leads to recreating the $('#playBtn') over and over within the [Win, Lose] option selection game. [.hide()&&.show()]
+                        vanish($(jqObj))
+                        $('#childContainer').children().css('padding', '0em 6em 0em 6em')                                             
+                        $('#childContainer').css('justify-content', 'center')
                     })
-                    // .animate({
-                    //     opacity: '0.5',
-                    //     // letterSpacing: '-0.125em'
-                    // }, "500", () => {
-                    //     setTimeout(gone($(jqObj)))
-                    // })
-                }
-                                    
+                }                                    
                 
-
-
               const  getParents = (elem) => {
-                        // setTimeout($('.playBtn').hide(), "10000")
-
-                        // setTimeout( () => vanish($('.playBtn')), "1000")
-                        // setTimeout( () => {
-                        //     appear($('.playBtn'))
-                        //     $('.playBtn').addClass('fakeBoop')
-                        // }, "3000")
-
-                        // setTimeout($('.playBtn').show(), "3000")
-                        // setTimeout(playBtn.bind(vanish), "1000")
-                        // console.log("were over here making a scene")
                         const randomStrain = strains[Math.floor(Math.random()*strains.length)]
                         const parents = randomStrain.parents.split(',') // oops left the comment out. 
-                        // console.log('parents')
-                        // console.log(parents)
-                        // console.log(parents)
                         let rsp1 = parents[0]
                         let rsp2 = parents[1]                    
                         let gameText = document.createElement('p')
@@ -277,51 +276,12 @@
 
                 const getWinOrLose = (event) => {
                     let parents = $('.newContainer').children().text()  
-                    // const divorce = parents.split(',') // blew 40 mins. not realizing that accessing the strain API and splitting the endpoint is different than working with text. 
-                    // let parents = $('.newContainer').children().text()
-                    // console.log('parents')
-                    // console.log(parents)
-                    // const marriage = parents.split(' ').join(', ')      // [#1-> split('') NO!]      agghh we get stuck with: [sour, dubb, chocolate, diesel] for GG#4. no good! if we changed API to: [sourdubb chocolatediesel]
                     const marriage = parents.split(' ')
-                    console.log('marriage.length')
-                    console.log(marriage.length)
-                    // parent1 = `${marriage[0]}`.split(' ')`${marriage[1]}` // hmm can we access .charAt(), pull the last character off and use the last character to add white space beyond it?
-
-                    // parent1 = marriage[0].charAt(marriage[1].length-1) 
-
-                    // if (marriage.length == 4) {
-                    //     parent1 = `${marriage[0]} ${marriage[1]}`
-                    //     console.log(parent1)
-                    // } else if (marriage.length == 5) {
-                    //     parent1 == `${marriage[0]} ${marriage[1]}`
-                    //     console.log(parent1)
-                    //     parent2 == `${marriage[0]} ${marriage[1]} ${marriage[2]}`
-                    // }  else if (marriage.length == 6) {
-                    //     parent1 = `${marriage[0]} ${marriage[1]} ${marriage[2]}`
-                    //     console.log(parent1)
-                    // }
-
-                    
-
-
-                    // console.log('marriage')
-                    // console.log(marriage)
 
                     for (let i = 0; i < strains.length; i++) {
-                        // console.log('api parents')
-                        // console.log(strains[i].parents) 
-                        // if (strains[i].parents == parents) {
-                        //     console.log('parents match with the strain here we go')
-                        //     console.log(parents)
-                        // } else {
-                        //     console.log("there are no parents and we are over here now")
-                        // }
+        
                     }
                    
-                    // let divorce = parents.split(',')
-
-                                     
-
                     let eventStrain = $(event)[0].currentTarget.outerText                
                  
                     for (let i = 0; i < strains.length; i++) {
@@ -329,14 +289,9 @@
                             let strainFromEvent = strains[i] 
                             console.log('strainFromEvent')
                             console.log(strainFromEvent)
-
                             if (strainFromEvent.parents.includes(marriage[0] || marriage[1] || marriage[2] || marriage[3] || marriage[4])) {
                                 console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
-
-                                // $('#playBtn')
-                                // .show()
                                 appear($('#playBtn'))
-                                // .css("margin-top", "2em")
                                 changebg($('#playBtn'), '/img/trophy.png')
                                 $('#playBtn')
                                 .removeClass('fakeBoop')
@@ -344,126 +299,47 @@
                                 .on('mouseenter', (event) => {
                                     $('*').addClass('fakeBoop')
                                 })
-                                // .on('mouseenter', () =>  setTimeout(vanish($('#playBtn')), "1000"))
-
-                            
-                                // .attr('src', '/img/trophy.png')
                             } else {
                                 appear( $('#playBtn'))
                                 changebg($('#playBtn'), '/img/dynamite.png')
                                 console.log("parents dont include the marriage[0] or marriage[1] n friends")
-                                // $('#playBtn')
-                                // .attr('src', '/img/dynamite.png')
                             }
 
                             let splitParents = strains[i].parents.split(', ')
-
-                            // if (parent1.includes(splitParents)) {
-                            //     console.log('parent includes parent we are here THIS IS CORRECT!!!!')
-                            // } else {
-                            //     console.log("parent doesn't include parent. WRONG WRONG WRONG")
-                            // }
-
-                            // if (strains[i].parents.includes(parent1)) {
-                            // // if (strains[i].parents.includes(parent1) || strains[i].strain == eventStrain) {
-                            //     console.log('yeah they include the parents')
-                            //     console.log('parent1')
-                            //     console.log(parent1)
-                            // } else {
-                            //     console.log('we dont have a win! WRONG GUESS!')
-                            // }
-                            
-                            // console.log("hoverEvent exists within strains[index")
-                            // console.log(strains[i].parents)
-                            // if (parents ===strains[i].parents) {
-                            //     console.log('yep weve got the strain')
-                            // }
-
-                            // console.log('heres our strains')
-                            // console.log(strains[i])
-                            // console.log(strains[i].strain)
-                            // console.log(strains[i].parents)
                             let strainsplit = strains[i].parents
-                            // if (strains[i].parents.split(',').includes(`${parents}`)) {
-
-                                // if (parents.split === strainsplit) {
-                                //     console.log("weve got strict equality between the 2 values. CORRECT GUESS!") 
-                                // } else {
-                                //     console.log('weve got an incorrect guess. WRONG WRONG WRONG !!')
-                                // }
-
-                                    
-                            //     if (strainsplit[0].includes == parents || strainsplit[1].includes(parents)) {
-                            //         console.log('the strain index includes parents CORRECT GUESS!!!!!!!!')                             
-                            // } else {
-                            //     console.log('we dont have the parents so this is a WRONG guess')
-                            // }
-                            
-
-                            // console.log('looks like we have our winner')
-                            // console.log('heres our eventStrain if statement')
-                            // console.log(strains[i].parents)
                         } else {
-                            // console.log(strains[i].strain)
-                            // console.log(strains[i].parents)
                         }
-                            
-                        }
+                        
                     }
+                }
                 
-
+                
                 const getChildren = (element) => {
+                    $('.playBtn').show()
                     // vanish(element)  hours of parameter targeting here. foolish; overlooked a simple solution.
-
                     let i = 0
                     let contlen = $('.newContainer').length
-                    let strainlen = strains.length
-                    // for (i; i < elemlen; i++) {
-                    //     if ($('.newContainer')) {
-                    //         console.log('hey were over here now')
-                    //         console.log($('.newContainer')[i].html())
-                    //     }
-                    // }
-                    // for (let i = 0; i < $('.newContainer').length; i++) {
+                    let strainlen = strains.length                
                     const correctAnswer = () => {
-                        for (i; i < contlen; i++) {
-                            // console.log("over here")
-                            // console.log($('.newContainer')[i].text())
-                            // console.log($('.newContainer').text([i])) // wow
-                            // console.log($('.newContainer').text([i]))
+                        for (i; i < contlen; i++) {                            
                             if ($('.newContainer').length) {
                                 // console.log(`heres the text: ${   $('.newContainer')[i].innerText}`)
-
                                 childrenContainerBucket.push($('.newContainer')[i].innerText)
-                                // console.log('strains')
-                                // console.log(strains)
                                 for (i; i < strainlen; i++) {
                                     if (strains[i].parents.includes(childrenContainerBucket[0])) {      // that [used to/sometimes still does] MESS ME UP: the if statement can break up the fact that if you [console.log(strain[i])] it will be ran for every single strain in the full index of strains.length. the if statement reduces us down to only the elements within the index that satisfy the conditional. a bit confusing. 
-                                        // console.log("strainlen")
-                                        // console.log(strains[i])         
                                         let correctAnswer = document.createElement('p')
                                         roundBucket.push(strains[i].strain)
                                         $(correctAnswer)
                                         .text(strains[i].strain)
                                         .addClass('parentLabel')
                                         .addClass('childoption')
-                                        .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
-                                            // setTimeout(vanish($(event.target)), "2000")
-                                            // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
-                                            const hideHoldUp = async () => {
-                                                optionSelectionAnimation($(event.target))
-                                                console.log("were in the hide hold up function")
-                                                setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
-                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
-                                                // await setTimeout( () => console.log("hey"), "1000")
-                                                // await setTimeout( () => gone ($(event.target)))
-
-                                                // if ($('#childContainer').length < 3) {
-                                                //     $('#childContainer').css('justify-content', 'center')
-                                                // }
-                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
-                                            }
-                                            setTimeout(hideHoldUp, "1000")
+                                        .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn') in the addBox() when the element is originally [].create()&&.append()\
+                                        // changebg($(event.target), '/img/trophy.png')
+                                            appear($('.playBtn'))
+                                            // $('.playBtn').add
+                                            // setTimeout(hideHoldUp, "1000")                                
+                                            optionSelectionAnimation($(event.target))
+                                            setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
                                             // $(event.target).hide()
                                         })
                                         // .on('mouseleave', (event) => vanish(event))
@@ -473,6 +349,7 @@
                             }   
                         }
                     }
+
                     correctAnswer()
                     const incorrectAnswers = () => {
                         const wrong1 = () => {
@@ -485,67 +362,50 @@
                                         if (strainLoopRandom.strain == strains[i].strain) {
                                             strainLoopRandom = 'hey'
                                             strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
-                                            // let strainLoopStrain = 
                                         } else {
                                             roundBucket.push(strainLoopRandom.strain)
+                                            $('#childContainer').children().addClass('fakeBoop')
                                             let incorrectAnswer1 = document.createElement('p')
                                             $(incorrectAnswer1)
                                             .text(strainLoopRandom.strain)
                                             .addClass('parent')
                                             .addClass('childoption')
                                             .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
-                                            // setTimeout(vanish($(event.target)), "2000")
-                                            // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
-                                            const hideHoldUp = async () => {
-                                                console.log("were in the hide hold up function")
-                                                await setTimeout( () => console.log("hey"), "1000")
-                                                await setTimeout( () => gone ($(event.target)))
-                                                $('#childContainer').css('justify-content', 'center')
-                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
-
-                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
-                                            }
-                                            setTimeout(hideHoldUp, "1000")
+                                            optionSelectionAnimation($(event.target))
                                             // $(event.target).hide()
                                         })
-                                            $('#childContainer').append($(incorrectAnswer1))
-                                        }
-                                        // console.log(strainLoopRandom)                                    
-                                    }     
-                                }     // else statement in the wrong1 block end.                        
-                            }
-                            const wrong2 = () => {                                
-                                for (let i = 0; i < strains.length; i++) {
-                                    if (strains[i].parents.includes(childrenContainerBucket[0])) {
-                                        let otherRandomStrain = strains[Math.floor(Math.random()*strains.length)]                                         
-                                        // if (otherRandomStrain == strains[i].strain || roundBucket[0].includes(strains[i].strain) || roundBucket[1].includes(strains[i].strain)) {
+                                        $('#childContainer').append($(incorrectAnswer1))
+                                    }
+                                }     
+                            }     // else statement in the wrong1 block end.                        
+                        }
+                        const wrong2 = () => {                                
+                            for (let i = 0; i < strains.length; i++) {
+                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')                                             
+                                if (strains[i].parents.includes(childrenContainerBucket[0])) {
+                                    let otherRandomStrain = strains[Math.floor(Math.random()*strains.length)]                                         
+                                    // if (otherRandomStrain == strains[i].strain || roundBucket[0].includes(strains[i].strain) || roundBucket[1].includes(strains[i].strain)) {
                                         if (otherRandomStrain == strains[i].strain) {
                                             otherRandomStrain = 'randomstring to reset Math.floor func() random strain output'
                                         } else {                                            
                                             if (otherRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
-                                                 let newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                 if (newRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
-                                                     newRandomStrain = 'reset'
+                                                let newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
+                                                if (newRandomStrain.strain == roundBucket[0] || otherRandomStrain.strain == roundBucket[1]) {
+                                                    newRandomStrain = 'reset'
                                                     newRandomStrain = strains[Math.floor(Math.random()*strains.length)]
-                                                 } else {
-                                                     let incorrectAnswer2 = document.createElement("p")
-                                                     $(incorrectAnswer2)
-                                                     .text(newRandomStrain.strain)
-                                                     .addClass('parent')
-                                                     .addClass('childoption')
-                                                     .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
-                                                      // setTimeout(vanish($(event.target)), "2000")
-                                                    // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
-                                                    const hideHoldUp = async () => {
-                                                    console.log("were in the hide hold up function")
-                                                    await setTimeout( () => console.log("hey"), "1000")
-                                                    await setTimeout( () => gone ($(event.target)))
-                                                    $('#childContainer').css('justify-content', 'center')
-                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
-                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
-                                            }
-                                            setTimeout(hideHoldUp, "1000")
-                                            // $(event.target).hide()
+                                                    optionSelectionAnimation($(event.target))
+                                                    //         const hideHoldUp = async () => {
+                                                        //     optionSelectionAnimation($(event.target))
+                                                        //     setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
+                                                        // }
+                                                    } else {
+                                                        let incorrectAnswer2 = document.createElement("p")
+                                                        $(incorrectAnswer2)
+                                                            .text(newRandomStrain.strain)
+                                                            .addClass('parent')
+                                                            .addClass('childoption')
+                                                            .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                            optionSelectionAnimation($(event.target))
                                         })
                                                      $('#childContainer').append($(incorrectAnswer2))
                                                     }
@@ -556,7 +416,9 @@
                                                 .text(otherRandomStrain.strain)
                                                 .addClass('parent')
                                                 .addClass('childoption')
-                                                $('#childContainer').append($(incorrectAnswer2))
+                                                optionSelectionAnimation($(event.target))
+
+                                                // $('#childContainer').append($(incorrectAnswer2))
                                             }                                               
                                         }
                                     }
@@ -567,7 +429,7 @@
                         }   // incorrectAnswers end.
                         // })  // forEach end
                         incorrectAnswers()
-                        vanish($('.playBtn'))
+                        // vanish($('.playBtn'))
                         $('.childoption').bind('mouseenter', getWinOrLose)
 
                     }
@@ -625,14 +487,15 @@
 
                     const playButton = document.createElement('img')
                         $(playButton)
+                        .attr('src', '/img/gold.png')
                         .attr('id', 'playBtn')
                         .addClass('playBtn')
-                        .css('height', '100px')
-                        .css('width', '100px')
-                        .css('margin-top', '3em')
-                        .attr('src', '/img/gold.png')
-                        .css('opacity', '1.0')
                         .addClass('fakeBoop')
+                        // .css('height', '100px')
+                        // .css('width', '100px')
+                        // .css('margin-top', '3em')
+                        // .css('opacity', '1.0')
+                        
                         .click( () => $('.childoption').on('mouseenter', getChildren($('.childoption'))))
                         // .click( () => $('.childoption').on('mouseenter', vanish))
                         // .click( () => $('.childoption').on('mouseenter', (event) => $(event.target).hide()))
@@ -651,18 +514,10 @@
                                 // this will be our game reset for when the user wins or loses. We can append a trophy or dynamite upon win/lose and check for the existence of the appended image as our [if(statement block)]
                             }
                         })
-
-                        // .bind('click', getParents())
-                        // .bind('click', ()=> getParents())
-                        // .on('mouseenter', () => console.log("heyy"))
-
-                        // .css('opacity', '0.1')
+                      
                         bod
                         .append($(playButton))       // very neat to see everything fall in line.
                         .append($(childContainer))  // kind of trying to break camelcase after reading it seems to make it more unreadable and i'd agree. try to stay consistent when already jammed with having set a few things into camelCase format.
-
-                        // event.unbind('mouseenter', addBox())
-                        // setTimeout($('#playBtn').hide(), "3000")
                 }  // addBox function
                     
                 const goldBottomAnimation = (event) => {        // callbacks were so confusing until using $(event.target) over and over again. $(event.target) is a specific targeting while (event) is a would-be/could-be-nearly-anything placeholder. callbacks like this, and following the obj.forEach(PLACEHOLDER) the placeholder in forEach and the changing of the term for how the sets of data/elements are described: quite challenging 
@@ -686,21 +541,7 @@
     
                }, "2000")      // this will trigger the function to happen after.
             }
-
-                
-                    // const introAnimAddBox = (event) => {        // cb func not liking the two separate/multiple [timeOut && eventBased] expressions running together.s
-                    //     jewelryCount++
-                    //     wholeJewelryCount.push(jewelryCount)
-                    //     if (wholeJewelryCount.length == 1) {
-                    //         // goldBottomAnimation(event)
-                    //         goldBottomAnimation()
-                    //         setTimeout(addBox, "1000")
-                    //     }
-                    // }
-                    // box.children().on('mouseenter', introAnimAddBox)
-
-                    // box.children().bind('mouseenter', introAnimAddBox())
-                    
+                                
                     box.children().on('mouseenter', (event) => {                // if ($('#playBtn').length < 1) {
                     jewelryCount++
                     wholeJewelryCount.push(jewelryCount)
@@ -713,124 +554,16 @@
                 })   
                     if (wholeJewelryCount.length == 2) {
 
+                    }                
                     
-                    }
-                    
-
                     // $('*').on('click', () => {
                     playBtn.on('click', () => {
                 })
 
-                    // $('.parentLabel').on('mouseenter', (event) => {
-                    //     console.log("apparently we are in this event over here")
-                    //     $(event.target).hide()
-                    // })
-                    
-
                 
-
-                
-            
-                
-                
-
-    // .children().hide() i dont know why this isn't hiding the rings and the watch but that's okay
-    // if (wholeJewelCounter.length == 1) {    // this very simple line is our anti-duplicate safeguard since the second time you hover the count will be: [].length == 2] invalidating this condition, forbidding the $(body).append$(container)
-        
-
-        //    bod.click(() => {
-
-           
-        // $('.playBtn').click(() => {
-
-            // playBtn.bind('mouseenter', () => {
-            //     console.log("hey")
-            // })
-
-
-        //    const playButton = document.createElement('img')
-        //                 $(playButton)
-        //                 .css('height', '100px')
-        //                 .css('width', '100px')
-        //                 .attr('src', '/img/gold.png')
-        //                 .attr('id', 'playBtn')
-        //                 .css('opacity', '1.0')
-                        // .css('opacity', '0.1')
-
-
-
-
-      
-
-
-
         })  // ajax end. everything should be contained within this scope so we always have access to the straindata without having to initiate behavior [i.e. 'mouseenter'] to retrieve it.
-            // }
+    
 
 
-/*
-// surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
-            // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
-            // i'm super surprised we cant just get the strain data from this function, or atleast how i'm doing it isn't working. 
-            // const getStrainAPIparents = async () => {     // there is no reusability without doing code in this callback way. wow.
-                // console.log('were over here now')
-                //  let data = getGitStrains().values()
-                //  let goodGuy = getGitStrains()
-                //  console.log('goodGuy')
-                //  console.log(goodGuy)                 
-                //  console.log(data)        
-                // getGitStrains().then( (data) => {
-                //     console.log(data)
-                // })
 
-                // getGitStrains().then( (data) => {
-                //     console.log(data)
-                // })
-                // console.log('strains')
-                // console.log(strains)
-cx                // console.log('randomStrain')
-                // console.log(randomStrain)
-            // }
-            // console.log('fire away!')
-            // getStrainAPIparents()            
-
-                    //     for (let i = 0; i < 2; i++) {
-                        //     let newContainerLabels = document.createElement('p')
-                        //     $(newContainerLabels)
-                        //     .addClass('parent')
-                        //     .html('parent')
-                        //     // $(newContainerLabels)[0]
-                        //     $(newContainerLabels[0])
-                        //     .attr('id', 'parentContLabel1')
-                        //     // $(newContainerLabels)[1]
-                        //     $(newContainerLabels[1])
-                        //     .html('parent')
-                        //     .attr('id', 'parentContLabel2')
-                        //     $(newContainer).append($('#parentContLabel1'))
-                        //     $(newContainer2).append($('#parentContLabel2'))
-                        // }
-                        // console.log($(newContainerLabels)[1])
-                            // if (newContainerLabels[0]) {
-                            //     $(newContainer).append($(newContainerLabels)[0])
-                            // } else if (newContainerLabels[1]) {
-                            //     $(newContainer2).append($(newContainerLabels)[1])
-                            // }
-
-                                           // let newContainerLabel = document.createElement('label')
-                        // $(newContainerLabel)
-                        // .attr("for", $('#newContainer'))
-                        // .addClass('parentlabel')
-                        // .text('parent')
-                        // $(containerContainer).prepend($(newContainerLabel))
-
-                                                // strainlen.forEach( (index, strain) => {
-                            // strains.forEach( (strain, index) => {
-                            // console.log('strain')
-                            // console.log(`this is our strain: ${strain.strain}`)
-                            // if (strain.parents.includes(childrenContainerBucket[0])) {
-                            //     console.log('oh yeah weve got our strain') 
-                            // }
-                                            
-*/
 </script>
-
