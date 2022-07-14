@@ -327,23 +327,25 @@
                                 childrenContainerBucket.push($('.newContainer')[i].innerText)
                                 for (i; i < strainlen; i++) {
                                     if (strains[i].parents.includes(childrenContainerBucket[0])) {      // that [used to/sometimes still does] MESS ME UP: the if statement can break up the fact that if you [console.log(strain[i])] it will be ran for every single strain in the full index of strains.length. the if statement reduces us down to only the elements within the index that satisfy the conditional. a bit confusing. 
-                                        let correctAnswer = document.createElement('p')
+                                        console.log('strains[i]')
+                                        console.log(strains[i])
+                                        console.log(strains[i].strain)
                                         roundBucket.push(strains[i].strain)
+                                        let strain = strains[i].strain          // weird problem that this strain returns the correct value of the strain name that corresponds to the [api endpoint: strain.PARENTS that are on the $(.newContainer)]
+                                        let correctAnswer = document.createElement('p')
                                         $(correctAnswer)
-                                        .text(strains[i].strain)
+                                        .text(strain || strains[i].strain)
                                         .addClass('parentLabel')
-                                        .addClass('childoption')
                                         .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn') in the addBox() when the element is originally [].create()&&.append()\
-                                        // changebg($(event.target), '/img/trophy.png')
-                                            appear($('.playBtn'))
-                                            // $('.playBtn').add
-                                            // setTimeout(hideHoldUp, "1000")                                
-                                            optionSelectionAnimation($(event.target))
-                                            setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
-                                            // $(event.target).hide()
-                                        })
-                                        // .on('mouseleave', (event) => vanish(event))
-                                        $('#childContainer').append($(correctAnswer))
+                                        appear($('.playBtn'))
+                                        optionSelectionAnimation($(event.target))
+                                        setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
+                                        .addClass('childoption')
+                                        return strains[i].strain    // somehow this is hit or miss as to whether it will be undefined or not. you acn console.log(strains[i].strain up there with no problem. Can set the variable and its hit or miss. ANTI-dry validator/re-create .text() for the element in the return value as the solution. )
+                                    })
+                                     // 3 minutes && fair amt. of reps  [fiddling without .text()]                                      
+
+                                        // console.log($(correctAnswer).text())
                                     }
                                 }
                             }   
@@ -374,7 +376,8 @@
                                             optionSelectionAnimation($(event.target))
                                             // $(event.target).hide()
                                         })
-                                        $('#childContainer').append($(incorrectAnswer1))
+                                        // $('#childContainer').append($(incorrectAnswer1))
+                                        return $(incorrectAnswer1)
                                     }
                                 }     
                             }     // else statement in the wrong1 block end.                        
@@ -407,7 +410,8 @@
                                                             .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
                                                             optionSelectionAnimation($(event.target))
                                         })
-                                                     $('#childContainer').append($(incorrectAnswer2))
+                                                    //  $('#childContainer').append($(incorrectAnswer2))
+                                                    return $(incorrectAnswer2)
                                                     }
                                                                                                                                         
                                             } else {
@@ -430,8 +434,39 @@
                         // })  // forEach end
                         incorrectAnswers()
                         // vanish($('.playBtn'))
-                        $('.childoption').bind('mouseenter', getWinOrLose)
+                        
+                        const appendMultiChoiceOptions = () => {
+                            let returnCorrect = correctAnswer()
+                            console.log('returnCorrect')
+                            console.log(returnCorrect)
+                            if (returnCorrect === undefined || null) {
+                                let parentSplit = $('.newContainer').text().split(' ')
+                                console.log('parentSplit')
+                                console.log(parentSplit)
+                                let word1 = parentSplit[1]
+                                let word2 = parentSplit[2]
+                                let word3 = parentSplit[3]
+                                let word4 = parentSplit[4]
+                                let word5 = parentSplit[5]
+                                let word6 = parentSplit[6]
 
+                                let strain1 = `${word1} ${word2}`
+                                let strain2 = `${word3} ${word4}`
+                                let strain3 = `${word5} ${word6}`
+                        
+                                console.log($('.newContainer').text())
+                                console.log("heres our for loop data and strain that matches the parents!")
+                                for (let i = 0; i < strains.length; i++) {
+                                    if (strains[i].parents.includes(`${strain1}` || `${strain2}` || strain3)) {   // see the likelihood of this being fussy and inconsistent and unreliable  but lets see. 
+                                        console.log(strains[i])
+                                        console.log(strains[i].strain)
+                                        console.log(strains[i].strain.parents)
+                                    }
+
+                                }
+                            }
+                        }   
+                        appendMultiChoiceOptions()
                     }
 
 
