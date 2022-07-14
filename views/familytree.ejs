@@ -268,22 +268,37 @@
                 }                                    
                 
               const  getParents = (elem) => {
+                        $('.newContainer').children().detach()
+                        let parentBucket = []
                         const randomStrain = strains[Math.floor(Math.random()*strains.length)]
-                        const parents = randomStrain.parents.split(',') // oops left the comment out. 
-                        let rsp1 = parents[0]
-                        let rsp2 = parents[1]                    
+                        let parents = ''
+                        parents = randomStrain.parents.split(',') // oops left the comment out. 
+                        let resp1 = ''
+                        let resp2 = ''
+                         rsp1 = parents[0]
+                         rsp2 = parents[1]   
+                         parentBucket.push(rsp1, rsp2) 
+                         console.log('parentBucket')                 
+                         console.log(parentBucket)                 
+                         console.log('rsp1')
+                         console.log(rsp1)
+                         console.log('rsp2')
+                         console.log(rsp2)
                         let gameText = document.createElement('p')
                         let gameText2 = document.createElement('p')                        
                         $(gameText)
                         .addClass('parent')
-                        .text(rsp1)
+                        .text('')
+                        .text(parentBucket[0])
                         $('#parentCont1')
                         .append($(gameText))                        
                         $(gameText2)
+                        .text('')
                         .addClass('parent')
-                        .text(rsp2)
+                        .text(parentBucket[1])
                         $('#parentCont2')
-                        .append($(gameText2))                        
+                        .append($(gameText2))         
+                        parentBucket.splice(0, parentBucket.length)
                     }    
 
                 const win = (elem) => {
@@ -298,8 +313,11 @@
                         wholeWrongCount.splice(0, wrongCount.length)
                         setTimeout(changebg($('.trophy'), '/img/gold.png'))
 
-                        $('.playBtn').on('mouseenter', () => {
+                        $('.playBtn').on('mouseenter', (event) => {
                             getParents()
+                            getChildren()
+                            $(event.target).unbind('mouseenter', getParents())        
+                            $(event.target).unbind('mouseenter', getChildren()) 
                             console.log('were hovering over the gold after winning and switching the trophy bg back')
                         })
 
@@ -384,7 +402,8 @@
                                         console.log(strains[i])
                                         console.log(strains[i].strain)
                                         roundBucket.push(strains[i].strain)
-                                        let strain = strains[i].strain          // weird problem that this strain returns the correct value of the strain name that corresponds to the [api endpoint: strain.PARENTS that are on the $(.newContainer)]
+                                        let strain = ''
+                                         strain = strains[i].strain          // weird problem that this strain returns the correct value of the strain name that corresponds to the [api endpoint: strain.PARENTS that are on the $(.newContainer)]
                                         let correctAnswer = document.createElement('p')
                                         $(correctAnswer)
                                         .text(strain || strains[i].strain)
