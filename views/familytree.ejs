@@ -214,7 +214,7 @@
                 // const vanish = (elem) => { $(elem).hide() }        // easy to think you'd need $(elem).hide() [in my opinion]
                 const vanish = (elem) => { $(elem).hide() }        
                 const appear = (elem) => { $(elem).show()}
-
+                const gone = (jqObj) => { $(jqObj).detach()}
                 const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
                 // const dynamite = (elem, dynamite) => {
                 //     $(elem)
@@ -321,7 +321,10 @@
                                 $('#playBtn')
                                 .removeClass('fakeBoop')
                                 $('#playBtn')
-                                .on('mouseenter', () =>  setTimeout(vanish($('#playBtn')), "1000"))
+                                .on('mouseenter', (event) => {
+                                    $('*').addClass('fakeBoop')
+                                })
+                                // .on('mouseenter', () =>  setTimeout(vanish($('#playBtn')), "1000"))
 
                             
                                 // .attr('src', '/img/trophy.png')
@@ -427,10 +430,16 @@
                                         .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
                                             // setTimeout(vanish($(event.target)), "2000")
                                             // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
-                                            // let target = $(event.target)        // bit tired to check atm but I believe this wouldn't work without overcommunicating and overspecifying. 
                                             const hideHoldUp = async () => {
-                                                // await setTimeout( () => console.log("hey"), "1000")
-                                                await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
+                                                console.log("were in the hide hold up function")
+                                                await setTimeout( () => console.log("hey"), "1000")
+                                                await setTimeout( () => gone ($(event.target)))
+                                                $('#childContainer').css('justify-content', 'center')
+                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
+                                                // if ($('#childContainer').length < 3) {
+                                                //     $('#childContainer').css('justify-content', 'center')
+                                                // }
+                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
                                             }
                                             setTimeout(hideHoldUp, "1000")
                                             // $(event.target).hide()
@@ -462,6 +471,21 @@
                                             .text(strainLoopRandom.strain)
                                             .addClass('parent')
                                             .addClass('childoption')
+                                            .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                            // setTimeout(vanish($(event.target)), "2000")
+                                            // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
+                                            const hideHoldUp = async () => {
+                                                console.log("were in the hide hold up function")
+                                                await setTimeout( () => console.log("hey"), "1000")
+                                                await setTimeout( () => gone ($(event.target)))
+                                                $('#childContainer').css('justify-content', 'center')
+                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
+
+                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
+                                            }
+                                            setTimeout(hideHoldUp, "1000")
+                                            // $(event.target).hide()
+                                        })
                                             $('#childContainer').append($(incorrectAnswer1))
                                         }
                                         // console.log(strainLoopRandom)                                    
@@ -487,6 +511,20 @@
                                                      .text(newRandomStrain.strain)
                                                      .addClass('parent')
                                                      .addClass('childoption')
+                                                     .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                      // setTimeout(vanish($(event.target)), "2000")
+                                                    // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
+                                                    const hideHoldUp = async () => {
+                                                    console.log("were in the hide hold up function")
+                                                    await setTimeout( () => console.log("hey"), "1000")
+                                                    await setTimeout( () => gone ($(event.target)))
+                                                    $('#childContainer').css('justify-content', 'center')
+                                                $('#childContainer').children().css('padding', '0em 6em 0em 6em')
+                                                // await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
+                                            }
+                                            setTimeout(hideHoldUp, "1000")
+                                            // $(event.target).hide()
+                                        })
                                                      $('#childContainer').append($(incorrectAnswer2))
                                                     }
                                                                                                                                         
@@ -550,11 +588,12 @@
                         .css('width', `${famwidth/2}`)
                         .css("display", 'flex')
                         .css("justify-content", 'space-between')
+                        // .css("justify-content", 'center')
                         .css("margin-top", '9em')
                         .css("background-color", 'rgb(62, 50, 32')
                         .css("border", '5px solid papayawhip')
                         .css("box-shadow", '15px 15px 15px rgb(247, 208, 36')
-                        .css("padding", '0em 10em 0em 10em')
+                        
 
                         bod.append($(containerContainer))
 
