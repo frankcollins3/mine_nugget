@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="">
     </head>
     <style>
+        body {
+            background-color: rgb(62, 50, 32);
+        }
         .containerContainer{
             text-align: center;
                 display: flex;
@@ -283,14 +286,47 @@
                         .append($(gameText2))                        
                     }    
 
+                const win = (elem) => {
+                    if ($('.playBtn').hasClass('trophy')) {
+                        console.log('were in the winning FUNCTION && THERE IS TROPHY!!!!!!!')
+                        // vanish($("*"))
+                        jewelryCount = 0
+                        wholeJewelryCount.splice(0, wholeJewelryCount.length)                                                   
+                        goldHoverCount = 0
+                        wholeGoldCount.splice(0, wholeGoldCount.length)
+                        wrongCount = 0
+                        wholeWrongCount.splice(0, wrongCount.length)
+                        setTimeout(changebg($('.trophy'), '/img/gold.png'))
+
+                        $('.playBtn').on('mouseenter', () => {
+                            getParents()
+                            console.log('were hovering over the gold after winning and switching the trophy bg back')
+                        })
+
+                        $('.newContainer').children().detach()
+                        $('#childContainer').children().detach()
+
+
+                        // appear($('.playBtn')&&$('.trophy')) 
+                        // $('*').hide()
+                        // $('*').css('border', '2px solid pink')
+                    } else {
+                        console.log("were in the winning function and there is no trophy class!")
+                    }
+
+                    console.log($(elem))
+                    console.log('huh guess you won and we hooked up .bind() to trophy')
+                }
+
+                const imgHover = (elem) => {
+                    console.log()
+                }
+            
+
                 const getWinOrLose = (event) => {
                     let parents = $('.newContainer').children().text()  
                     const marriage = parents.split(' ')
-
-                    for (let i = 0; i < strains.length; i++) {
-        
-                    }
-                   
+       
                     let eventStrain = $(event)[0].currentTarget.outerText                
                  
                     for (let i = 0; i < strains.length; i++) {
@@ -298,13 +334,15 @@
                             let strainFromEvent = strains[i] 
                             console.log('strainFromEvent')
                             console.log(strainFromEvent)
+
+                            $('.playBtn').addClass("trophy")
                             if (strainFromEvent.parents.includes(marriage[0] || marriage[1] || marriage[2] || marriage[3] || marriage[4])) {
                                 console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
                                 appear($('#playBtn'))
                                 changebg($('#playBtn'), '/img/trophy.png')
 
-                                $('.playBtn')
-                                .addClass('trophy')
+                                $('playBtn')
+                                // .addClass('trophy')
                                 .removeClass('fakeBoop')
                                 $('.playBtn')
                                 .on('mouseenter', (event) => {
@@ -327,7 +365,6 @@
                         
                     }
                 }
-
                 
                 const getChildren = (element) => {
                     // $('#childContainer').children().addClass('fakeBoop')
@@ -355,8 +392,19 @@
                                         .addClass('parentlabel')
                                         .addClass('childoption')
                                         .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn') in the addBox() when the element is originally [].create()&&.append()\
+                                        console.log()
                                         appear($('.playBtn'))
                                         changebg($('.playBtn'), '/img/trophy.png')
+                                        $('.playBtn')
+                                        .addClass('trophy')
+                                        .unbind('click')
+                                        .unbind('hover')
+                                        // .on('mouseenter', win($('.playBtn')))    
+                                        .on('mouseenter', () => {               
+                                            win($('.playBtn'))
+                                        })
+                                        // a little confusing why this works and the 1 liner above us doesn't but thats okay
+
                                         optionSelectionAnimation($(event.target))
                                         setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
                                         // return strains[i].strain    // somehow this is hit or miss as to whether it will be undefined or not. you acn console.log(strains[i].strain up there with no problem. Can set the variable and its hit or miss. ANTI-dry validator/re-create .text() for the element in the return value as the solution. )
@@ -372,6 +420,8 @@
                             }   
                         }
                     }
+
+
 
                     correctAnswer()
                     const incorrectAnswers = () => {
@@ -459,44 +509,15 @@
                         // })  // forEach end
                         incorrectAnswers()
                         vanish($('.playBtn'))
-                        // const appendMultiChoiceOptions = () => {
-                        //     let returnCorrect = correctAnswer()
-                        //     console.log('returnCorrect')
-                        //     console.log(returnCorrect)
-                        //     if (returnCorrect === undefined || null) {
-                        //         let parentSplit = $('.newContainer').text().split(' ')
-                        //         console.log('parentSplit')
-                        //         console.log(parentSplit)
-                        //         let word1 = parentSplit[1]
-                        //         let word2 = parentSplit[2]
-                        //         let word3 = parentSplit[3]
-                        //         let word4 = parentSplit[4]
-                        //         let word5 = parentSplit[5]
-                        //         let word6 = parentSplit[6]
-
-                        //         let strain1 = `${word1} ${word2}`
-                        //         let strain2 = `${word3} ${word4}`
-                        //         let strain3 = `${word5} ${word6}`
-                        
-                        //         console.log($('.newContainer').text())
-                        //         console.log("heres our for loop data and strain that matches the parents!")
-                        //         for (let i = 0; i < strains.length; i++) {
-                        //             if (strains[i].parents.includes(`${strain1}` || `${strain2}` || strain3)) {   // see the likelihood of this being fussy and inconsistent and unreliable  but lets see. 
-                        //                 console.log(strains[i])
-                        //                 console.log(strains[i].strain)
-                        //                 console.log(strains[i].strain.parents)
-                        //             }
-                        //         }
-                        //     }
-                        // }   
-                        // appendMultiChoiceOptions()
+               
                     }
 
 
                 // $('.playBtn').click(getChildren())
-    
-
-                const addBox = (event) => {                          
+    // hm i wanted to make sure we didn't run the addBox function again (&& create the containers)
+    // out of habit, I'm wrongfully assuming we dont have access to [getParents()] but since its a callback we do. We'd have to [.unbind()&&.bind()] though
+    // curious: is there a method to obtain every single class of all of the elements? my searching says no. But with the mutation observer that sounds possible because of its superTop-to-Bottom level observation, and broad reach of every single element within the document.
+                const addBox = (event) => {            
                     let textBox = document.createElement('div')
                         $(textBox)
                         .css('height', '100px')
@@ -642,5 +663,37 @@
     
 
 
+        // const appendMultiChoiceOptions = () => {
+            //     let returnCorrect = correctAnswer()
+            //     console.log('returnCorrect')
+            //     console.log(returnCorrect)
+            //     if (returnCorrect === undefined || null) {
+            //         let parentSplit = $('.newContainer').text().split(' ')
+            //         console.log('parentSplit')
+            //         console.log(parentSplit)
+            //         let word1 = parentSplit[1]
+            //         let word2 = parentSplit[2]
+            //         let word3 = parentSplit[3]
+            //         let word4 = parentSplit[4]
+            //         let word5 = parentSplit[5]
+            //         let word6 = parentSplit[6]
+        
+            //         let strain1 = `${word1} ${word2}`
+            //         let strain2 = `${word3} ${word4}`
+            //         let strain3 = `${word5} ${word6}`
+            
+            //         console.log($('.newContainer').text())
+            //         console.log("heres our for loop data and strain that matches the parents!")
+            //         for (let i = 0; i < strains.length; i++) {
+            //             if (strains[i].parents.includes(`${strain1}` || `${strain2}` || strain3)) {   // see the likelihood of this being fussy and inconsistent and unreliable  but lets see. 
+            //                 console.log(strains[i])
+            //                 console.log(strains[i].strain)
+            //                 console.log(strains[i].strain.parents)
+            //             }
+            //         }
+            //     }
+            // }   
+            // appendMultiChoiceOptions()
 
 </script>
+
