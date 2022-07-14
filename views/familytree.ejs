@@ -215,6 +215,11 @@
                 const vanish = (elem) => { elem.hide() }        
                 const appear = (elem) => { $(elem).show()}
 
+                const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
+                // const dynamite = (elem, dynamite) => {
+                //     $(elem)
+                //     .attr('/im')
+                // }
 
 
               const  getParents = (elem) => {
@@ -307,8 +312,21 @@
 
                             if (strainFromEvent.parents.includes(marriage[0] || marriage[1] || marriage[2] || marriage[3] || marriage[4])) {
                                 console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
+
+                                // $('#playBtn')
+                                // .show()
+                                appear($('#playBtn'))
+                                .css("margin-top", "2em")
+                                changebg($('#playBtn'), '/img/trophy.png')
+                                $('#playBtn')
+                                .removeClass('fakeBoop')
+
+                            
+                                // .attr('src', '/img/trophy.png')
                             } else {
                                 console.log("parents dont include the marriage[0] or marriage[1] n friends")
+                                // $('#playBtn')
+                                // .attr('src', '/img/dynamite.png')
                             }
 
                             let splitParents = strains[i].parents.split(', ')
