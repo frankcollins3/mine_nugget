@@ -212,7 +212,7 @@
                 const strains = ajdata.strains
 
                 // const vanish = (elem) => { $(elem).hide() }        // easy to think you'd need $(elem).hide() [in my opinion]
-                const vanish = (elem) => { elem.hide() }        
+                const vanish = (elem) => { $(elem).hide() }        
                 const appear = (elem) => { $(elem).show()}
 
                 const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
@@ -316,14 +316,18 @@
                                 // $('#playBtn')
                                 // .show()
                                 appear($('#playBtn'))
-                                .css("margin-top", "2em")
+                                // .css("margin-top", "2em")
                                 changebg($('#playBtn'), '/img/trophy.png')
                                 $('#playBtn')
                                 .removeClass('fakeBoop')
+                                $('#playBtn')
+                                .on('mouseenter', () =>  setTimeout(vanish($('#playBtn')), "1000"))
 
                             
                                 // .attr('src', '/img/trophy.png')
                             } else {
+                                appear( $('#playBtn'))
+                                changebg($('#playBtn'), '/img/dynamite.png')
                                 console.log("parents dont include the marriage[0] or marriage[1] n friends")
                                 // $('#playBtn')
                                 // .attr('src', '/img/dynamite.png')
@@ -385,8 +389,9 @@
                     }
                 
 
-                const getChildren = () => {
-                    
+                const getChildren = (element) => {
+                    // vanish(element)  hours of parameter targeting here. foolish; overlooked a simple solution.
+
                     let i = 0
                     let contlen = $('.newContainer').length
                     let strainlen = strains.length
@@ -405,7 +410,7 @@
                             // console.log($('.newContainer').text([i]))
                             if ($('.newContainer').length) {
                                 // console.log(`heres the text: ${   $('.newContainer')[i].innerText}`)
-    
+
                                 childrenContainerBucket.push($('.newContainer')[i].innerText)
                                 // console.log('strains')
                                 // console.log(strains)
@@ -419,11 +424,22 @@
                                         .text(strains[i].strain)
                                         .addClass('parentLabel')
                                         .addClass('childoption')
+                                        .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                            // setTimeout(vanish($(event.target)), "2000")
+                                            // setTimeout($(event.target).hide(), "2000")           // kind of weird this just vanishes right away, ignoring the delay. 
+                                            // let target = $(event.target)        // bit tired to check atm but I believe this wouldn't work without overcommunicating and overspecifying. 
+                                            const hideHoldUp = async () => {
+                                                // await setTimeout( () => console.log("hey"), "1000")
+                                                await setTimeout( () => $(event.target).detach(), "1000")       // nvm this function still has access to our ['mouseleave', (E V E N T)]
+                                            }
+                                            setTimeout(hideHoldUp, "1000")
+                                            // $(event.target).hide()
+                                        })
+                                        // .on('mouseleave', (event) => vanish(event))
                                         $('#childContainer').append($(correctAnswer))
                                     }
-    
                                 }
-                            }
+                            }   
                         }
                     }
                     correctAnswer()
@@ -534,7 +550,7 @@
                         .css('width', `${famwidth/2}`)
                         .css("display", 'flex')
                         .css("justify-content", 'space-between')
-                        .css("margin-top", '5em')
+                        .css("margin-top", '9em')
                         .css("background-color", 'rgb(62, 50, 32')
                         .css("border", '5px solid papayawhip')
                         .css("box-shadow", '15px 15px 15px rgb(247, 208, 36')
@@ -552,10 +568,13 @@
                         .addClass('playBtn')
                         .css('height', '100px')
                         .css('width', '100px')
+                        .css('margin-top', '3em')
                         .attr('src', '/img/gold.png')
                         .css('opacity', '1.0')
                         .addClass('fakeBoop')
-                        .click( () => getChildren())
+                        .click( () => $('.childoption').on('mouseenter', getChildren($('.childoption'))))
+                        // .click( () => $('.childoption').on('mouseenter', vanish))
+                        // .click( () => $('.childoption').on('mouseenter', (event) => $(event.target).hide()))
                         .on('mouseenter', () => {
                             goldHoverCount++
                             wholeGoldCount.push(goldHoverCount)
@@ -641,10 +660,12 @@
                     playBtn.on('click', () => {
                 })
 
-                    // getParents = (jqObj) => {
+                    // $('.parentLabel').on('mouseenter', (event) => {
+                    //     console.log("apparently we are in this event over here")
+                    //     $(event.target).hide()
+                    // })
                     
-                // getGitStrains()
-                // getParents()
+
                 
 
                 
