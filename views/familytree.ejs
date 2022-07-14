@@ -46,7 +46,7 @@
         }
         
         .goldShadow {
-            box-shadow: 3px 3px 3px rgb(247, 208, 36);
+            /* box-shadow: 3px 3px 3px rgb(247, 208, 36); */
             border: 3px solid papayawhip;
         }
         
@@ -62,6 +62,12 @@
         p {
             font-family: 'Urw Chanery L';
             font-size: 18px;
+            letter-spacing: 0.33em;
+            color: papayawhip;
+        }
+        .parent {
+            font-family: 'Urw Chanery L';
+            font-size: 24px;
             letter-spacing: 0.33em;
             color: papayawhip;
         }
@@ -192,6 +198,9 @@
     let wholeGoldCount = []
     // functinos!
 
+    let wrongCount = 0
+    wholeWrongCount = []
+
     let playBtn = $('.playBtn')
     let childrenContainerBucket = []
     let roundBucket = []
@@ -293,11 +302,17 @@
                                 console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
                                 appear($('#playBtn'))
                                 changebg($('#playBtn'), '/img/trophy.png')
-                                $('#playBtn')
+
+                                $('.playBtn')
+                                .addClass('trophy')
                                 .removeClass('fakeBoop')
-                                $('#playBtn')
+                                $('.playBtn')
                                 .on('mouseenter', (event) => {
-                                    $('*').addClass('fakeBoop')
+                                    console.log("enter the trophy")
+                                    // $('*').addClass('fakeBoop')
+                                    .setTimeout( () => {
+                                        console.log("hovered the trophy")
+                                    })
                                 })
                             } else {
                                 appear( $('#playBtn'))
@@ -312,9 +327,10 @@
                         
                     }
                 }
-                
+
                 
                 const getChildren = (element) => {
+                    // $('#childContainer').children().addClass('fakeBoop')
                     $('.playBtn').show()
                     // vanish(element)  hours of parameter targeting here. foolish; overlooked a simple solution.
                     let i = 0
@@ -335,17 +351,22 @@
                                         let correctAnswer = document.createElement('p')
                                         $(correctAnswer)
                                         .text(strain || strains[i].strain)
-                                        .addClass('parentLabel')
+                                        .addClass('fakeBoop')
+                                        .addClass('parentlabel')
+                                        .addClass('childoption')
                                         .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn') in the addBox() when the element is originally [].create()&&.append()\
                                         appear($('.playBtn'))
+                                        changebg($('.playBtn'), '/img/trophy.png')
                                         optionSelectionAnimation($(event.target))
                                         setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
-                                        .addClass('childoption')
-                                        return strains[i].strain    // somehow this is hit or miss as to whether it will be undefined or not. you acn console.log(strains[i].strain up there with no problem. Can set the variable and its hit or miss. ANTI-dry validator/re-create .text() for the element in the return value as the solution. )
+                                        // return strains[i].strain    // somehow this is hit or miss as to whether it will be undefined or not. you acn console.log(strains[i].strain up there with no problem. Can set the variable and its hit or miss. ANTI-dry validator/re-create .text() for the element in the return value as the solution. )
+
                                     })
+                                    $('#childContainer').append(correctAnswer)
                                      // 3 minutes && fair amt. of reps  [fiddling without .text()]                                      
 
                                         // console.log($(correctAnswer).text())
+                                    
                                     }
                                 }
                             }   
@@ -366,18 +387,19 @@
                                             strainLoopRandom = strains[Math.floor(Math.random()*strains.length)]
                                         } else {
                                             roundBucket.push(strainLoopRandom.strain)
-                                            $('#childContainer').children().addClass('fakeBoop')
                                             let incorrectAnswer1 = document.createElement('p')
                                             $(incorrectAnswer1)
                                             .text(strainLoopRandom.strain)
-                                            .addClass('parent')
+                                            .addClass('parentlabel')
+                                            .addClass('fakeBoop')
                                             .addClass('childoption')
                                             .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                            changebg($('.playBtn'), '/img/dynamite.png')
                                             optionSelectionAnimation($(event.target))
                                             // $(event.target).hide()
                                         })
-                                        // $('#childContainer').append($(incorrectAnswer1))
-                                        return $(incorrectAnswer1)
+                                        $('#childContainer').append($(incorrectAnswer1))
+                                        // return $(incorrectAnswer1)
                                     }
                                 }     
                             }     // else statement in the wrong1 block end.                        
@@ -404,25 +426,28 @@
                                                     } else {
                                                         let incorrectAnswer2 = document.createElement("p")
                                                         $(incorrectAnswer2)
-                                                            .text(newRandomStrain.strain)
-                                                            .addClass('parent')
-                                                            .addClass('childoption')
-                                                            .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
-                                                            optionSelectionAnimation($(event.target))
+                                                        .text(newRandomStrain.strain)
+                                                        .addClass('parentlabel')
+                                                        .addClass('fakeBoop')
+                                                        .addClass('childoption')
+                                                        .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                        changebg($('.playBtn'), '/img/dynamite.png')
+                                                        optionSelectionAnimation($(event.target))
                                         })
-                                                    //  $('#childContainer').append($(incorrectAnswer2))
-                                                    return $(incorrectAnswer2)
+                                                     $('#childContainer').append($(incorrectAnswer2))
+                                                    // return $(incorrectAnswer2)
                                                     }
                                                                                                                                         
                                             } else {
                                                 let incorrectAnswer2 = document.createElement("p")
                                                 $(incorrectAnswer2)
                                                 .text(otherRandomStrain.strain)
-                                                .addClass('parent')
+                                                .addClass('parentlabel')
+                                                .addClass('fakeBoop')
                                                 .addClass('childoption')
                                                 optionSelectionAnimation($(event.target))
 
-                                                // $('#childContainer').append($(incorrectAnswer2))
+                                                $('#childContainer').append($(incorrectAnswer2))
                                             }                                               
                                         }
                                     }
@@ -433,40 +458,38 @@
                         }   // incorrectAnswers end.
                         // })  // forEach end
                         incorrectAnswers()
-                        // vanish($('.playBtn'))
-                        
-                        const appendMultiChoiceOptions = () => {
-                            let returnCorrect = correctAnswer()
-                            console.log('returnCorrect')
-                            console.log(returnCorrect)
-                            if (returnCorrect === undefined || null) {
-                                let parentSplit = $('.newContainer').text().split(' ')
-                                console.log('parentSplit')
-                                console.log(parentSplit)
-                                let word1 = parentSplit[1]
-                                let word2 = parentSplit[2]
-                                let word3 = parentSplit[3]
-                                let word4 = parentSplit[4]
-                                let word5 = parentSplit[5]
-                                let word6 = parentSplit[6]
+                        vanish($('.playBtn'))
+                        // const appendMultiChoiceOptions = () => {
+                        //     let returnCorrect = correctAnswer()
+                        //     console.log('returnCorrect')
+                        //     console.log(returnCorrect)
+                        //     if (returnCorrect === undefined || null) {
+                        //         let parentSplit = $('.newContainer').text().split(' ')
+                        //         console.log('parentSplit')
+                        //         console.log(parentSplit)
+                        //         let word1 = parentSplit[1]
+                        //         let word2 = parentSplit[2]
+                        //         let word3 = parentSplit[3]
+                        //         let word4 = parentSplit[4]
+                        //         let word5 = parentSplit[5]
+                        //         let word6 = parentSplit[6]
 
-                                let strain1 = `${word1} ${word2}`
-                                let strain2 = `${word3} ${word4}`
-                                let strain3 = `${word5} ${word6}`
+                        //         let strain1 = `${word1} ${word2}`
+                        //         let strain2 = `${word3} ${word4}`
+                        //         let strain3 = `${word5} ${word6}`
                         
-                                console.log($('.newContainer').text())
-                                console.log("heres our for loop data and strain that matches the parents!")
-                                for (let i = 0; i < strains.length; i++) {
-                                    if (strains[i].parents.includes(`${strain1}` || `${strain2}` || strain3)) {   // see the likelihood of this being fussy and inconsistent and unreliable  but lets see. 
-                                        console.log(strains[i])
-                                        console.log(strains[i].strain)
-                                        console.log(strains[i].strain.parents)
-                                    }
-
-                                }
-                            }
-                        }   
-                        appendMultiChoiceOptions()
+                        //         console.log($('.newContainer').text())
+                        //         console.log("heres our for loop data and strain that matches the parents!")
+                        //         for (let i = 0; i < strains.length; i++) {
+                        //             if (strains[i].parents.includes(`${strain1}` || `${strain2}` || strain3)) {   // see the likelihood of this being fussy and inconsistent and unreliable  but lets see. 
+                        //                 console.log(strains[i])
+                        //                 console.log(strains[i].strain)
+                        //                 console.log(strains[i].strain.parents)
+                        //             }
+                        //         }
+                        //     }
+                        // }   
+                        // appendMultiChoiceOptions()
                     }
 
 
@@ -503,7 +526,7 @@
                     let childContainer = document.createElement('div')
                         $(childContainer)
                         .attr('id', 'childContainer')
-                        .css('height', `${famheight/20}`)
+                        .css('height', `${famheight/10}`)
                         .css('width', `${famwidth/2}`)
                         .css("display", 'flex')
                         .css("justify-content", 'space-between')
@@ -530,8 +553,14 @@
                         // .css('width', '100px')
                         // .css('margin-top', '3em')
                         // .css('opacity', '1.0')
-                        
-                        .click( () => $('.childoption').on('mouseenter', getChildren($('.childoption'))))
+                        // .click( () => $('.childoption').on('mouseenter', getChildren($('.childoption'))))
+                        .click( (event) => {
+                            if (!$(event.target).hasClass('trophy')) {
+                                console.log("there is no trophy class")
+                                $('.childoptin').on('mouseenter', getChildren($('.childoption')))
+                            }
+                        })
+
                         // .click( () => $('.childoption').on('mouseenter', vanish))
                         // .click( () => $('.childoption').on('mouseenter', (event) => $(event.target).hide()))
                         .on('mouseenter', () => {
@@ -580,22 +609,35 @@
                     box.children().on('mouseenter', (event) => {                // if ($('#playBtn').length < 1) {
                     jewelryCount++
                     wholeJewelryCount.push(jewelryCount)
-                    if (wholeJewelryCount.length == 1) {        // poor man's unbind()
-                    goldBottomAnimation(($(event.target)))      // sweet.
-                    setTimeout(addBox, "1000")  // 3000 perf.
+                    // if (wholeJewelryCount.length == 1) {        // poor man's unbind()
+                    if (!$('#playBtn').hasClass('trophy')) {
+                        console.log("THERE IS NO TROPHY CLASS ALRIGHT NOW!")
+                        goldBottomAnimation(($(event.target)))      // sweet.
+                        setTimeout(addBox, "1000")  // 3000 perf.
+                        box.children().unbind('mouseenter')             
+                    // } else {
+                        console.log('there is a trophy class look at us go!')
+                    // }
                     // $(event.target).unbind()
                     // $(event).unbind('mouseenter', addBox())
+                    } else if (wholeJewelryCount.length == 2)  {
+                        console.log("ATLEAST WERE OVER HERE!!!!")
+                        if ($('#playBtn').hasClass('trophy')) {
+                            console.log("weve got our trophy very")
+                        }
                     }
                 })   
-                    if (wholeJewelryCount.length == 2) {
-
-                    }                
+                    
                     
                     // $('*').on('click', () => {
-                    playBtn.on('click', () => {
-                })
+                //     playBtn.on('click', (event) => {
+                //         if ($(event.target).hasClass('trophy')) {
+                //             console.log("trophy!")
+                //         }
+                // })
 
                 
+
         })  // ajax end. everything should be contained within this scope so we always have access to the straindata without having to initiate behavior [i.e. 'mouseenter'] to retrieve it.
     
 
