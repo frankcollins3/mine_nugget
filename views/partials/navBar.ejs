@@ -29,8 +29,8 @@
                     <img class="sign" src="/img/signupsigns.png" id="loginsign">
                 </div>
                 <div class="columncontainer">
-                    <a href="/strain/familytree">family tree</a>
-                    <img class="sign" src="/img/signupsigns.png" id="loginsign">
+                    <a href="/strain/familytree" id="familytreenav">family tree</a>
+                    <img class="sign" src="/img/signupsigns.png" >      <!-- id="familytreenav"  10 minute [3-5 tries a minute] switcheroo. ouch -->
                 </div>
                 <div class="columncontainer">
                     <a href="/auth/logout">logout</a>
@@ -194,8 +194,8 @@ if ($(location)[0].pathname.includes('strain')) {
             
         } else { 
             
-            console.log($(event.target))
-            console.log($(event.target).parents())
+            // console.log($(event.target))
+            // console.log($(event.target).parents())
             
             // $('input').detach()
             $('.shovel').hide() 
@@ -214,7 +214,7 @@ if ($(location)[0].pathname.includes('strain')) {
                 const strainIdForPostRoute = $(mineimg).parents()[1].innerText
              
 
-                console.log("we are hovering on the other mine photos")
+                // console.log("we are hovering on the other mine photos")
                 let mineform = document.createElement('form') 
                 $(mineform)
                 .addClass('mineform')
@@ -254,8 +254,8 @@ if ($(location)[0].pathname.includes('strain')) {
 
                 // .css('border', '2px solid rgb(247,208,36)')
                 /* border: 5px solid rgb(247, 208, 36); */
-                console.log('weird length')
-                console.log($(event.target).parents().length)
+                // console.log('weird length')
+                // console.log($(event.target).parents().length)
                 // if ($(event.target).parents().has(('.mineinput')))
                 //  if ($(event.target).parents()[0].children().length ) {         // like #4 time doing data.dontAppendWithDuplicate() functionality.
                 
@@ -263,20 +263,20 @@ if ($(location)[0].pathname.includes('strain')) {
                 if ($('.mineform .mineinput').length < 1) {        
                     $(mineform).append(mineinput)
                     $(mineform).on('mouseenter', () => {       // 10 minutes: leaving the .on'mouseenter' (event) within the $(mineinput).on('click') wondering why console.log wouldn't work.
-                        console.log('hover while length is 1')
-                        console.log($(mineform).children())
+                        // console.log('hover while length is 1')
+                        // console.log($(mineform).children())
                     })
                     
                     $('.effectContainer').on('mouseleave', () => {
-                        console.log("we are leaving that local scope of being within <div></div>")
+                        // console.log("we are leaving that local scope of being within <div></div>")
                         $('.effectContainer .mineinput').detach()
                     })
                     // no submit button on our very basic form. [cool2see]: form.submit() vs $(evt.target).val()
                     $(mineinput).on('click', (evt) => {         // a more visually appealing, but still .nonPretty() .nonFlowsWell() solution. 
-                        console.log('we are leaving this thing')
-                        console.log($(evt.target))
-                        console.log('look at the value')
-                        console.log($(evt.target).val())        // 
+                        // console.log('we are leaving this thing')
+                        // console.log($(evt.target))
+                        // console.log('look at the value')
+                        // console.log($(evt.target).val())        // 
                         let mineinputvalue = $(evt.target).val()
                         $.ajax({          
                             type: "POST",
@@ -288,8 +288,8 @@ if ($(location)[0].pathname.includes('strain')) {
                                 mine: `${mineinputvalue}`
                             }
                             }).then( (mine) => {
-                                console.log(mine)
-                                console.log(`mine: ${mine.get().mine || 'no mine'}`)
+                                // console.log(mine)
+                                // console.log(`mine: ${mine.get().mine || 'no mine'}`)
                             })
                     // $(evt.target).detach()
                     // $(mineform).submit()
@@ -297,8 +297,8 @@ if ($(location)[0].pathname.includes('strain')) {
 
 
                     // $('.effectContainer').append(mineform)
-                    console.log('mom and dad')
-                    console.log( $(event.target).parents())
+                    // console.log('mom and dad')
+                    // console.log( $(event.target).parents())
                     $(event.target).parents()[0].append(mineform)
                     // $('.effectContainer').append(mineform)
                     // $('.mineform')
@@ -384,6 +384,23 @@ const goldencasing = () => {
 
 
 if ( $(location)[0].pathname.includes("tree")) {
+    let treenav = $('#familytreenav')
+    console.log("we are in here in the")
+    if (treenav) {
+    // console.log('treenav')        
+    // console.log(treenav)        
+    // treenav[0]
+    treenav
+        .removeAttr('href')
+        .on('mouseenter', () => {
+            // console.log('now were back over here')
+            // location.href = 'https://www.google.com'
+        })
+ 
+        .html('strain')
+        .attr('href', 'https://www.google.com')
+}
+        // .attr('href', '/strain')
 
     $('#signupsign1').on('mouseenter', () => {
         $('#strain').css('border-bottom', '3px solid rgb(247, 208, 36)')
@@ -398,14 +415,12 @@ if ( $(location)[0].pathname.includes("tree")) {
 
     // reminder to turn this into a req.flash('')&&/alerts.ejs msg w/  (alerts.ejs) jquery to animate out the message. 
 
-    console.log('got the a tags')
+    // console.log('got the a tags')
     let plainOrangeBucket = []
     const confirmAtag = () => {
         for (let i = 0; i < $('a').length; i++) {
             console.log( $('a')[i])
             if ($('a')[i].href.includes('tree')) {
-                console.log('man its papi el vrio')
-                console.log($('a')[i].href)
                 let hreff = $('a')[i].href
                 plainOrangeBucket.push(hreff)
             }
@@ -413,7 +428,6 @@ if ( $(location)[0].pathname.includes("tree")) {
     }
     confirmAtag()
     const returnValue = () => {
-        console.log('lets verify')
         return plainOrangeBucket[0]
     }
 
@@ -422,14 +436,13 @@ if ( $(location)[0].pathname.includes("tree")) {
 
 
 
-    console.log($('a'))
     $('.userContainer')
     // .css('border', '12px solid pink')
     .css('margin-top', '-6em')
 
-    console.log("yeah weve got the tree background")
+    // console.log("yeah weve got the tree background")
 } else {
-    console.log("no .includes 'tree' so we're not in the family tree route")
+    // console.log("no .includes 'tree' so we're not in the family tree route")
 }
 
 let briefcase = $('#briefcase')
