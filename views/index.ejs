@@ -29,33 +29,98 @@
         <%- include('./partials/navbar.ejs') %>
    
 
+        <!-- const { createCanvas, loadImage } = require('canvas')
+        const canvas = createCanvas(200, 200)
+        const ctx = canvas.getContext('2d')
+        
+        // Write "Awesome!"
+        ctx.font = '30px Impact'
+        ctx.rotate(0.1)
+        ctx.fillText('Awesome!', 50, 100)
+        
+        // Draw line under text
+        var text = ctx.measureText('Awesome!')
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+        ctx.beginPath()
+        ctx.lineTo(50, 102)
+        ctx.lineTo(50 + text.width, 102)
+        ctx.stroke()
+        
+        // Draw cat with lime helmet
+        loadImage('examples/images/lime-cat.jpg').then((image) => {
+          ctx.drawImage(image, 50, 0, 70, 70)
+        
+          console.log('<img src="' + canvas.toDataURL() + '" />')
+        }) -->
+
+      
+            
+
+
+
+
+         
+
+            <!--- 1) canvas init a little sticky i tried wasn't referencing our declared canvas variable. [loadImage('/img/mining-cart')] NO CANVAS -->
+            <!-- 2) canvas.loadImage('public/img') cant do loadImage('/img/mining-cart.png')  -->
+
+             <!-- < % const ctx = mineCanvas.getContext('2d') % >
+            < % ctx.font = '18px Chancery URW L' %>
+            < % ctx.drawImage(image, 25, 25, 25, 25) % > --> 
+     
+            
+          
+
+            
+            
+            
+            <footer>
+                <% if (sessionUser) { %>
+                    <img src="/img/barrier.png" class="barrier">
+                    <img src="/img/mine.png" class="mine">
+                    <img src="/img/barrier.png" class="barrier">
+                    <% } else { %>
+                        <img src="/img/cactus.png" class="cactus"
+                        <% } %>
+                    </footer>
+                        
+                    <canvas id="canvas"></canvas>
+        <%- include('./partials/alerts.ejs') %>
+    </body>
+
+              <!-- const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = 'green';
+            ctx.fillRect(10, 10, 150, 100); -->
+
+
             <% if (canvas) { %>
                 <% console.log("there is the canvas") %>
                 <% } else { %>
                     <% console.log("there is not the canvas") %>
-                    
-            <% } %>
+                    <% } %>
+
+
+                  <!-- < % const newCanvas = document.getElementById('#canvas') %>    -->
+                  <!-- < % const ctx = canvas.getContext('2d') %>    -->
+                  <!-- < % ctx.fillStyle = 'green' %>    -->
+                  <!-- < % ctx.fillRect(10, 10, 140, 100) %>    -->
+                 
+                 <% %>  
 
 
 
-        
-        <footer>
-            <% if (sessionUser) { %>
-                <img src="/img/barrier.png" class="barrier">
-                <img src="/img/mine.png" class="mine">
-                <img src="/img/barrier.png" class="barrier">
-                <% } else { %>
-                    <img src="/img/cactus.png" class="cactus"
-                <% } %>
-
-        </footer>
-        <%- include('./partials/alerts.ejs') %>
-    </body>
 </html>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script>
+    const newCanvas = $('#canvas')
+    const ctx = canvas.getContext('2d') 
+    ctx.fillStyle = 'green'
+    ctx.fillRect(10, 10, 140, 100) 
+
 
     let pageHeight = $(document).height().toFixed()
     let pageWidth = $(document).height().toFixed()
@@ -140,9 +205,52 @@
      .css('','')
     //  $('footer').append(tracks)          "the selector expression preceding the method" i like how jQ docs explain: objTarget.(methodInvoke)
 
-    $(mineCartTracks).insertAfter(footer) // i was using this with $(document) late at night. no sense.
 
+//     const canvas = createCanvas(200, 200)
+//     const ctx = canvas.getContext('2d')
+
+// // Write "Awesome!"
+// ctx.font = '30px Impact'
+// ctx.rotate(0.1)
+// ctx.fillText('Awesome!', 50, 100)
+
+// // Draw line under text
+// var text = ctx.measureText('Awesome!')
+// ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+// ctx.beginPath()
+// ctx.lineTo(50, 102)
+// ctx.lineTo(50 + text.width, 102)
+// ctx.stroke()
+
+// // Draw cat with lime helmet
+// loadImage('examples/images/lime-cat.jpg').then((image) => {
+//   ctx.drawImage(image, 50, 0, 70, 70)
+
+//   console.log('<img src="' + canvas.toDataURL() + '" />')
+// })
+
+
+
+    console.log('mineCanvas')       // cant access the mineCanvas down here. NO DOM. We have to append the canvas and give it a class and it will be targetable. 
+    // console.log(mineCanvas) 
+
+
+
+
+
+    
+    $(mineCartTracks).insertAfter(footer) // i was using this with $(document) late at night. no sense.
      let cartForTracks = document.createElement('img')             
+
+
+
+
+
+
+
+
+
+
      let cart = $(cartForTracks)
      cart
      .css('position', 'relative')
