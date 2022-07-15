@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@frankcollins3 
+frankcollins3
+/
+mine_nugget
+Public
+Code
+Issues
+1
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+mine_nugget/views/familytree.ejs
+@frankcollins3
+frankcollins3 [familytree] simple multiple choice game set up.
+Latest commit 43f6e9e 36 minutes ago
+ History
+ 1 contributor
+760 lines (669 sloc)  41.1 KB
+
 <!DOCTYPE html>
 
 <html>
@@ -33,7 +63,6 @@
             margin-top: 3em; 
             opacity: 1.0
         }
-
         .newContainer {
             /* display: grid;
             grid-template-columns: 1fr 1fr;
@@ -57,7 +86,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-
             width: 10%;
             background-color: golenrod;
             border: 3px solid papayawhip;
@@ -74,14 +102,11 @@
             letter-spacing: 0.33em;
             color: papayawhip;
         }
-
         .fakeBoop  {
     position: relative;
     /* border: 15px solid royalblue; */
     animation: movement 5s infinite;                /* [animate infinite] not correct. need the timing. */
-
     }
-
     @keyframes movement {
         0%, 100% {
         top: -1px   
@@ -145,13 +170,10 @@
     let animatedName = $('.nameOrNugget')
     animatedName
     .html('Hover & Discover!')
-
-
     // .on('mouseenter', ()=> $('#strain').css('border-bottom', '5px solid '))
     // $('.nameOrNugget').html('Hover & Discover!') // dang. 10 minutes which felt like eternity having trouble in navBar.ejs file w/ this.
     // setTimeout( animatedName.hide(), "7000")
     // setTimeout($('.nameOrNugget').hide(), "7000")
-
     // ******* Global Variables and Declarations
     let dad = $('#parent1') // coming from advantaged ground of not rendering cannabis images, dad == 'parent1' mom == 'parent2' not so bad
     dad 
@@ -165,7 +187,6 @@
  
     let famheight = $(document).height().toFixed()
     let famwidth = $(document).width().toFixed()
-
     let bod = $('.famtree')
     bod
     .css('background-color', 'rgb(62, 50, 32)')
@@ -173,7 +194,6 @@
     .css('align-items', 'center')
     .css('flex-flow', 'column nowrap')
     .css('margin-top', '10em')
-
     
     let parents = $('.parent')
     parents
@@ -193,27 +213,22 @@
     .css('margin-top', '2em')
     .css('display', 'flex')
     .css('flex-direction', 'row') 
-
     let jewelryCount = 0
     let wholeJewelryCount = new Array()
                                                         
     let goldHoverCount = 0
     let wholeGoldCount = []
     // functinos!
-
     let wrongCount = 0
     wholeWrongCount = []
-
     let playBtn = $('.playBtn')
     let childrenContainerBucket = []
     let roundBucket = []
     // i wanted this outside of the ajax call. but I believe .getParents && $('#playBtn') need to be [.bind()]
     
                 // realizing while doing callbacks: more ideal to import functions, we are tethered to jquery <script>scope<script>
-
             // surprised these functions don't work. unrelated but the sequelize documentation mentions that every single seqlize method besides .build() is async. meaning you can [await db.create()] without being in an async function. That information is no longer true. I saw on a video someone wrapping a whole page for sequelize functions in this giant overarching async function. 
             // On our first go at making this game... we had the ajax strain call tucked in a mouseenter event. A silly problem of everything being overly-tangled and dependent on these separate (behavior based incrementCounters && length validators [counter||wholeCounter]). To solve this problem: we'd tuck everything in a giant ajax call so that everything has access to the strain data.
-
             // ******** STRAIN API *************
             let strainUrl = `https://frankcollins3.github.io/strainuous/strain.json`
             // const getGitStrains = (data) => {       // we dont want this as a function we want everything to just have access to this information without it being
@@ -230,7 +245,6 @@
                     $(elem).show()
                 }
                 
-
                 const gone = async (jqObj) => { 
                     const runGone = async () => {
                         await setTimeout(console.log("async speed bump"), "2000")
@@ -240,15 +254,12 @@
                     setTimeout(runGone, "1000")
                 }
                         
-
                 const changebg = (elem, bgUrl) => { elem.attr('src', bgUrl) } // :) took quite a while for this type of coding to be within reflex.
-
                 // const hideHoldUp = async (jqObj) => {
                 //      optionSelectionAnimation($(jqObj))
                 //     setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
                 //     $('#childContainer').children().css('padding', '0em 6em 0em 6em')                                            
                 // }
-
                 const optionSelectionAnimation = (jqObj) => {
                     $('#playBtn').show()
                     console.log('in the animation scope')
@@ -301,7 +312,6 @@
                         .append($(gameText2))         
                         parentBucket.splice(0, parentBucket.length)
                     }    
-
                 const win = (elem) => {
                     if ($('.playBtn').hasClass('trophy')) {
                         console.log('were in the winning FUNCTION && THERE IS TROPHY!!!!!!!')
@@ -313,7 +323,6 @@
                         wrongCount = 0
                         wholeWrongCount.splice(0, wrongCount.length)
                         setTimeout(changebg($('.trophy'), '/img/gold.png'))
-
                         $('.playBtn').on('mouseenter', (event) => {
                             getParents()
                             getChildren()
@@ -329,16 +338,13 @@
                     } else {
                         console.log('change this to error')
                     }
-
                     console.log($(elem))
                     console.log('huh guess you won and we hooked up .bind() to trophy')
                 }
-
                 const imgHover = (elem) => {
                     console.log()
                 }
             
-
                 const getWinOrLose = (event) => {
                     let parents = $('.newContainer').children().text()  
                     const marriage = parents.split(' ')
@@ -350,13 +356,11 @@
                             let strainFromEvent = strains[i] 
                             console.log('strainFromEvent')
                             console.log(strainFromEvent)
-
                             $('.playBtn').addClass("trophy")
                             if (strainFromEvent.parents.includes(marriage[0] || marriage[1] || marriage[2] || marriage[3] || marriage[4])) {
                                 console.log("okay weve found a way to do this. There is of course a way to loop based on marriage.length and apply code to write the above line automatically.")
                                 appear($('#playBtn'))
                                 changebg($('#playBtn'), '/img/trophy.png')
-
                                 $('playBtn')
                                 // .addClass('trophy')
                                 .removeClass('fakeBoop')
@@ -385,7 +389,6 @@
                                     $('.playBtn').css('opacity', '1.0')
                                 }
                             }
-
                             let splitParents = strains[i].parents.split(', ')
                             let strainsplit = strains[i].parents
                         } else {
@@ -434,15 +437,12 @@
                                             win($('.playBtn'))
                                         })
                                         // a little confusing why this works and the 1 liner above us doesn't but thats okay
-
                                         optionSelectionAnimation($(event.target))
                                         setTimeout(gone($('#childContainer').children()), "2000")   // this fires right away instead of waiting for the timeout.
                                         // return strains[i].strain    // somehow this is hit or miss as to whether it will be undefined or not. you acn console.log(strains[i].strain up there with no problem. Can set the variable and its hit or miss. ANTI-dry validator/re-create .text() for the element in the return value as the solution. )
-
                                     })
                                     $('#childContainer').append(correctAnswer)
                                      // 3 minutes && fair amt. of reps  [fiddling without .text()]                                      
-
                                         // console.log($(correctAnswer).text())
                                     
                                     }
@@ -450,13 +450,9 @@
                             }   
                         }
                     }
-
-
-
                     correctAnswer()
                     const incorrectAnswers = () => {
                         const wrong1 = () => {
-
                             console.log('incorrect answers function THIS IS FUNCTION1!')
                                 for (let i = 0; i < strains.length; i++) {
                                     if (strains[i].parents.includes(childrenContainerBucket[0])) {      
@@ -557,9 +553,7 @@
                                             })                                                
                                                 }                                          
                                             } 
-
                                                 // optionSelectionAnimation($(event.target))
-
                                         }
                                     }
                                 }
@@ -572,8 +566,6 @@
                         vanish($('.playBtn'))
                
                     }
-
-
                 // $('.playBtn').click(getChildren())
     // hm i wanted to make sure we didn't run the addBox function again (&& create the containers)
     // out of habit, I'm wrongfully assuming we dont have access to [getParents()] but since its a callback we do. We'd have to [.unbind()&&.bind()] though
@@ -584,7 +576,6 @@
                         .css('height', '100px')
                         .css('width', '100px')
                         .css('background-color', 'white')
-
                     let containerContainer = document.createElement('div')
                         $(containerContainer)
                         .addClass('containerContainer')
@@ -618,13 +609,10 @@
                         .css("border", '5px solid papayawhip')
                         .css("box-shadow", '15px 15px 15px rgb(247, 208, 36')
                         
-
                         bod.append($(containerContainer))
-
                         $(containerContainer)
                         .append(newContainer)
                         .append(newContainer2)
-
                     const playButton = document.createElement('img')
                         $(playButton)
                         .attr('src', '/img/gold.png')
@@ -642,7 +630,6 @@
                                 $('.childoptin').on('mouseenter', getChildren($('.childoption')))
                             }
                         })
-
                         // .click( () => $('.childoption').on('mouseenter', vanish))
                         // .click( () => $('.childoption').on('mouseenter', (event) => $(event.target).hide()))
                         .on('mouseenter', () => {
@@ -682,7 +669,6 @@
                     // event.siblings()
                     .css('opacity', '0.4') // didn't use siblings at first and it applies to just the one sibling we hover on. I thought since our [event: box.children()] that it would select both of them. We'd have to apply it to the siblings in the event-scope-code.
                 }, "2000")
-
                setTimeout( () => {
     
                }, "2000")      // this will trigger the function to happen after.
@@ -717,13 +703,9 @@
                 //             console.log("trophy!")
                 //         }
                 // })
-
                 
-
         })  // ajax end. everything should be contained within this scope so we always have access to the straindata without having to initiate behavior [i.e. 'mouseenter'] to retrieve it.
     
-
-
         // const appendMultiChoiceOptions = () => {
             //     let returnCorrect = correctAnswer()
             //     console.log('returnCorrect')
@@ -755,6 +737,20 @@
             //     }
             // }   
             // appendMultiChoiceOptions()
-
 </script>
 
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+You have no unread notifications
