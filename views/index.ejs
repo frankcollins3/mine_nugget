@@ -24,21 +24,12 @@
     </style>
     <body>
         <%- include('./partials/navbar.ejs') %>
-        <!-- <section class="section" id="part1">
+   
 
-        </section> -->
-        <!-- <section class="section" id="part2"> -->
-            <!-- <p class="smoketext" id="smoketxtsignup">signup</p> -->
-            <!-- <p class="smoketext" id="smoketxtlogin">login</p> -->
-            <!-- <img src="/img/unlitpaper.png" class="unlit"> -->
-            <!-- <img src="/img/litpaper.jpeg" class="lit"> -->
-        <!-- </section> -->
-        <!-- <p> < %= user.username %> </p>  was a quick test. using this in the navbar/partials instead. -->
-        <!-- <section class="section" id="part3">
-            
-        </section> -->
-        
-        <!-- <h1> Mine Nugget: This innovation is GOLD</h1> -->
+
+
+
+
         
         <footer>
             <!-- <img src="/img/b/arrier.png" class="barrier"> -->
@@ -57,6 +48,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script>
+
+    let pageHeight = $(document).height().toFixed()
+    let pageWidth = $(document).height().toFixed()
+
     // body {
     $('body')
     .css('overflow', 'hidden')
@@ -104,6 +99,69 @@
     // let optionInput = document.createElement('input')
     // optionInput
 
+        
+    // MINI SNAKE GAME WITH MINE CART! this idea was an accident but it's totally theme-friendly and distracts a bit from the fact that this is technically a cannabis app which I would not have wanted to be done as my first app after a pokedex.
+     let mineCartTracks = document.createElement('div')
+     const tracks = $(mineCartTracks).addClass('tracks')
+     tracks
+      .css('width',  pageWidth*0.9)
+      .css('height', pageHeight*0.1)
+     .css('width',  '300px')                  
+    //  if it was for the db.parents guess the child from the parents game and the correctly used associations.. I wouldn't be so willing to just set 300px values for containers. 
+     .css('height', '300px')
+     .css('background-color','papayawhip')
+     .css('','')
+     $('footer').append(tracks)
+    console.log('tracks')
+    console.log(tracks)
+
+     let cartForTracks = document.createElement('img')             
+     let cart = $(cartForTracks)
+     cart
+     .css('position', 'relative')
+     .css('height', '35px')
+     .css('width', '35px')
+     .attr('src', '/img/mining-cart.png')
+     $(tracks).append(cart)
+
+     $(document).on('keydown', () => {
+         console.log("now we gotcha")
+         if (event.key == 'd') {
+             cart
+             .animate({
+                 left: '+5px'
+             }, "1000", () => {
+                 $(document).on('keydown', () => {
+                     cart
+                     .animate({
+                         left: '+5px'
+                     })
+                 })
+                  $(document).unbind('keydown')
+                  $(document).bind('keydown')
+             })
+         }
+
+         if (event.key == 'a') {
+             cart
+             .animate({
+                 right: '5px'
+             }, "1000", () => {
+                  $(document).unbind('keydown')
+                  $(document).bind('keydown')
+             })
+         }
+          if (event.key === 'd') {
+           if (event.key === '39') {
+              cart
+              .animate({
+                  left: 'left + 5px'
+              }, "1000", () =>{
+                  $(document).unbind('keydown')
+                  $(document).bind('keydown')
+              })
+          }
+        }})
 
 
 
