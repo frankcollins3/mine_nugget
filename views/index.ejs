@@ -22,7 +22,10 @@
             width: 30%;
         }
         .shrink {
-            transform: scale(0.1)
+            margin-top: 10%;
+            /* transform: scale(0.8); */
+            transform: scale(0.4);
+            /* transform: scale(0.) */
         }
     </style>
     <body>
@@ -54,27 +57,36 @@
         }) -->
 
       
-            
+<!-- 
+        const newCanvas = $('#canvas')
+        const ctx = canvas.getContext('2d') 
+    
+        console.log(newCanvas)
+        ctx.fillStyle = 'papayawhip' -->
+    
 
 
+            <div class="canvasContainer">
+                <canvas id="minecanvas" height="400" width="400"> </canvas>
+            </div>
+
+
+            <!-- < % if (canvas) { %>             -->
+                <!-- < % if (canvas.getContext) { %> -->
+                    <!-- < % console.log("hey there is the canvas context") %> -->
+                <!-- < % } %> -->
+                <!-- < % const mineCanvas = canvas.createCanvas %> -->
+                <!-- < % %> -->
+                <!-- < % %> -->
+                <!-- < % %> -->
+                <!-- < % } else { %> -->
+                    <!-- < % console.log("there is not the canvas") %> -->
+                    <!-- < % } %> -->
 
 
          
-
-            <!--- 1) canvas init a little sticky i tried wasn't referencing our declared canvas variable. [loadImage('/img/mining-cart')] NO CANVAS -->
-            <!-- 2) canvas.loadImage('public/img') cant do loadImage('/img/mining-cart.png')  -->
-
-             <!-- < % const ctx = mineCanvas.getContext('2d') % >
-            < % ctx.font = '18px Chancery URW L' %>
-            < % ctx.drawImage(image, 25, 25, 25, 25) % > --> 
-     
             
-          
-
-            
-            
-            
-            <footer>
+                 <footer>
                 <% if (sessionUser) { %>
                     <img src="/img/barrier.png" class="barrier">
                     <img src="/img/mine.png" class="mine">
@@ -82,10 +94,9 @@
                     <% } else { %>
                         <img src="/img/cactus.png" class="cactus"
                         <% } %>
+                        <%- include('./partials/alerts.ejs') %>
                     </footer>
-                        
-                    <canvas id="canvas"></canvas>
-        <%- include('./partials/alerts.ejs') %>
+                    
     </body>
 
               <!-- const canvas = document.getElementById('canvas');
@@ -95,12 +106,7 @@
             ctx.fillRect(10, 10, 150, 100); -->
 
 
-            <% if (canvas) { %>
-                <% console.log("there is the canvas") %>
-                <% } else { %>
-                    <% console.log("there is not the canvas") %>
-                    <% } %>
-
+           
 
                   <!-- < % const newCanvas = document.getElementById('#canvas') %>    -->
                   <!-- < % const ctx = canvas.getContext('2d') %>    -->
@@ -116,21 +122,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script>
-    const newCanvas = $('#canvas')
-    const ctx = canvas.getContext('2d') 
-    ctx.fillStyle = 'green'
-    ctx.fillRect(10, 10, 140, 100) 
+    /*
+const game = document.querySelector('#game');
 
-
-    let pageHeight = $(document).height().toFixed()
-    let pageWidth = $(document).height().toFixed()
-
-    
-    barrier = $(".barier")
-    barrier
-
-    // body {
-    $('body')
+            // Syncing up the canvas's internal height and width to its apparent height and width:
+            const computedStyle = getComputedStyle(game);
+            const height = computedStyle.height;
+            const width = computedStyle.width;
+            game.height = parseInt(height);
+            game.width = parseInt(width);
+*/
+$('body')
     .css('overflow', 'hidden')
     .css("display", "flex")
     .css('flex-flow', 'column wrap')
@@ -140,19 +142,20 @@
     .css('width','100%')
     .css('background-color', 'rgb(62, 50, 32)')
 
-    /* background-color: rgb(46, 38, 25); back up black*/
-    /* border: 5px solid rgb(247, 208, 36); */
-    /* background-color: rgb(247, 208, 36); */
-// }
+
+
+    // newCanvas
+    // .css('border', '5px solid pink')
 
 
 
+    let pageHeight = $(document).height().toFixed()
+    let pageWidth = $(document).height().toFixed()
 
-    // $('.unlit').css('height', '200px')
-    // $('.unlit').css('width', '350px')
+    
+    barrier = $(".barier")
+    barrier
 
-    // $('.lit').css('height', '200px')
-    // $('.lit').css('width', '350px')
     let footer = $('footer')
     footer
     .css('margin-top', '10em');
@@ -192,43 +195,64 @@
 
 
     // * THIS * IS * CODE * FOR * THE * M       I       N       E       *******                 G       A       M       E               **********                  ********                    *********
-     let mineCartTracks = document.createElement('div')
-     const tracks = $(mineCartTracks).addClass('tracks')
+     
 
-     tracks
-      .css('width',  pageWidth*0.9)
-      .css('height', pageHeight*0.1)
-     .css('width',  '300px')                  
-    //  if it was for the db.parents guess the child from the parents game and the correctly used associations.. I wouldn't be so willing to just set 300px values for containers. 
-     .css('height', '300px')
-     .css('background-color','papayawhip')
-     .css('','')
-    //  $('footer').append(tracks)          "the selector expression preceding the method" i like how jQ docs explain: objTarget.(methodInvoke)
+    function draw() {
+      const minecanvas = document.getElementById('minecanvas');
+      if (minecanvas.getContext) {
+        const ctx = minecanvas.getContext('2d');
 
 
-//     const canvas = createCanvas(200, 200)
-//     const ctx = canvas.getContext('2d')
+        console.log('how are you even figuring this out right now')
+        // ctx.fillStyle = 'rgb(200, 0, 0)';
+        // ctx.fillRect(10, 10, 50, 50);
 
-// // Write "Awesome!"
-// ctx.font = '30px Impact'
-// ctx.rotate(0.1)
-// ctx.fillText('Awesome!', 50, 100)
+        // const drawcanvas = () => {
+            ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+            ctx.fillStyle = 'papayawhip';
+            ctx.fillRect(30, 30, 500, 500);
+            ctx.fillRect(30, 30, 50, 50);
+            ctx.stroke()
+        // }
+            const mineimg = new Image()
+            mineimg.src = 'img/mining-cart.png'     // looks like a bag of popcorn a bit... thinking this .icon over.
+            mineimg.style.height = '40px'
+            mineimg.style.width = '40px'
 
-// // Draw line under text
-// var text = ctx.measureText('Awesome!')
-// ctx.strokeStyle = 'rgba(0,0,0,0.5)'
-// ctx.beginPath()
-// ctx.lineTo(50, 102)
-// ctx.lineTo(50 + text.width, 102)
-// ctx.stroke()
+            console.log('mineImg')
+            console.log(mineimg)
 
-// // Draw cat with lime helmet
-// loadImage('examples/images/lime-cat.jpg').then((image) => {
-//   ctx.drawImage(image, 50, 0, 70, 70)
+            mineimg.onload = () => {
+                ctx.drawImage(mineimg, 40, 100, mineimg.width/10, mineimg.height/10)
+                // context.drawImage(image, 0, 0, image.width*2, image.height * 2);
+                ctx.beginPath()
 
-//   console.log('<img src="' + canvas.toDataURL() + '" />')
+            }
+        // drawcanvas()
+
+
+
+
+        // minecanvas.loadImage('public/img/mining-cart.png').then(img => {
+        //     ctx.drawImage(image, 30, 30, 70, 70)
+        //     ctx.stroke()
+        // })
+
+        // ctx.stroke();
+  }
+// }
+        // canvas.loadImage('public/img/mining-cart.png').then(img => {
+        //     context.drawImage(image, 30, 30, 70, 70)
+        //     // const buffer = canvas.toBuffer('')
+        // })           
+    }
+    draw()
+
+//     loadImage('./logo.png').then(image => {
+//   context.drawImage(image, 340, 515, 70, 70)
+//   const buffer = canvas.toBuffer('image/png')
+//   fs.writeFileSync('./test.png', buffer)
 // })
-
 
 
     console.log('mineCanvas')       // cant access the mineCanvas down here. NO DOM. We have to append the canvas and give it a class and it will be targetable. 
@@ -236,34 +260,12 @@
 
 
 
-
-
-    
-    $(mineCartTracks).insertAfter(footer) // i was using this with $(document) late at night. no sense.
-     let cartForTracks = document.createElement('img')             
-
-
-
-
-
-
-
-
-
-
-     let cart = $(cartForTracks)
-     cart
-     .css('position', 'relative')
-     .css('height', '35px')
-     .css('width', '35px')
-     .attr('src', '/img/mining-cart.png')
-     $(tracks).append(cart)
-
     
      const loopAndShrink = (elem) => {                   
         let i = 0;
         length = elem.length
         for (i; i < length; i++) {
+            console.log('atleast were over here')
             $(elem[i]).addClass('shrink')
         }
     }
