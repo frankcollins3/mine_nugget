@@ -229,6 +229,7 @@
                 const appear = (elem) => {
                     $(elem).show()
                 }
+                
 
                 const gone = async (jqObj) => { 
                     const runGone = async () => {
@@ -320,16 +321,13 @@
                             $(event.target).unbind('mouseenter', getChildren()) 
                             console.log('were hovering over the gold after winning and switching the trophy bg back')
                         })
-
                         $('.newContainer').children().detach()
                         $('#childContainer').children().detach()
-
-
                         // appear($('.playBtn')&&$('.trophy')) 
                         // $('*').hide()
                         // $('*').css('border', '2px solid pink')
                     } else {
-                        console.log("were in the winning function and there is no trophy class!")
+                        console.log('change this to error')
                     }
 
                     console.log($(elem))
@@ -371,9 +369,21 @@
                                     })
                                 })
                             } else {
-                                appear( $('#playBtn'))
-                                changebg($('#playBtn'), '/img/dynamite.png')
-                                console.log("parents dont include the marriage[0] or marriage[1] n friends")
+                                wrongCount++
+                                wholeWrongCount.push(wrongCount)
+                                if (wholeWrongCount.length == 1) {
+                                    appear($('#playBtn'))
+                                    changebg($('#playBtn'), '/img/dynamite.png')
+                                    setTimeout(changebg($('#playBtn'), '/img/gold.png'), "2000")
+                                    $('.playBtn')
+                                    .css('opacity', '0.3')
+                                    console.log("parents dont include the marriage[0] or marriage[1] n friends")
+                                } else if (wholeWrongCount.length == 2) {
+                                    $('.newContainer').children().detach()
+                                    $('#childContainer').children().detach()
+                                    ('*').css('opacity', '0.1')
+                                    $('.playBtn').css('opacity', '1.0')
+                                }
                             }
 
                             let splitParents = strains[i].parents.split(', ')
@@ -385,6 +395,7 @@
                 }
                 
                 const getChildren = (element) => {
+                    $('#childContainer').children().detach()
                     // $('#childContainer').children().addClass('fakeBoop')
                     $('.playBtn').show()
                     // vanish(element)  hours of parameter targeting here. foolish; overlooked a simple solution.
@@ -445,7 +456,8 @@
                     correctAnswer()
                     const incorrectAnswers = () => {
                         const wrong1 = () => {
-                            console.log('incorrect answers function')
+
+                            console.log('incorrect answers function THIS IS FUNCTION1!')
                                 for (let i = 0; i < strains.length; i++) {
                                     if (strains[i].parents.includes(childrenContainerBucket[0])) {      
                                         // let randStrainLoop = strains[i][Math.floor(Math.random()* strains[i].length)]
@@ -463,6 +475,7 @@
                                             .addClass('fakeBoop')
                                             .addClass('childoption')
                                             .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                            console.log("mouseleave in number one!!!!!!!!!! !!!!!!")
                                             changebg($('.playBtn'), '/img/dynamite.png')
                                             optionSelectionAnimation($(event.target))
                                             // $(event.target).hide()
@@ -473,7 +486,8 @@
                                 }     
                             }     // else statement in the wrong1 block end.                        
                         }
-                        const wrong2 = () => {                                
+                        const wrong2 = () => {                         
+                            console.log("now were in wrong2!!!")
                             for (let i = 0; i < strains.length; i++) {
                                 $('#childContainer').children().css('padding', '0em 6em 0em 6em')                                             
                                 if (strains[i].parents.includes(childrenContainerBucket[0])) {
@@ -493,6 +507,8 @@
                                                         //     setTimeout($('#childContainer').css('justify-content', 'center'), "2000")
                                                         // }
                                                     } else {
+                                                        wrongCount++
+                                                        wholeWrongCount.push(wrongCount)
                                                         let incorrectAnswer2 = document.createElement("p")
                                                         $(incorrectAnswer2)
                                                         .text(newRandomStrain.strain)
@@ -500,24 +516,50 @@
                                                         .addClass('fakeBoop')
                                                         .addClass('childoption')
                                                         .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                        console.log("hovering in hover2!!!!!!!!!!!!!!!!")
                                                         changebg($('.playBtn'), '/img/dynamite.png')
                                                         optionSelectionAnimation($(event.target))
                                         })
-                                                     $('#childContainer').append($(incorrectAnswer2))
-                                                    // return $(incorrectAnswer2)
+                                        $('#childContainer').append($(incorrectAnswer2))
+                                        // return $(incorrectAnswer2)
                                                     }
-                                                                                                                                        
-                                            } else {
-                                                let incorrectAnswer2 = document.createElement("p")
+                                                    
+                                                } else {
+                                                    wrongCount++
+                                                    wholeWrongCount.push(wrongCount)
+                                                    let incorrectAnswer2 = document.createElement("p")
+                                                    if (wholeWrongCount.length == 1) {
+                                                        console.log('in wrong2 in the length1')
+                                                        console.log("were in the 3rd else statement over here!!!! in function2!!!!!!")
+                                                    $(incorrectAnswer2)
+                                                    .text(otherRandomStrain.strain)
+                                                    .addClass('parentlabel')
+                                                    .addClass('fakeBoop')
+                                                    .addClass('childoption')
+                                                    .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                    console.log("hovering in hover2!!!!!!!!!!!!!!!!")
+                                                    changebg($('.playBtn'), '/img/dynamite.png')
+                                                    optionSelectionAnimation($(event.target))
+                                                    $('#childContainer').append($(incorrectAnswer2))
+                                                })
+                                            } else if (wholeWrongCount.length == 2) {
                                                 $(incorrectAnswer2)
                                                 .text(otherRandomStrain.strain)
                                                 .addClass('parentlabel')
                                                 .addClass('fakeBoop')
                                                 .addClass('childoption')
+                                                .on('mouseleave', (event) => {          // several hours before this was obvious. I was fiddling with $('#playBtn')
+                                                console.log("hovering in hover2!!!!!!!!!!!!!!!!")
+                                                changebg($('.playBtn'), '/img/dynamite.png')
                                                 optionSelectionAnimation($(event.target))
-
                                                 $('#childContainer').append($(incorrectAnswer2))
-                                            }                                               
+                                                setTimeout($('#childContainer').children().detach(), "3000")
+                                            })                                                
+                                                }                                          
+                                            } 
+
+                                                // optionSelectionAnimation($(event.target))
+
                                         }
                                     }
                                 }
