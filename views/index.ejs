@@ -21,25 +21,33 @@
             height: 30em;
             width: 30%;
         }
+        .shrink {
+            transform: scale(0.1)
+        }
     </style>
     <body>
         <%- include('./partials/navbar.ejs') %>
    
 
-
+            <% if (canvas) { %>
+                <% console.log("there is the canvas") %>
+                <% } else { %>
+                    <% console.log("there is not the canvas") %>
+                    
+            <% } %>
 
 
 
         
         <footer>
-            <!-- <img src="/img/b/arrier.png" class="barrier"> -->
             <% if (sessionUser) { %>
-                <img src="/img/cactus.png" class="cactus"
-            <% } else { %>
+                <img src="/img/barrier.png" class="barrier">
                 <img src="/img/mine.png" class="mine">
+                <img src="/img/barrier.png" class="barrier">
+                <% } else { %>
+                    <img src="/img/cactus.png" class="cactus"
                 <% } %>
 
-            <!-- <img src="/img/barrier.png" class="barrier"> -->
         </footer>
         <%- include('./partials/alerts.ejs') %>
     </body>
@@ -51,6 +59,10 @@
 
     let pageHeight = $(document).height().toFixed()
     let pageWidth = $(document).height().toFixed()
+
+    
+    barrier = $(".barier")
+    barrier
 
     // body {
     $('body')
@@ -69,13 +81,27 @@
 // }
 
 
+
+
     // $('.unlit').css('height', '200px')
     // $('.unlit').css('width', '350px')
 
     // $('.lit').css('height', '200px')
     // $('.lit').css('width', '350px')
-    $('footer')
+    let footer = $('footer')
+    footer
     .css('margin-top', '10em');
+    // footer.children().forEach( (footerElement) => {         // tried footer first also tried .children()...
+    //     footerElement.addClass('shrink')
+    // })
+
+    // fun to do this.
+
+    // loopAndShrink(footer)                // leaving here for anyone who wants to see the equivalent of doing it another way. Have to force coding habit to
+    // for (let i = 0; i < footer.length; i++) {
+    //     console.log(footer[i])
+    //     $(footer[i]).addClass("shrink")     // :]
+    // }
 
     $('.goldbar')
     .css('height', '85px')
@@ -99,10 +125,11 @@
     // let optionInput = document.createElement('input')
     // optionInput
 
-        
-    // MINI SNAKE GAME WITH MINE CART! this idea was an accident but it's totally theme-friendly and distracts a bit from the fact that this is technically a cannabis app which I would not have wanted to be done as my first app after a pokedex.
+
+    // * THIS * IS * CODE * FOR * THE * M       I       N       E       *******                 G       A       M       E               **********                  ********                    *********
      let mineCartTracks = document.createElement('div')
      const tracks = $(mineCartTracks).addClass('tracks')
+
      tracks
       .css('width',  pageWidth*0.9)
       .css('height', pageHeight*0.1)
@@ -111,9 +138,9 @@
      .css('height', '300px')
      .css('background-color','papayawhip')
      .css('','')
-     $('footer').append(tracks)
-    console.log('tracks')
-    console.log(tracks)
+    //  $('footer').append(tracks)          "the selector expression preceding the method" i like how jQ docs explain: objTarget.(methodInvoke)
+
+    $(mineCartTracks).insertAfter(footer) // i was using this with $(document) late at night. no sense.
 
      let cartForTracks = document.createElement('img')             
      let cart = $(cartForTracks)
@@ -124,7 +151,53 @@
      .attr('src', '/img/mining-cart.png')
      $(tracks).append(cart)
 
-     $(document).on('keydown', () => {
+    
+     const loopAndShrink = (elem) => {                   
+        let i = 0;
+        length = elem.length
+        for (i; i < length; i++) {
+            $(elem[i]).addClass('shrink')
+        }
+    }
+    loopAndShrink(footer)
+    
+    let map = []
+    let down = []
+
+    const up = (jqObj) => {
+        jqObj
+        .animate({ left: '+5px'})
+    }
+
+
+    // $(document).on('keydown', 'body', cart, (e) => {
+    $(document).on('keydown', 'body', (e) => {
+        if (!map[e.which]) {
+            console.log('hey')
+            console.log(`here is the e.which ${e.which}`)
+            down.push(e.which)
+            // if (e.key === 'd') {
+                if (down[0] == '68') {
+                    console.log("lets see")
+                    up(cart)
+                    down = [] // wow didn't realize this is shorter code for: down.splice(0, ))
+                    // cart
+                }
+            }
+        })
+
+                    // .animate({
+                    //     left: '+5px'
+                    // }, "1000", () => {
+                    //     // $(document).unbind()
+                    //     // $(document).bind()
+                    // })
+
+
+
+
+
+     $(document).on('key', () => {
          console.log("now we gotcha")
          if (event.key == 'd') {
              cart
@@ -140,9 +213,7 @@
                   $(document).unbind('keydown')
                   $(document).bind('keydown')
              })
-         }
-
-         if (event.key == 'a') {
+         } else if (event.key == 'a') {
              cart
              .animate({
                  right: '5px'
