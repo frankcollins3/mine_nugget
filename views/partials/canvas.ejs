@@ -1,0 +1,116 @@
+
+<script>
+
+const canvas = document.getElementById("minecanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = 880;
+canvas.height = 80;
+document.body.appendChild(canvas);
+
+let bgReady, cartReady, coinReady;
+let bgImage, cartImage, coinImage;
+
+
+function loadImages() {
+  bgImage = new Image();
+  bgImage.onload = function () {
+    bgReady = true;
+  };
+  bgImage.src = "img/background.png";
+  cartImage = new Image();
+  cartImage.onload = function () {
+    cartReady = true;
+  };
+  cartImage.src = "img/cart.png";
+
+  coinImage = new Image();
+  coinImage.onload = function () {
+    coinReady = true;
+  };
+  coinImage.src = "img/coin.png";
+}
+
+let cartX = canvas.width / 4
+let cartY = canvas.height / 4;
+
+// let cartX = canvas.width / 2;
+// let cartY = canvas.height / 2;
+
+let coinX = 50;
+let coinY = 50;
+
+let keysPressed = {};
+function setupKeyboardListeners() {
+
+  document.addEventListener("keydown", function (e) {
+    keysPressed[e.key] = true;
+  }, false);
+
+  document.addEventListener("keyup", function (e) {
+    keysPressed[e.key] = false;
+  }, false);
+}
+
+let update = function () {
+  // Update the time.
+
+  if (keysPressed["ArrowUp"]) {
+    cartY -= 5;
+  }
+  if (keysPressed["ArrowDown"]) {
+    cartY += 5;
+  }
+  if (keysPressed["ArrowLeft"]) {
+    cartX -= 5;
+  }
+  if (keysPressed["ArrowRight"]) {
+    cartX += 5;
+  }
+
+
+  if (
+    cartX <= (coinX + 32)
+    && coinX <= (cartX + 32)
+    && cartY <= (coinY + 32)
+    && coinY <= (cartY + 32)
+  ) {
+
+    coinX = coinX + 50;
+    coinY = coinY + 70;
+  }
+};
+
+
+function render() {
+  if (bgReady) {
+    ctx.drawImage(bgImage, 0, 0);
+  }
+  if (cartReady) {
+    ctx.drawImage(cartImage, cartX, cartY);
+  }
+  if (coinReady) {
+    ctx.drawImage(coinImage, coinX, coinY);
+  }
+};
+
+
+function main() {
+  update(); 
+  render();
+
+  requestAnimationFrame(main);
+};
+
+
+var w = window;
+requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+
+
+loadImages();
+setupKeyboardListeners();
+main();
+
+$('#minecanvas')
+.css("margin-top", '-15em')
+.css("margin-left", '11em')
+</script>
