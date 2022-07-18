@@ -396,6 +396,7 @@ if ( $(location)[0].pathname.includes("tree")) {
     treenav
         .removeAttr('href')
         .on('mouseenter', () => {
+
             // console.log('now were back over here')
             // location.href = 'https://www.google.com'
         })
@@ -407,10 +408,16 @@ if ( $(location)[0].pathname.includes("tree")) {
         // .attr('href', '/strain')
 
     $('#signupsign1').on('mouseenter', () => {
-        $('#strain').css('border-bottom', '3px solid rgb(247, 208, 36)')
+        $('#strain')
+        // .css('border-bottom', '3px solid rgb(247, 208, 36)')
+            .css('box-shadow', '10px 10px 10px papayawhip')
+            .css('border-radius', '50%')
+            .attr('src', '/img/mine.png')           
     })
     $('#signupsign1').on('mouseleave', () => {
-        $('#strain').css('border-bottom', '1px solid transparent')
+        $('#strain')
+        .css('box-shadow', '')
+        // .css('border-bottom', '1px solid transparent')
     })
 
     
