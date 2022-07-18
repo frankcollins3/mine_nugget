@@ -49,6 +49,10 @@
 let height = $(document).height().toFixed()
 let width = $(document).width().toFixed()
 
+$('a')
+.on('mouseenter', (event) => $(event.target).css("text-shadow", '0.5em 0.5em 0.5em rgb(247, 208, 36)'))
+.on('mouseleave', (event) => $(event.target).css("text-shadow", '0.5em 0.5em 0.5em papayawhip'))
+// .on('mouseleave', (event.target) => {$(event.target).css('box-shadow', '2px 2px 2px papayawhip')})
 
 $('.navbody')
 .css('font-size', '28px')
