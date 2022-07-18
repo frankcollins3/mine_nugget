@@ -93,7 +93,11 @@
         }
         .searchIn {
             margin-top: 5em;
+            height: 8em;
             color: black;
+            background-image: url('/img/signupsigns.png');
+            background-size: cover;
+            background-repeat: no-repeat;
             font-weight: gold;
             text-align: center;
             border: 3px solid #FFA663;             
@@ -113,6 +117,17 @@
             display: flex;
             flex-flow: row wrap;
             justify-content: center;            
+        }
+        .searchGrid {    
+            overflow: scroll;                       /* we dont need the scroll here but i think it looks okay. */
+            height: 3em;
+            width: 8em;
+            border: 3px solid papayawhip;
+            box-shadow: 3px 6px 9px rgb(247, 208, 36);
+            margin-top: 4em;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-around;
         }
         /* .threebythree {
             display: grid;
@@ -268,7 +283,7 @@
                                 if ($('.strainBody')) {  // couldve used mutationObserver for this but am trying to clear this project out & as of today want no pics of thc 
                             $('.containerCont').hide()
                             dbStrainBucket.show()
-                        
+                                    
                             let newGrid = document.createElement('div')
                                 $(newGrid)
                                 .addClass('newGrid')
@@ -278,13 +293,16 @@
                                 .css('border', '3px solid papayawhip')
                                 .css('box-shadow', '3px 6px 9px rgb(247, 208, 36)')
                                 .css('margin-top', '4em')
+                                    
+                            let searchGrid = document.createElement('div')
+                            $(searchGrid)
+                            .addClass("searchGrid")
+                            .css('border', '5px solid papayawhip')
+                            .css('height', '80px')
+                            .css('width', '400px')
+                            // .attr('id', 'childContainer')
 
-                            let h1 = document.createElement('h1')
-                            $(h1)
-                            .addClass('strainHeader')
-                            .css('width', '100%')
-                            .css('text-align', 'center')
-                            .css('', '')
+
 
                             // $('.dbStrainBucket').append($(h1))
 
@@ -316,14 +334,18 @@
                                 //     // .css('flex-direction', 'row')  .nonPretty()
                                 // } 
                                     $('.strainBody').append($(newGrid))
+                                    $('.strainBody').append($(searchGrid))
                                     $(newGrid).append(dbStrainBucket)
                                     $(newGrid).insertBefore($('footer')) 
+                                    $(searchGrid).insertBefore('footer')
+
 
                                 
                             
                                     
                                 } else { console.log('nothing')}
                             }   else {
+                                $('.searchGrid').hide()
                                 inp.hide()
                                 $('.newGrid').detach()
                                 $('.containerCont').show()
@@ -379,17 +401,25 @@
 //     console.log(inp.val())
 //    })
     inp.on('search', (event) => {
-        let searchword = $(event.target).val()
+        // $('.searchGrid').children().detach()         // this is our container.truncate() method.
+        let searchword = $(event.target).val() // kind of wanted [.target.val().UpperCase()]
         console.log($('.liStrain'))       
         $('.liStrain').each( (i, strain) => {
-            // console.log(strain)
             // console.log($(strain).text().charAt(1)) // not array based indexing. 
-
-            if ($(strain).text().charAt(1) == searchword) {     // i wonder why strict equality only returns 1 value. 
-                console.log("were in the search condition")
+            let firstLetter = $(strain).text().charAt(1)
+            if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
+                console.log("heres the text")
                 console.log($(strain).text())
 
-                
+                let searchMine = document.createElement('div')
+                $(searchMine)
+                .css('height', '45px')
+                .css('width', '45px')
+                .css('border', '2px solid papayawhip')
+                .css('border-radius', '50%')            
+                $('.searchGrid').append($(searchMine))
+                // console.log($(this))
+                // console.log($(this).length)
             }
         })
     })
