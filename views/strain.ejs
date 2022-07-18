@@ -11,11 +11,11 @@
         <link rel="stylesheet" href="">
     </head>
     <style> 
+       
         .strainBody {
             display: flex;
             flex-direction: column;
             align-items: center;
-
             overflow: hidden;
         }
         .containerCont {
@@ -23,7 +23,7 @@
             flex-direction: column;
             align-items: center; 
         }
-        .strainContainer{
+        .strainContainer {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -62,11 +62,12 @@
             font-weight: bold;
             font-family: URW Chancery Lew;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* justify-content: center; */
+            flex-flow: row wrap;
+            justify-content: center;
         }
-
+        h1 {
+            text-align: center;
+        }
         /* .dbStrainBucket > .dbList, .effectContainer {
             list-style-type: none;
             color: papayawhip;
@@ -77,25 +78,29 @@
             align-items: center;
             /* justify-content: center; */
         /* } */ 
-
         .effectContainer {
+            padding: 0;
+            margin: 0em 3em 0em 3em;
+            align-self: center;
             list-style-type: none;
             color: papayawhip;
             font-weight: bold;
             font-family: URW Chancery Lew;
-            display: flex;
+             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; 
             /* justify-content: center; */
         }
+        .searchIn {
+            margin-top: 5em;
+            color: black;
+            font-weight: gold;
+            text-align: center;
+            border: 3px solid #FFA663;             
+            /* text-shadow: 1px 1px 1px rgb(247, 208, 36); */ 
+            border-radius: 40%;
 
-        /* .shovelContainerColumn {
-            border: 2px solid blue;
-            display: flex; 
-            flex-flow: column nowrap;
-            align-items: center;
-        } */
-
+        }
         .cactus {
             /* position: absolute;  hmm... */ 
             margin-top: -8em;
@@ -103,7 +108,13 @@
         .ghost {
             opacity: 0.0;
         }
-        .threebythree {
+        .newGrid {
+            overflow: scroll;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;            
+        }
+        /* .threebythree {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr;
@@ -112,7 +123,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-        }
+        } */
+
         /* width */
 ::-webkit-scrollbar {
   width: 20px;
@@ -169,7 +181,7 @@
             width: 100px;
             background-color: papayawhip;
         }
-
+       
     </style>
     <body class="strainBody">
         <%- include('./partials/navBar') %>
@@ -189,27 +201,28 @@
 
         </div>
         
-        <% allDB.forEach( (dbstrain) => { %>        
-<!-- pick&&choose $.ajax({ we work with res.render: {alldb} we render and access favorite strains. ajax can save 1,2,3, new strains without update.}) -->
-<!-- we can find this by allowing the newGrid to have new additions from our apiStrainData [while checking for duplicates] -->
-            <div class="dbStrainBucket">
+        <!-- pick&&choose $.ajax({ we work with res.render: {alldb} we render and access favorite strains. ajax can save 1,2,3, new strains without update.}) -->
+        <!-- we can find this by allowing the newGrid to have new additions from our apiStrainData [while checking for duplicates] -->
+        <div class="dbStrainBucket">
+            
+            <% allDB.forEach( (dbstrain) => { %>        
                 <ul class="dbList">
                     <div class="effectContainer">
-                    <li class="liStrain"> <%= dbstrain.strain %></li>
-                    <img class="shovel" src="/img/shovel.png">
-                    <!-- <form method="POST" action="/strain/digmine" class="mineform">  i had a form in here that was going to post the db.like but then went with ajax to bypass the url changing aspect of <form>submit</form>-->            
+                        <li class="liStrain"> <%= dbstrain.strain %></li>
+                        <img class="shovel" src="/img/shovel.png">
+                        <!-- <form method="POST" action="/strain/digmine" class="mineform">  i had a form in here that was going to post the db.like but then went with ajax to bypass the url changing aspect of <form>submit</form>-->            
+                    </ul>
+                    <% })  %>
                 </div>
-                    
-                    <!-- {dbstrain} [object object] -->
-                </ul>
             </div>
-        <% })  %>
-    
-    <footer>
-        <p class="hiddenUserDataReference"> <%= ejsuser.age %></p>
-            <p id="allDb" class="hiddenUserDataReference"> <%= allDB%></p>
-            <p class="hiddenUserDataReference" id="user"> <%= ejsuser %> </p>
-            <p class="hiddenUserDataReference" id="ejsname"> <%= ejsuser.username %></p>
+
+            <input type="search" class="searchIn" incremental="true" list="dbList" pattern=".{2,}" maxlength="1" name="q" required>
+            
+            <footer>
+                <p class="hiddenUserDataReference"> <%= ejsuser.age %></p>
+                <p id="allDb" class="hiddenUserDataReference"> <%= allDB%></p>
+                <p class="hiddenUserDataReference" id="user"> <%= ejsuser %> </p>
+                <p class="hiddenUserDataReference" id="ejsname"> <%= ejsuser.username %></p>
             <!-- <div class="mineCartContainer"> I THREW A MINE CART IN HERE BUT IT WAS CREATED ONTO THE MIDDLE OF THE PAGE. lets .insertAfter the cactus </div> -->
         </footer>
     </body>
@@ -247,22 +260,9 @@
 
                     // if (formHover == true) {   // ************************* first time I've used a boolean to be honest.
                         goldCount++
-                        wholeGoldCount.push(goldCount)
-                    
-
-
-
-                    // if (wholeGoldCount.length > 2) {
-                    //    if ( $('.strainCont').has('.strainCont')) {
-                    //        console.log('the body has the strain container')
-                    //    } else {
-                    //        console.log("now the body doesn't have the strain container")
-                    //    }
-                    // if (wholeGoldCount.length > 2) {
-                        // if (wholeGoldCount.length % 2 == 0) {
-                            if (wholeGoldCount.length % 2 == 0) {
-                                console.log('wholeGoldCount.length')
-                                console.log(wholeGoldCount.length)
+                        wholeGoldCount.push(goldCount)                    
+                            if (wholeGoldCount.length % 2 == 0) {  
+                                inp.show()                              
                                 $('.mineform').children().detach()
                                 // prepare if(block) boolean.setTrue(uponBehavior) vs checking jq objects for existence. 
                                 if ($('.strainBody')) {  // couldve used mutationObserver for this but am trying to clear this project out & as of today want no pics of thc 
@@ -272,12 +272,24 @@
                             let newGrid = document.createElement('div')
                                 $(newGrid)
                                 .addClass('newGrid')
-                                // .addClass('strainGrid')
-                                .css('height', height*0.5)
-                                .css('width', height*0.8)
+                                // I see a true-to-theme aspect of having a small narrow container that you'd dig/scroll downward into to see single-value by single-value. it sounds .nonPretty() though.
+                                .css('height', height*0.3)
+                                .css('width', height*0.4)
                                 .css('border', '3px solid papayawhip')
                                 .css('box-shadow', '3px 6px 9px rgb(247, 208, 36)')
                                 .css('margin-top', '4em')
+
+                            let h1 = document.createElement('h1')
+                            $(h1)
+                            .addClass('strainHeader')
+                            .css('width', '100%')
+                            .css('text-align', 'center')
+                            .css('', '')
+
+                            // $('.dbStrainBucket').append($(h1))
+
+                            
+
                                 // console.log("heres the li length")
                                 // console.log($('.dbList .liStrain').length)
 
@@ -312,6 +324,7 @@
                                     
                                 } else { console.log('nothing')}
                             }   else {
+                                inp.hide()
                                 $('.newGrid').detach()
                                 $('.containerCont').show()
                             }
@@ -359,6 +372,17 @@
     .css('margin-top', pageHeight*0.4) // :)
     $('footer').append($(cactus))   
 
+   let inp = $('.searchIn')
+   inp.hide()
+
+//    inp.on('click', () => {
+//     console.log(inp.val())
+//    })
+    inp.on('search', (event) => {
+        let search
+        console.log($(event.target).val())
+        console.log("hey were searching")
+    })
 
 // Alternative to console.log, allows us to view the hero's movement in the upper-right box on the app's page, which is our cheat area:
 
@@ -366,36 +390,67 @@
 
 
     // MINI SNAKE GAME WITH MINE CART! this idea was an accident but it's totally theme-friendly and distracts a bit from the fact that this is technically a cannabis app which I would not have wanted to be done as my first app after a pokedex.
-    let mineCartTracks = document.createElement('div')
-    const tracks = $(mineCartTracks).addClass('tracks')
-    tracks
-    // .css('width',  pageWidth*0.9)
-    // .css('height', pageHeight*0.1)
-    .css('width',  '300px')                 // if it was for the db.parents guess the child from the parents game and the correctly used associations.. I wouldn't be so willing to just set 300px values for containers. 
-    .css('height', '300px')
-    .css('background-color','papayawhip')
-    .css('','')
-    $('footer').append(tracks)
+    // let mineCartTracks = document.createElement('div')
+    // const tracks = $(mineCartTracks).addClass('tracks')
+    // tracks
+    // // .css('width',  pageWidth*0.9)
+    // // .css('height', pageHeight*0.1)
+    // .css('width',  '300px')                 // if it was for the db.parents guess the child from the parents game and the correctly used associations.. I wouldn't be so willing to just set 300px values for containers. 
+    // .css('height', '300px')
+    // .css('background-color','papayawhip')
+    // .css('','')
+    // $('footer').append(tracks)
 
 
-    let cartForTracks = document.createElement('img')            // 
-    let cart = $(cartForTracks)
-    cart
-    .css('position', 'relative')
-    .css('height', '35px')
-    .css('width', '35px')
-    .attr('src', '/img/mining-cart.png')
-    $(tracks).append(cart)
+    // let cartForTracks = document.createElement('img')            // 
+    // let cart = $(cartForTracks)
+    // cart
+    // .css('position', 'relative')
+    // .css('height', '35px')
+    // .css('width', '35px')
+    // .attr('src', '/img/mining-cart.png')
+    // $(tracks).append(cart)
 
-    $(document).on('keydown', () => {
-        console.log("now we gotcha")
-        if (event.key === 'd') {
-            cart
-            .animate({
-                left: '5px'
-            }, "1000")
-        }
-    })
+    // $(document).on('keydown', () => {
+    //     console.log("now we gotcha")
+    //     if (event.key == 'd') {
+    //         cart
+    //         .animate({
+    //             left: '+5px'
+    //         }, "1000", () => {
+    //             $(document).on('keydown', () => {
+    //                 cart
+    //                 .animate({
+    //                     left: '+5px'
+    //                 })
+    //             })
+    //             // $(document).unbind('keydown')
+    //             // $(document).bind('keydown')
+    //         })
+    //     }
+
+    //     if (event.key == 'a') {
+    //         cart
+    //         .animate({
+    //             right: '5px'
+    //         }, "1000", () => {
+    //             // $(document).unbind('keydown')
+    //             // $(document).bind('keydown')
+    //         })
+    //     }
+    //     // if (event.key === 'd') {
+    //     // // if (event.key === '39') {
+    //     //     cart
+    //     //     .animate({
+    //     //         left: 'left + 5px'
+    //     //     }, "1000", () =>{
+    //     //         $(document).unbind('keydown')
+    //     //         $(document).bind('keydown')
+    //     //     })
+    //     // }
+    // }, {once: false})
+    // <!-- * https://stackoverflow.com/questions/5353254/javascript-onkeydown-event-fire-only-once *************************************** BEAT THE PROBLEM!
+
 
 
     // Uncaught DOMException: Failed to execute 'appendChild' on 'Node': Nodes of type '#document' may not be inserted inside nodes of type '#document-fragment'      
