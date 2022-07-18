@@ -146,6 +146,8 @@ if ($(location)[0].pathname.includes('strain')) {
     container.show()
     barrel.hide()
     strain.removeAttr('href')
+    strain.on('mouseenter', (event) => $(event.target).css('cursor', 'pointer'))
+    strain.click( () => { location.href = '/' })
     strain.siblings().hide() // first time I ever thought of using this.
     strain.css('color', 'transparent')
     strain.css('background-image', `url(${'/img/mine.png'})`)
@@ -193,7 +195,9 @@ if ($(location)[0].pathname.includes('strain')) {
             
             
         } else { 
-            
+                
+
+
             // console.log($(event.target))
             // console.log($(event.target).parents())
             
@@ -260,7 +264,8 @@ if ($(location)[0].pathname.includes('strain')) {
                 //  if ($(event.target).parents()[0].children().length ) {         // like #4 time doing data.dontAppendWithDuplicate() functionality.
                 
                 
-                if ($('.mineform .mineinput').length < 1) {        
+                if ($('.mineform .mineinput').length < 1) {    
+                    console.log("yeah were here with the length")    
                     $(mineform).append(mineinput)
                     $(mineform).on('mouseenter', () => {       // 10 minutes: leaving the .on'mouseenter' (event) within the $(mineinput).on('click') wondering why console.log wouldn't work.
                         // console.log('hover while length is 1')
@@ -273,6 +278,7 @@ if ($(location)[0].pathname.includes('strain')) {
                     })
                     // no submit button on our very basic form. [cool2see]: form.submit() vs $(evt.target).val()
                     $(mineinput).on('click', (evt) => {         // a more visually appealing, but still .nonPretty() .nonFlowsWell() solution. 
+                        $(evt.target).hide()
                         // console.log('we are leaving this thing')
                         // console.log($(evt.target))
                         // console.log('look at the value')
@@ -294,8 +300,6 @@ if ($(location)[0].pathname.includes('strain')) {
                     // $(evt.target).detach()
                     // $(mineform).submit()
                 })
-
-
                     // $('.effectContainer').append(mineform)
                     // console.log('mom and dad')
                     // console.log( $(event.target).parents())
@@ -307,9 +311,7 @@ if ($(location)[0].pathname.includes('strain')) {
                     // $('mineinput').show()
                     // $('.effectContainer').prepend($(mineform))
                     // $(event.target).parents()
-
                     // $('.mineform').append($('.mineinput'))
-
                 }
 
                 // $('.effectContainer')
@@ -326,11 +328,12 @@ if ($(location)[0].pathname.includes('strain')) {
             $('.mineimg')
             .show()
             // have to say it twice for safety.
-            if ( $('.effectContainer .mineimg').length < 2) {
+            if ( $('.effectContainer .mineimg').length < 1) {
                 $('.effectContainer').append($(mineimg))
             }
     }
 })
+  
     let hoverCounter = 0;
     let wholeCounter = []
     
@@ -396,10 +399,11 @@ if ( $(location)[0].pathname.includes("tree")) {
             // console.log('now were back over here')
             // location.href = 'https://www.google.com'
         })
- 
         .html('strain')
-        .attr('href', 'https://www.google.com')
-}
+        .attr('href', '/strain ')
+
+    }
+
         // .attr('href', '/strain')
 
     $('#signupsign1').on('mouseenter', () => {
