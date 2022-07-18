@@ -10,8 +10,24 @@ let routes = require('./routes')
 const session = require('express-session')
 const flash = require('connect-flash')
 
+const { createCanvas, loadImage } = require('canvas')// also was considering using canvas with app.use instead of putting into the res.render('index', {canvas]})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const routes = require('./routes')
-const SECRET_SESH = process.env.SECRET_SESSION
+// const SECRET_SESH = process.env.SECRET_SESSION
 const db = require('./models')
 
 // passport = config/ppConfig.js
@@ -20,7 +36,8 @@ const db = require('./models')
 
 // let PORT = process.env.PORT || 7777
 const sessionObject = {
-    secret: SECRET_SESH,
+    // secret: SECRET_SESH,
+    secret: 'mine',
     resave: false,
     saveUninitialized: true
 }
@@ -41,9 +58,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: false})) // allows us to parse form data.
 // app.use('/', routes)
 app.use( (req, res, next) => {
+    res.locals.hey = 'hey'
      res.locals.alerts = req.flash()
-     res.locals.hey = 'hey'
-//     // req.flash('success', 'how are you doing now dude')
+    res.locals.canvas = { createCanvas, loadImage }
     req.flash()
     res.locals.sessionUser = req.user // res.locals[within rendering/view scope] vs app.locals. which holds the settings for the app.
     next()
@@ -57,32 +74,14 @@ app.use('/strain', require('./routes/strain'))
 app.use('/', require('./routes'))
 // app.use('/', routes)
 
-// app.get('/', (req, res) => {
-//     req.flash('error', 'how are we not smoking yet')
-//     req.flash('smoke', 'hey whatchuu doin')
-//     // let success = {success: `${req.flash('success', 'weve got other plans')}`}    
-//     res.render('index')
-//     // res.send("ok")
-// })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 let PORT = process.env.PORT || '7777'
-app.listen(PORT, () => {
-    console.log(`hear the sweet sounds of PORT: ${process.env.PORT}`)
-})
+app
+.listen(PORT)
+.on('listening', () => console.log(`smell the server on: ${process.env.PORT || PORT}`)
+)
 
 module.exports = app
 // app.on('listening', () => console.log(`${process.env.PORT} || ${PORT}`))
