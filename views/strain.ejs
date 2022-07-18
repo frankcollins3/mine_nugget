@@ -379,9 +379,19 @@
 //     console.log(inp.val())
 //    })
     inp.on('search', (event) => {
-        let search
-        console.log($(event.target).val())
-        console.log("hey were searching")
+        let searchword = $(event.target).val()
+        console.log($('.liStrain'))       
+        $('.liStrain').each( (i, strain) => {
+            // console.log(strain)
+            // console.log($(strain).text().charAt(1)) // not array based indexing. 
+
+            if ($(strain).text().charAt(1) == searchword) {     // i wonder why strict equality only returns 1 value. 
+                console.log("were in the search condition")
+                console.log($(strain).text())
+
+                
+            }
+        })
     })
 
 // Alternative to console.log, allows us to view the hero's movement in the upper-right box on the app's page, which is our cheat area:
