@@ -103,7 +103,6 @@
             border: 3px solid #FFA663;             
             /* text-shadow: 1px 1px 1px rgb(247, 208, 36); */ 
             border-radius: 40%;
-
         }
         .cactus {
             /* position: absolute;  hmm... */ 
@@ -120,7 +119,7 @@
         }
         .searchGrid {    
             overflow: scroll;                       /* we dont need the scroll here but i think it looks okay. */
-            height: 3em;
+            height: 7em;
             width: 8em;
             border: 3px solid papayawhip;
             box-shadow: 3px 6px 9px rgb(247, 208, 36);
@@ -235,7 +234,7 @@
             
             <footer>
                 <p class="hiddenUserDataReference"> <%= ejsuser.age %></p>
-                <p id="allDb" class="hiddenUserDataReference"> <%= allDB%></p>
+                <p id="allDb" class="hiddenUserDataReference"> <%= {allDB}%></p>
                 <p class="hiddenUserDataReference" id="user"> <%= ejsuser %> </p>
                 <p class="hiddenUserDataReference" id="ejsname"> <%= ejsuser.username %></p>
             <!-- <div class="mineCartContainer"> I THREW A MINE CART IN HERE BUT IT WAS CREATED ONTO THE MIDDLE OF THE PAGE. lets .insertAfter the cactus </div> -->
@@ -298,8 +297,10 @@
                             $(searchGrid)
                             .addClass("searchGrid")
                             .css('border', '5px solid papayawhip')
-                            .css('height', '80px')
-                            .css('width', '400px')
+                            .css('height', '100px')
+                            .css('width', '500px')
+                          
+                            
                             // .attr('id', 'childContainer')
 
 
@@ -345,7 +346,8 @@
                                     
                                 } else { console.log('nothing')}
                             }   else {
-                                $('.searchGrid').hide()
+                                $('.searchGrid').hide() 
+                                                               
                                 inp.hide()
                                 $('.newGrid').detach()
                                 $('.containerCont').show()
@@ -400,30 +402,84 @@
 //    inp.on('click', () => {
 //     console.log(inp.val())
 //    })
+    let textBucket = []
+
     inp.on('search', (event) => {
-        // $('.searchGrid').children().detach()         // this is our container.truncate() method.
+        let ajurl = `https://frankcollins3.github.io/strainuous/strain.json`
+        $.ajax({
+                        method: 'GET',
+                        url: ajurl,
+                        dataTypes: 'json',
+                    }).done( (data) => {
+                     let innerajstrain = data.strains
+                    
+
+        $('.searchGrid').children().detach()         // this is our container.truncate() method.
         let searchword = $(event.target).val() // kind of wanted [.target.val().UpperCase()]
         console.log($('.liStrain'))       
         $('.liStrain').each( (i, strain) => {
+
+
+            
+            
             // console.log($(strain).text().charAt(1)) // not array based indexing. 
             let firstLetter = $(strain).text().charAt(1)
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
-                console.log("heres the text")
-                console.log($(strain).text())
-
+            console.log("heres the text")
+            console.log($(strain).text())
+            let searchStrainText = $(strain).text()
+            console.log('searchStrainText')
+            console.log(searchStrainText)
+           
                 let searchMine = document.createElement('div')
                 $(searchMine)
                 .css('height', '45px')
                 .css('width', '45px')
                 .css('border', '2px solid papayawhip')
-                .css('border-radius', '50%')            
+                .css('border-radius', '50%')          
+                .css('background-image', `url('/img/mine.png')`)
+                .css('box-shadow', '10px 10px 10px papayawhip')
+                .css('background-size', 'cover')
+                .css('background-repeat', 'no-repeat')
+                .css('margin-top', '1em')
                 $('.searchGrid').append($(searchMine))
-                // console.log($(this))
-                // console.log($(this).length)
+
+                let searchMineLabel = document.createElement('p')
+                $(searchMineLabel)
+                .css('color', 'papyawhip')
+                .css('font-weight', 'bold')
+                .html(searchStrainText)
+                .on('mouseenter', (event) => {
+                    $('.newGrid').children().detach()
+                    let text = $(event.target).text()
+                    let ptagtext = document.createElement('p')
+                    $(event.target).siblings().siblings().detach()
+                    $(ptagtext)
+                    .text(text)
+                    $('.newGrid').append($(ptagtext))
+                    
+                    
+                    // for (let i = 0; i < innerajstrain.length; i++) {
+                    //     if (`${innerajstrain[i].strain.includes(text)}`) {
+                    //        console.log(text)
+                    //        console.log(innerajstrain[i])
+
+                    //     }
+                        
+                    // }
+
+                })
+
+
+
+
+                   
+                $(searchMineLabel).insertAfter($(searchMine))
+                console.log($(searchMineLabel))
             }
         })
     })
-
+    })
 // Alternative to console.log, allows us to view the hero's movement in the upper-right box on the app's page, which is our cheat area:
 
 
@@ -507,8 +563,7 @@
         let shovelBrother = $(event.target).siblings()[0].outerText
         console.log('event target siblings')
         let siblingLi = $(event.target).siblings()[0]
-        console.log('siblingLi')
-        console.log(siblingLi)
+        // sae
         // psql accessing non-existent property of module exports circular dependency [having error sharing 2 post routes with 1. speeding through]
                         $.ajax({          
                             type: "POST",
@@ -695,7 +750,7 @@
                                             console.log(entry)
                                             // console.log(entries)
                                             // console.log(entries[0].target.outerText)
-                                            let strainName = entries[0].target.outerText
+                                            let strainName = entries[0].target.outerText || 'no name'
                                            
                                             let effectArray = []
                                             if (entry.isIntersecting) {       // left this off for an hour while working and wasn't impeded by it until now.
