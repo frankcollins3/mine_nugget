@@ -9,7 +9,7 @@ const ax = require("axios")
 
 router.get('/signup', (req, res) => {
 
-    console.log('hey were hitting the route')
+    // console.log('hey were hitting the route')
     res.render("auth/signup")
 })
 
@@ -37,17 +37,19 @@ router.get('/signup', (req, res) => {
 //  })
 
 router.post('/', (req, res) => {
+
+
     if (!req.body.age) {
-        console.log("we dont even have any age inputs")
-        console.log(req.body)
+        // console.log("we dont even have any age inputs")
+        // console.log(req.body)
     } else {
         console.log("weve got an age")
     }
 
     if (req.body.parents) {
     console.log("weve got mom and dad with us")
-        console.log('req.body')
-        console.log(req.body)
+        // console.log('req.body')
+        // console.log(req.body)
         let strain = req.body.strain
         let taste = req.body.taste
     } else {
@@ -61,7 +63,7 @@ router.post('/', (req, res) => {
     //                         funfact: ajax.funfact,
 
         // strain .create 
-    console.log(req.body)
+    // console.log(req.body)
     if (req.body.email) {
         const submittedUser = req.body
       let url = `https://frankcollins3.github.io/strainuous/strain.json`
@@ -69,8 +71,8 @@ router.post('/', (req, res) => {
         db.user.findAll().then( (userdb) => {
             // console.log(userdb)
             const userlen = userdb.length + 1
-            console.log('userlen')            
-            console.log(userlen)            
+            // console.log('userlen')            
+            // console.log(userlen)            
         // console.log('strainData.data.strains')
         let strains = strainData.data.strains           // was going back & forth with quickly [axio vs ajax] and forgetting ajax.data. should trust eyes when they say there is an API root of [data/or strains]   
         // console.log(strains)
@@ -78,29 +80,22 @@ router.post('/', (req, res) => {
         // let randomNumber = strains[Math.floor(Math.random()*strains.length)-1]      // made a mistake accessing strains first because we are immediately returning that successfully grabbed elem. overlooking the fact we could've just created a variable out of the strains.length without accessing it as well. 
         let n = Math.floor(Math.random()*strains.length)
         let randomStrain = strains[`${n}`]
+        console.log('randomStrain')
+        console.log(randomStrain)
+        // let randomId = randomStrain.strainId
+        // console.log('randomId')
+        // console.log(randomId)
         
         
-        // db.strain.findOrCreate({                // this is an auto-seed because we suffer a breaking change trying to create a variable: [strains[0].outerText] and then cant access the mines to create a strain. This is like seeding/auto-generate-data but for every single user.
-        //     where: {
-        //         // userId: userlen,
-        //         strain: randomStrain.strain,
-        //         dominant: randomStrain.dominant,
-        //         funfact: randomStrain.funfact,
-        //         parents: randomStrain.parents
-        //     }
-        // }).then( (newStrain) => {
-        //     console.log('newStrain')
-        //     console.log(newStrain)
-        // })
-
+        db.strain.findOne({                // this is an auto-seed because we suffer a breaking change trying to create a variable: [strains[0].outerText] and then cant access the mines to create a strain. This is like seeding/auto-generate-data but for every single user.
+            where: {
+                strain: randomStrain.strain,
+            }
+        }).then( (newStrain) => {         
+            let strainname = newStrain.get().strain
     //     for (let i = 0; i < strains.length ; i++) {  picking a random value instead.
     //         console.log(strains[i].strain)  // those 5 mins feel like forever. was forgetting the [i]
-    //         console.log(strains[i].dominant)  
-    //         console.log(strains[i].funfact)  
-    //         console.log(strains[i].parents)  
-    //     }
-    // })
-
+    
     db.user.findOrCreate({
         where: { email: req.body.email },
         defaults: {
@@ -109,40 +104,33 @@ router.post('/', (req, res) => {
             password: req.body.password,
             age: req.body.age
         }
-    }).then(([user, created]) => {
-        // console.log(user)
-        user.createStrain({
-            // userId: parseInt(userlen),
-            strain: randomStrain.strain,
-            dominant: randomStrain.dominant,
-            funfact: randomStrain.funfact,
-            parents: randomStrain.parents
-        }).then( (userstrain) => console.log(userstrain.get()))
+    }).then(([user, created]) => {     
         if (created) {
-            // If created, success and redirect back to home
-            // console.log('hey this is the user')
-            // console.log(user)
-            console.log(`this is the user name ${user.username}`)
-            // Flash message
             const successObject = {
                 successRedirect: '/',
                 successFlash: "We're Going Home"    
             }
-            // req.flash('success', 'iloveyou')
+            db.usersStrains.create({
+                userId: user.id,    
+                strainId: newStrain.get().strainId,
+            }).then( (nice) => {
+                console.log('nice')
+                console.log(nice)
+                console.log("hey we finally have our new strain")
+            })
+
             req.flash('success', 'very good')
             passport.authenticate('local', successObject)(req, res)
-            // res.redirect('/')
-        } else {
-            // Email already exists
-            // console.log('we have a huge problem')
+        } else {            
             req.flash('error', 'Email already exists')
             res.redirect('/auth/signup')
         }
     }).catch(err => {
-        console.log('Error: ', err)
+        // console.log('Error: ', err)
         // req.flash('error', 'Either email or password is incorrect. Please try again.')
         req.flash('error', 'oh no we have err')
         res.redirect('/auth/signup')
+    })
     })
     })
     })
