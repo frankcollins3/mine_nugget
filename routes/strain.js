@@ -3,25 +3,27 @@ const db = require('../models')
 
 let strainRouter = require('express').Router()
 
+
+
+
 strainRouter.get('/', (req, res) => {
+    console.log('hey wassup')
+    console.log('res.locals.sessionUser')
+    console.log(res.locals.sessionUser)
     // console.log('hey cutie')
     const user = res.locals.sessionUser || 'undefined user'
     const ejsuser = {
         username: user.username || 'no username',
+        id: 0,
         age: user.age || 'no age',
         email: user.email || 'no email'
     }
-    db.strain.findAll().then(async (allDb) => {
-        // console.log('allDb')
-        // console.log(allDb)
-        // let user = {
-            //     username: sessionUser.username,
-            //     age: sessionUser.age.toString()
-            // // }
-            // "strain": "wedding cake",
-            // "dominant": "indica",
-            // "funfact": "leafly strain of year 2019",
-            // "parents": "triangle kush, animal mints",
+    db.user.findOne({ where: { id: user.id}}).then(async (user) => {
+        let allDb = await user.getStrains()
+
+
+    // db.strain.findAll().then(async (allDb) => {
+
             await db.strain.findOrCreate({
                 where: {
                     strain: 'wedding cake',
@@ -33,12 +35,15 @@ strainRouter.get('/', (req, res) => {
 
             let allDB = allDb // || {strain: 'no strains'}
             req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
+            req.flash('strainsuccess', 'Saving This Gold.')
             res.render("strain", {
                 ejsuser,
                 allDB     
             })
-        })
+    })
 })
+
+
 
 strainRouter.get('/familytree', (req, res) => {
     // [ore or ore] not a bad name for the gold-nugget themed game.
@@ -52,15 +57,19 @@ strainRouter.get('/familytree', (req, res) => {
 strainRouter.post('/', (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
     // strainID!
     console.log("WE ARE HITTING THE REGULAR STRAIN ROUTE!")
-    
     // let user = req.body.user
     // console.log('user.username')
     // console.log(user.username)
 
     let userData = req.body.userkeyword     
     // we sent the userData over, invisibly appended it to the footer, grabbed the outerText from jqObj, now its here
+    console.log('userData')
+    console.log(userData)
 
     let strain = req.body.strain
+    console.log('strain && strain.strain')
+    console.log(strain)
+    console.log(strain.strain)
     let dominant = req.body.dominant
     let funfact = req.body.funfact
     let parents = req.body.parents
@@ -75,9 +84,15 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
         where: { username: userData}        
     }).then(async (dbUserData) => {
         // console.log('true or false')
-        console.log(await db.strain.findOne({where:{strain: strain}}))
-        if (await db.strain.findOne({where:{strain:strain}}) == null) {
-            // console.log("false we dont have one")
+        // console.log(await db.strain.findOne({where:{strain: strain}}))
+            let user = await db.user.findOne({where: { username: userData }})
+            console.log(user)
+            user.getStrains().then( (userstrains) => {
+           
+
+                userstrains.forEach( (userS) => {
+                    if (userS.strain !== strain.strain) {
+                        console.log('we dont have this strain saved')
             dbUserData.createStrain({
                 strain: strain,
                 dominant: dominant,
@@ -111,7 +126,7 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
                                     gold: gold,
                                     nug: nugget
                                 
-                            }).then( (addedEffect) => {
+                            }).then( (addedEffect) => {                            
                                 // console.log('addedEffect')
                                 // console.log(addedEffect)
                                 db.effect.findOne({
@@ -127,14 +142,20 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
                                 }) // dbEffect
                             })  
                             // addedEffect.then
+                            
                         }) // dbstrain2 end
-
-                    })
+                    }) // db.strain.findOne()
+                })  // db.user.findOne()
+                
+            })
+            } else {console.log('we do have this strain saved')}
                 })
             })
-        } else {
-            console.log("weve already saved this strain")
-        }
+
+
+        // } else {
+        //     console.log("weve already saved this strain")
+        // }
         // db.strain.findOrCreate({
         //     where: {
         //         strain: strain,
