@@ -128,6 +128,19 @@
             flex-flow: row nowrap;
             justify-content: space-around;
         }
+        .mine {         
+            height: 45px;
+            width: 45px;
+            border: 2px solid papayawhip;
+            border-radius: 50%;
+            background-image: url('/img/mine.png');
+            box-shadow: 10px 10px 10px papayawhip;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-top: 1em;
+        }
+
+
         /* .threebythree {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -266,6 +279,27 @@
 
     let formName = $('#ejsname')[0].outerText                     
     let strainName = $('.liStrain')[0].outerText
+    
+    const createMine = () => {
+        let searchMine = document.createElement('div')
+        $(searchMine)
+        .css('height', '45px')
+        .css('width', '45px')
+        .css('border', '2px solid papayawhip')
+        .css('border-radius', '50%')          
+        .css('background-image', `url('/img/mine.png')`)
+        .css('box-shadow', '10px 10px 10px papayawhip')
+        .css('background-size', 'cover')
+        .css('background-repeat', 'no-repeat')
+        .css('margin-top', '1em')
+        return $(searchMine)
+    }
+
+
+
+
+
+
 
     $('ul').children()
     .css('margin-top', '4em')
@@ -403,7 +437,7 @@
 //     console.log(inp.val())
 //    })
     let textBucket = []
-
+    let objectBucket = []
     inp.on('search', (event) => {
         let ajurl = `https://frankcollins3.github.io/strainuous/strain.json`
         $.ajax({
@@ -417,32 +451,40 @@
         $('.searchGrid').children().detach()         // this is our container.truncate() method.
         let searchword = $(event.target).val() // kind of wanted [.target.val().UpperCase()]
         console.log($('.liStrain'))       
-        $('.liStrain').each( (i, strain) => {
-
-
-            
-            
-            // console.log($(strain).text().charAt(1)) // not array based indexing. 
+        $('.liStrain').each( (i, strain) => {            
             let firstLetter = $(strain).text().charAt(1)
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
-            console.log("heres the text")
-            console.log($(strain).text())
+            
             let searchStrainText = $(strain).text()
-            console.log('searchStrainText')
-            console.log(searchStrainText)
+            console.log('boutta loop')
            
-                let searchMine = document.createElement('div')
-                $(searchMine)
-                .css('height', '45px')
-                .css('width', '45px')
-                .css('border', '2px solid papayawhip')
-                .css('border-radius', '50%')          
-                .css('background-image', `url('/img/mine.png')`)
-                .css('box-shadow', '10px 10px 10px papayawhip')
-                .css('background-size', 'cover')
-                .css('background-repeat', 'no-repeat')
-                .css('margin-top', '1em')
-                $('.searchGrid').append($(searchMine))
+            const space = ' A    B      E D       I LO VE YOU'
+            console.log(space.replace(/\s/g,''))
+
+            for (let i = 0; i < innerajstrain.length; i++) {
+                console.log(innerajstrain[i].strain.replace(/\s/g, ''))
+                if (innerajstrain[i].strain.replace(/\s/g, '') == searchStrainText.replace(/\s/g, '')) {
+                    console.log("hey we finnally gottit")
+                    console.log(innerajstrain[i])
+                }                   
+                
+            }
+
+            // for (let i = 0; i < innerajstrain.length; i++) {
+            //     console.log(innerajstrain.)
+            // }
+
+
+
+
+           
+            let searchMine = document.createElement('div')
+            $(searchMine)
+            .addClass('mine')               // might leave .css("margin-top") out of the .mine properties so we can reuse this with slight difference. It won't override the 
+            $('.searchGrid').append(createMine())              // interesting.
+
+            
+    
 
                 let searchMineLabel = document.createElement('p')
                 $(searchMineLabel)
@@ -450,32 +492,16 @@
                 .css('font-weight', 'bold')
                 .html(searchStrainText)
                 .on('mouseenter', (event) => {
+
                     $('.newGrid').children().detach()
                     let text = $(event.target).text()
                     let ptagtext = document.createElement('p')
                     $(event.target).siblings().siblings().detach()
                     $(ptagtext)
                     .text(text)
-                    $('.newGrid').append($(ptagtext))
-                    
-                    
-                    // for (let i = 0; i < innerajstrain.length; i++) {
-                    //     if (`${innerajstrain[i].strain.includes(text)}`) {
-                    //        console.log(text)
-                    //        console.log(innerajstrain[i])
-
-                    //     }
-                        
-                    // }
-
-                })
-
-
-
-
-                   
-                $(searchMineLabel).insertAfter($(searchMine))
-                console.log($(searchMineLabel))
+                    $('.newGrid').append($(ptagtext))                            
+                })                   
+                // $(searchMineLabel).insertAfter($(searchMine))
             }
         })
     })
