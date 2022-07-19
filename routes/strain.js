@@ -6,10 +6,87 @@ let strainRouter = require('express').Router()
 
 
 
-strainRouter.get('/', (req, res) => {
-    console.log('hey wassup')
-    console.log('res.locals.sessionUser')
-    console.log(res.locals.sessionUser)
+strainRouter.get('/', async (req, res) => {
+    const accurateId = async () => {          // this was harder than just copy paste. forgot to invoke accurateId() when it was all 1 function. I was still on getting the update message to work properly so the non-invoked() line of code didn't mess up much. I forgot that the original length was based on db.strain.findAll().length 
+        await  db.strain.findAll().then(async (strains) => {              
+              const updateStrain = async () => {                      
+                  for (let i = 0; i < strains.length; i++) {                      
+                          await db.strain.findOne({
+                              where: { strain: strains[i].strain }
+                          }).then( (gottit) => {
+                              gottit.update({ strainId: strains[i].id}), {
+                                  where: { strainId: null }
+                              }
+                          }).then( (wow) => {
+                          })
+                      }
+                  }
+                  updateStrain()
+          })          // db.strain.findAll() in accurateID scope
+      }   //accurateId end
+    //   accurateId()
+
+    const accurateId2 = async () => {
+        await db.effect.findAll().then(async (senses) => {
+            console.log(senses)
+            const updateSense = async () => {
+                console.log('in the update sense')
+                for (let i = 0; i < senses.length; i++) {
+                    console.log("are we over here yet")                
+                     await db.effect.findOne({
+                        where: { smell: senses[i].smell }
+                    }).then( (sen) => {                        
+                        sen.update({ strainId: senses[i].id}), {
+                            where: { strainId: null }                       // model:generate, model:migrate, model:citizen
+                        }
+                    })
+                }
+            }
+            updateSense()
+        })
+    }
+    // accurateId2()
+
+//  ******************** *************************** ********************************
+    // let strains = await db.strain.findAll() 
+    // console.log('strains')
+    // console.log(strains)
+
+    // if (strains.strainId !== strains.id) {
+    //     console.log('strains.strain')
+    //     console.log(strains.strain)
+    // }
+
+    // let strains = db.strain.findAll().then( (strains) => {
+        // console.log('strains')
+        // console.log(strains)
+    // })
+
+    // db.strain.findAll().then( (strain) => {
+    //     console.log('yeah were over here')
+    //     console.log('strain')
+    //     console.log(strain)
+    // })
+
+
+    // db.strain.findOne({ 
+    //     where: { strain: 'white widow' }
+    // }).then( (singlestrain) => {
+    //     console.log('now were over here how you doin')
+    //     console.log('singlestrain')
+    //     console.log(singlestrain)
+    //     singlestrain.update({ where: { id: singlestrain.id }}, {
+    //         where: { strain: singlestrain.strain }
+    //     }).then( (update) => {
+    //         console.log('this is us doing an update')
+    //         console.log('update')
+    //         console.log(update)
+    //     })
+    // })
+
+    // console.log('hey wassup')
+    // console.log('res.locals.sessionUser')
+    // console.log(res.locals.sessionUser)
     // console.log('hey cutie')
     const user = res.locals.sessionUser || 'undefined user'
     const ejsuser = {
@@ -19,19 +96,28 @@ strainRouter.get('/', (req, res) => {
         email: user.email || 'no email'
     }
     db.user.findOne({ where: { id: user.id}}).then(async (user) => {
+        console.log('user')
+        console.log(user)
         let allDb = await user.getStrains()
+        console.log('allDb')
+        console.log(allDb)
+
+        db.usersStrains.findAll({
+            where: { userId: user.id}
+        }).then( (userstrain) => {
+            console.log('userstrain')
+            console.log(userstrain)
+        })
 
 
-    // db.strain.findAll().then(async (allDb) => {
-
-            await db.strain.findOrCreate({
-                where: {
-                    strain: 'wedding cake',
-                    dominant: 'indica',
-                    funfact: 'leafly strain of year 2019',
-                    parents: 'triangle kush, animal mints'
-                }
-            })
+            // await db.strain.findOrCreate({       // isMinimViable db.Seed.
+            //     where: {
+            //         strain: 'wedding cake',
+            //         dominant: 'indica',
+            //         funfact: 'leafly strain of year 2019',
+            //         parents: 'triangle kush, animal mints'
+            //     }
+            // })
 
             let allDB = allDb // || {strain: 'no strains'}
             req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
@@ -86,71 +172,90 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
         // console.log('true or false')
         // console.log(await db.strain.findOne({where:{strain: strain}}))
             let user = await db.user.findOne({where: { username: userData }})
+            console.log('user')
             console.log(user)
             user.getStrains().then( (userstrains) => {
-           
+            console.log('userstrains')
+            console.log(userstrains)
 
-                userstrains.forEach( (userS) => {
-                    if (userS.strain !== strain.strain) {
-                        console.log('we dont have this strain saved')
-            dbUserData.createStrain({
-                strain: strain,
-                dominant: dominant,
-                funfact: funfact,
-                parents: parents
-            }).then( (strain) => {
-                db.strain.findOne({
-                    where: { strain: strain.strain }
-                }).then( (dbstrain) => {
-                    // console.log('MOST IMPORTANT!!! userData.create')
-                    dbstrain.update({ strainId: dbstrain.id}, {     // could've specified strainId in api. just wanted to do a manual autoIncrement.
-                        where: { strainId: null}
-                    })
-                        .then( (updatedstrain) => {
-                        // console.log("updatedstrain")
-                        // console.log(`UPDATED STRAIN: ${updatedstrain.strain}`)
-                        
-                        db.strain.findOne({
-                            where: { 
-                                strain: updatedstrain.strain
-                            }
-                        }).then( (dbstrain2) => {
-                            // console.log('dbstrain2')
-                            // console.log(dbstrain2)
-                            // taste smell cbd thc gold nugget
-                            dbstrain2.createEffect({
-                                    taste: taste,       // 10 minute zinger w/ the unneeded where:{whereObject} that you'd use in findOrCreate
-                                    smell: smell,
-                                    cbd: cbd, 
-                                    thc: thc,
-                                    gold: gold,
-                                    nug: nugget
-                                
-                            }).then( (addedEffect) => {                            
-                                // console.log('addedEffect')
-                                // console.log(addedEffect)
-                                db.effect.findOne({
-                                    where: { taste: addedEffect.taste }
-                                }).then( (dbEffect) => {
-                                    dbEffect.update({ strainId: dbstrain2.strainId}, {
-                                        where: { strainId: null }
-                                    }).then( (updatedEffect) => {
-                                        // console.log(updatedEffect)
-                                        // console.log(updatedEffect.smell)
-                                        // console.log("atleast we got all the way down over here")
-                                    })
-                                }) // dbEffect
-                            })  
-                            // addedEffect.then
-                            
-                        }) // dbstrain2 end
-                    }) // db.strain.findOne()
-                })  // db.user.findOne()
-                
-            })
-            } else {console.log('we do have this strain saved')}
+            db.strain.findOne({
+                where: { dominant: strain.dominant || req.body.dominant}
+            }).then( (ajaxstrain) => {
+                console.log(ajaxstrain.get().strainId)
+                let newstrainid = ajaxstrain.get().strainId
+                // userstrains.forEach( (userS) => {
+                //     if (userS.strain === strain.strain) {
+                //         console.log('we dont have this strain saved')
+            // dbUserData.createStrain({
+            //     strain: strain,
+            //     dominant: dominant,
+            //     funfact: funfact,
+            //     parents: parents
+            // }).then( (strain) => {
+                db.usersStrains.findOrCreate({
+                    where: {
+                        userId: dbUserData.id,
+                        strainId: newstrainid
+                    }
+                }).then( (strainroutestrain)=> {
+                    console.log(strainroutestrain)                    
                 })
             })
+            })
+        })
+    })
+                // db.strain.findOne({
+                //     where: { strain: strain.strain }
+                // }).then( (dbstrain) => {
+                //     // console.log('MOST IMPORTANT!!! userData.create')
+                //     dbstrain.update({ strainId: dbstrain.id}, {     // could've specified strainId in api. just wanted to do a manual autoIncrement.
+                //         where: { strainId: null}
+                //     })
+                //         .then( (updatedstrain) => {
+                //         // console.log("updatedstrain")
+                //         // console.log(`UPDATED STRAIN: ${updatedstrain.strain}`)
+                        
+                //         db.strain.findOne({
+                //             where: { 
+                //                 strain: updatedstrain.strain
+                //             }
+                //         }).then( (dbstrain2) => {
+                //             // console.log('dbstrain2')
+                //             // console.log(dbstrain2)
+                //             // taste smell cbd thc gold nugget
+                //             dbstrain2.createEffect({
+                //                     taste: taste,       // 10 minute zinger w/ the unneeded where:{whereObject} that you'd use in findOrCreate
+                //                     smell: smell,
+                //                     cbd: cbd, 
+                //                     thc: thc,
+                //                     gold: gold,
+                //                     nug: nugget
+                                
+                //             }).then( (addedEffect) => {                            
+                //                 // console.log('addedEffect')
+                //                 // console.log(addedEffect)
+                //                 db.effect.findOne({
+                //                     where: { taste: addedEffect.taste }
+                //                 }).then( (dbEffect) => {
+                //                     dbEffect.update({ strainId: dbstrain2.strainId}, {
+                //                         where: { strainId: null }
+                //                     }).then( (updatedEffect) => {
+                //                         // console.log(updatedEffect)
+                //                         // console.log(updatedEffect.smell)
+                //                         // console.log("atleast we got all the way down over here")
+
+                //                     // })       // free one up.
+                //                 }) // dbEffect
+                //             })  
+                            // addedEffect.then
+                            
+                        // }) // dbstrain2 end
+                    // }) // db.strain.findOne()
+                // })  // db.user.findOne()
+            
+            // } else {console.log('we do have this strain saved')}
+            //     })
+            // })
 
 
         // } else {
@@ -167,8 +272,8 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
             // console.log(dbData.get())
             // console.log(strain.get().strain)
             // console.log(dbData.get().email)
-        })
-    })
+        // })
+    // })
 
     strainRouter.post('/digmine', async (req, res) => {
         console.log("we are hitting the digmine route our .submit() is successful")
