@@ -56,6 +56,13 @@
             align-items: center;
             /* justify-content: center; */
         }
+        .dbList2 {
+            text-align: center;
+            color: papayawhip;
+            font-weight: bold;
+            padding: 1em 1em 0em 1em;
+            margin: 1em;
+        }
         .dbStrainBucket {
             list-style-type: none;
             color: papayawhip;
@@ -116,6 +123,10 @@
             display: flex;
             flex-flow: row wrap;
             justify-content: center;            
+        }
+        .papaya {
+            font-size: 22px;
+            color: papayawhip;
         }
         .searchGrid {    
             overflow: scroll;                       /* we dont need the scroll here but i think it looks okay. */
@@ -456,52 +467,114 @@
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
             
             let searchStrainText = $(strain).text()
-            console.log('boutta loop')
+            // console.log('boutta loop')
            
-            const space = ' A    B      E D       I LO VE YOU'
-            console.log(space.replace(/\s/g,''))
+            // console.log(space.replace(/\s/g,'')) white space regex.
 
-            for (let i = 0; i < innerajstrain.length; i++) {
-                console.log(innerajstrain[i].strain.replace(/\s/g, ''))
-                if (innerajstrain[i].strain.replace(/\s/g, '') == searchStrainText.replace(/\s/g, '')) {
-                    console.log("hey we finnally gottit")
-                    console.log(innerajstrain[i])
-                }                   
-                
-            }
-
+            
             // for (let i = 0; i < innerajstrain.length; i++) {
-            //     console.log(innerajstrain.)
+                //     console.log(innerajstrain.)
             // }
 
 
-
-
-           
+            
+            
+            
             let searchMine = document.createElement('div')
             $(searchMine)
             .addClass('mine')               // might leave .css("margin-top") out of the .mine properties so we can reuse this with slight difference. It won't override the 
             $('.searchGrid').append(createMine())              // interesting.
-
             
-    
+            
+            
+            
+            let searchMineLabel = document.createElement('p')
+            $(searchMineLabel)
+            .addClass('papaya')
+            .html(searchStrainText)
+            $('.searchGrid').append($(searchMineLabel))
+            $(searchMineLabel)
+            .on('mouseenter', (event) => {
+                let columncont = document.createElement('div')
+                $(columncont)
+                .addClass('dbList2')
+                
 
-                let searchMineLabel = document.createElement('p')
-                $(searchMineLabel)
-                .css('color', 'papyawhip')
-                .css('font-weight', 'bold')
-                .html(searchStrainText)
-                .on('mouseenter', (event) => {
+                console.log('hey')
+                console.log($(event.target))
+                $('.newGrid').children().hide()
+                let text = $(event.target).text()
+                let ptagtext = document.createElement('p')
+                $(ptagtext)
+                .text(text)
+                    // $('.newGrid').css('border', '5px solid hotpink')
+                    console.log($('.newGrid'))
+                    $('.newGrid').append($(ptagtext))    
+                    $(ptagtext).css('font-size', '30px')  
 
-                    $('.newGrid').children().detach()
-                    let text = $(event.target).text()
-                    let ptagtext = document.createElement('p')
-                    $(event.target).siblings().siblings().detach()
-                    $(ptagtext)
-                    .text(text)
-                    $('.newGrid').append($(ptagtext))                            
+                for (let i = 0; i < innerajstrain.length; i++) {
+                    if (innerajstrain[i].strain.replace(/\s/g, '') == searchStrainText.replace(/\s/g, '')) {
+                        newGridIndex = innerajstrain[i]
+                        console.log('newGridIndex.nugget')
+                        console.log(newGridIndex.nugget)
+
+                        let taste = document.createElement('p')
+                        $(taste)
+                        .addClass('papaya')
+                        .text(`Taste: ${newGridIndex.taste}`)
+
+                        let smell = document.createElement('p')
+                        $(smell)
+                        .addClass('papaya')
+                        .text(`Smell: ${newGridIndex.smell}`)
+
+                        let touch = document.createElement('p')
+                        $(touch)
+                        .addClass('papaya')
+                        .text(`Touch: ${newGridIndex.nugget}`)
+
+                        // M    I   N   E   
+                        let strength = document.createElement('p')
+                        $(strength)
+                        .addClass('papaya')
+                        .text(`thc: ${newGridIndex.thc} cbd: ${newGridIndex.cbd}`)
+                        
+
+                        // console.log(innerajstrain[i].strain.replace(/\s/g, ''))
+                        console.log("hey we finnally gottit")
+                        $('.newGrid')
+                        .append($(columncont))
+
+                        $(columncont)
+                        .append($(taste)) 
+                        .append($(smell))
+                        .append($(touch))
+                        .append($(strength))
+                        // console.log(innerajstrain[i].parents)
+                        // console.log(innerajstrain[i].taste)
+                        // console.log(innerajstrain[i].smell)
+                    }                                   
+                }
+                    // if (('.newGrid').children().length < 2) {
+            // .on('mouseleave', (event) => {
+            //        $(searchMineLabel)
+            //        .unbind()
+            //        .bind()
+
+            //     })
+            $('.newGrid').on('mouseleave', (event) => {
+                    $(columncont).detach()                    
+                    $(ptagtext).detach()
+                    $(event.target).children().show()
+            })
+                    // }
                 })                   
-                // $(searchMineLabel).insertAfter($(searchMine))
+               
+                    // $('.newGrid').children().detach()
+
+                    // $(event.target).siblings().siblings().detach()
+                
+                    // $(searchMineLabel).insertAfter($(searchMine))
             }
         })
     })
