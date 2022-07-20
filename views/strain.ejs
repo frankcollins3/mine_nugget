@@ -75,16 +75,7 @@
         h1 {
             text-align: center;
         }
-        /* .dbStrainBucket > .dbList, .effectContainer {
-            list-style-type: none;
-            color: papayawhip;
-            font-weight: bold;
-            font-family: URW Chancery Lew;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* justify-content: center; */
-        /* } */ 
+
         .effectContainer {
             padding: 0;
             margin: 0em 3em 0em 3em;
@@ -152,19 +143,6 @@
             margin-top: 1em;
         }
 
-
-        /* .threebythree {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
-        }
-        .fivebyfive {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-        } */
-
-        /* width */
 ::-webkit-scrollbar {
   width: 20px;
 }
@@ -267,7 +245,7 @@
                 <ul class="likelist">
                     <% likes.forEach( (like) => { %>
                         <% console.log('this is our likes') %>
-                        <li> <%= like.strainId %> </li>
+                        <li class="likeLI"> <%= like.userId %> <%= like.strainId %> </li>
                         <% console.log(like) %>
                     <% }) %>
                 </ul>
@@ -318,11 +296,6 @@
     }
 
 
-
-
-
-
-
     $('ul').children()
     .css('margin-top', '4em')
 
@@ -356,45 +329,12 @@
                             .css('height', '100px')
                             .css('width', '500px')
                           
-                            
-                            
-
-                            
-
-                                
-                                
-                                // if ($('.dbList .liStrain').length % 3 == 0) {    // :] 
-                                //     $(newGrid).addClass('threebythree')
-                                // }
-                                // if ($('.dbList .liStrain').length % 5 == 0) {            this is a neat idea but is not needed.
-                                //     $(newGrid).removeClass("threebythree")
-                                //     $(newGrid).addClass('fivebyfive')
-                                // } else if ($('.shovel').length < 10 && $('.dbList .liStrain').length % 3 !== 0 || $('.dbList .liStrain').length % 5 !== 0)  {
-
-                                //     for (let i = 0; i < $('.dbList').length; i++) {
-                                //         console.log("looping through the dbList")
-                                //         $('.effectContainer').push($('.liStrain')[i])
-                                //         $('.effectContainer').push($('.shovel')[i])
-                                //     }
-                                //     console.log("yeah this conditional is satisfied")
-                                //     $('.effectContainer')
-                                //     .css('flex-direction', 'row')
-                                //     .css('justify-content', 'center')
-                                //     // .css('justify-content', 'center')
-                                //     .css('', '')
-                                //     .css('', '')
-                                //     // .css('flex-direction', 'row')  .nonPretty()
-                                // } 
                                     $('.strainBody').append($(newGrid))
                                     $('.strainBody').append($(searchGrid))
                                     $(newGrid).append(dbStrainBucket)
                                     $(newGrid).insertBefore($('footer')) 
                                     $(searchGrid).insertBefore('footer')
-
-
-                                
-                            
-                                    
+                                                                                        
                                 } else { console.log('nothing')}
                             }   else {
                                 $('.searchGrid').hide() 
@@ -404,17 +344,7 @@
                                 $('.containerCont').show()
                             }
 
-
-                            // } // form = true end ***********************
-
-                            // strainCont.hide()
-                    // container.hide()
-                            // strainCont.hide()
-                                    
-                    // container.hide()
    })
-
-
 
     let strainContWidth = $('.strainContainer')[0].clientWidth
     // $('.displayContainer').addClass('doubleSize') // .width, '${strainContWidth}' it wasn't matching the jquery object clientWidth. that clientWidth was 400
@@ -450,11 +380,12 @@
    let inp = $('.searchIn')
    inp.hide()
 
-//    inp.on('click', () => {
-//     console.log(inp.val())
-//    })
     let textBucket = []
     let objectBucket = []
+
+    let likeBucket = []
+
+
     inp.on('search', (event) => {
         let ajurl = `https://frankcollins3.github.io/strainuous/strain.json`
         $.ajax({
@@ -473,27 +404,12 @@
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
             
             let searchStrainText = $(strain).text()
-            // console.log('boutta loop')
-           
-            // console.log(space.replace(/\s/g,'')) white space regex.
 
-            
-            // for (let i = 0; i < innerajstrain.length; i++) {
-                //     console.log(innerajstrain.)
-            // }
-
-
-            
-            
-            
             let searchMine = document.createElement('div')
             $(searchMine)
             .addClass('mine')               // might leave .css("margin-top") out of the .mine properties so we can reuse this with slight difference. It won't override the 
             $('.searchGrid').append(createMine())              // interesting.
-            
-            
-            
-            
+                                
             let searchMineLabel = document.createElement('h1')
             $(searchMineLabel)
             .addClass('papaya')
@@ -558,27 +474,42 @@
                             .append($(smell))
                             .append($(touch))
                             .append($(strength))
-                            // console.log(innerajstrain[i].parents)
-                            // console.log(innerajstrain[i].taste)
-                            // console.log(innerajstrain[i].smell)
+
                         }                                   
                     }
                 }
                 addToGrid()
 
                 const checklikes = () => {
-                    console.log("were in the likes")
-                    console.log($('#likes'))
-                    console.log( $('#likes').each( (like) => { console.log( $(this))}))
+                    console.log('hey heres 1')
+                    // console.log($('#likeLI').each ( (like) => {
+                    //     console.log(like.userId)
+                    // }))
+                    $('.likeLI').each( (index, like) => {
+                        console.log('like')
+                        // let content = like.textContent.toString()
+                        // let content = like.textContent.toString().replace(/['']+/g, '').split(' ')                      
+                        let content = like.textContent.toString().replace(/'/g, '').split(' ')                      
+                        let useridstrainid = [content[1], content[2]]
+                        console.log(useridstrainid)
+                
+
+                        // let subStrings = content.split.replace(/['"]+/g, '')
+                        // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
+                        // console.log('regex ')
+                        // console.log(subStrings.replace(/[""]+/g, ''))
+                        // console.log('subStrings')
+                        // console.log(subStrings)
+                        // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
+                        likeBucket.push(content)
+                        // setTimeout( () => console.log(likeBucket), "1000")
+                        // console.log('index')
+                        // console.log(index)
+                    })
+                   
                 }
                  checklikes()    
-                    // if (('.newGrid').children().length < 2) {
-            // .on('mouseleave', (event) => {
-            //        $(searchMineLabel)
-            //        .unbind()
-            //        .bind()
 
-            //     })
             $('.newGrid').on('mouseleave', (event) => {
                     $('h1').detach()
                     $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
@@ -587,87 +518,14 @@
             })
                     // }
                 })                                  
-                    // $('.newGrid').children().detach()
-                    // $(event.target).siblings().siblings().detach()                
-                    // $(searchMineLabel).insertAfter($(searchMine))
             }
         })
     })
     })
-// Alternative to console.log, allows us to view the hero's movement in the upper-right box on the app's page, which is our cheat area:
 
-
-
-
-    // MINI SNAKE GAME WITH MINE CART! this idea was an accident but it's totally theme-friendly and distracts a bit from the fact that this is technically a cannabis app which I would not have wanted to be done as my first app after a pokedex.
-    // let mineCartTracks = document.createElement('div')
-    // const tracks = $(mineCartTracks).addClass('tracks')
-    // tracks
-    // // .css('width',  pageWidth*0.9)
-    // // .css('height', pageHeight*0.1)
-    // .css('width',  '300px')                 // if it was for the db.parents guess the child from the parents game and the correctly used associations.. I wouldn't be so willing to just set 300px values for containers. 
-    // .css('height', '300px')
-    // .css('background-color','papayawhip')
-    // .css('','')
-    // $('footer').append(tracks)
-
-
-    // let cartForTracks = document.createElement('img')            // 
-    // let cart = $(cartForTracks)
-    // cart
-    // .css('position', 'relative')
-    // .css('height', '35px')
-    // .css('width', '35px')
-    // .attr('src', '/img/mining-cart.png')
-    // $(tracks).append(cart)
-
-    // $(document).on('keydown', () => {
-    //     console.log("now we gotcha")
-    //     if (event.key == 'd') {
-    //         cart
-    //         .animate({
-    //             left: '+5px'
-    //         }, "1000", () => {
-    //             $(document).on('keydown', () => {
-    //                 cart
-    //                 .animate({
-    //                     left: '+5px'
-    //                 })
-    //             })
-    //             // $(document).unbind('keydown')
-    //             // $(document).bind('keydown')
-    //         })
-    //     }
-
-    //     if (event.key == 'a') {
-    //         cart
-    //         .animate({
-    //             right: '5px'
-    //         }, "1000", () => {
-    //             // $(document).unbind('keydown')
-    //             // $(document).bind('keydown')
-    //         })
-    //     }
-    //     // if (event.key === 'd') {
-    //     // // if (event.key === '39') {
-    //     //     cart
-    //     //     .animate({
-    //     //         left: 'left + 5px'
-    //     //     }, "1000", () =>{
-    //     //         $(document).unbind('keydown')
-    //     //         $(document).bind('keydown')
-    //     //     })
-    //     // }
-    // }, {once: false})
     // <!-- * https://stackoverflow.com/questions/5353254/javascript-onkeydown-event-fire-only-once *************************************** BEAT THE PROBLEM!
-
-
-
-    // Uncaught DOMException: Failed to execute 'appendChild' on 'Node': Nodes of type '#document' may not be inserted inside nodes of type '#document-fragment'      
+ // Uncaught DOMException: Failed to execute 'appendChild' on 'Node': Nodes of type '#document' may not be inserted inside nodes of type '#document-fragment'        // Uncaught DOMException: Failed to execute 'appendChild' on 'Node': Nodes of type '#document' may not be inserted inside nodes of type '#document-fragment'      
     // Uncaught DOMException: Failed to execute 'insertBefore' on 'Node': The new child element contains the parent. 
-
-
-
     let shovel = $('.shovel')
     shovel
     .css("height", '85px')
@@ -677,8 +535,7 @@
         let shovelBrother = $(event.target).siblings()[0].outerText
         console.log('event target siblings')
         let siblingLi = $(event.target).siblings()[0]
-        // sae
-        // psql accessing non-existent property of module exports circular dependency [having error sharing 2 post routes with 1. speeding through]
+        
                         $.ajax({          
                             type: "POST",
                             // url: '/auth',   
@@ -698,41 +555,16 @@
              'border': '2px solid gold'
         }, "500", () => {
             $(siblingLi).text("You're into it. You Dig it.")
-            // $(event.target).siblings()[0].html('Into it. You Dig it')
             target.css('border-bottom', '2px solid gold')
         })
         .animate({
             height: '85px',
         }, "500", () => {
-            // $('.liStrain').text($(event.target).siblings()[0].outerText)
-            // $(event.target).siblings()[0].text('you cool as hell')
             target.css('border-bottom', '')
             $(siblingLi).text(`${shovelBrother}`)
     })
 })
     console.log("parents")
-    // $( shovel.parents()).each( (index, parent) => {
-    //     console.log('parent')
-    //     // console.log(`${parent}`)
-    //     // console.log($(parent).html())           20 mins      [parent || $(parent)]
-    // })
-    // // console.log(shovel.parents()[1].outerText)
-    // console.log(shovel.parents()[2].contents().text())     // console.log(shovel.parents()[2].text())
-    
-    //     .css('border', '5px solid blue')
-    //     .animate({
-    //         position: 'relative',
-    //         top: '10px',
-    //         border: '2px solid green'
-    //     }, "1000")
-    //     .animate({
-    //         top: '-10px'
-    //     }, "1000")
-    // })
-    
-
-    
-
 
     let strainBin = $('#strainbarrel')
     strainBin
@@ -803,34 +635,26 @@
                     $(barrel)
                     $(barrel).on('mouseenter', async() => {
                         $(barrel).hide()
-                        // let ghresp = await axe.get(`https://bigcode69er.github.io/strainuous/strain.json`)
                         $.ajax({
                             method: 'GET',
-                            // url: `https://bigcode69er.github.io/strainuous/strain.json`,    // have graduated from using pokemondata to using our own premade API posted onto github platform. interesting experience pulling up simple minimumviability code in dataType.SRRINGS format. Again we could've specified our strainId in there but we perform a loop to set all id = to the sequelize auto increment [table]id
                             url: `https://frankcollins3.github.io/strainuous/strain.json`,    // have graduated from using pokemondata to using our own premade API posted onto github platform. interesting experience pulling up simple minimumviability code in dataType.SRRINGS format. Again we could've specified our strainId in there but we perform a loop to set all id = to the sequelize auto increment [table]id
                             dataTypes: 'json',
                         }).then( (strainData) => {      // not a fan to do as much as well be doing within the ajax call.
                             console.log('strainData')
                             console.log(strainData)
                             let strainVar = strainData;
-                            // console.log('strainData.status')
-                            // console.log(strainData.status)
+
                             strainCont
                             .css('border', '5px solid papayawhip')
                             let strainList = document.createElement('ul')
                             strainCont.append(strainList)
                             strainCont.css('overflow-y', 'scroll') // hmm.. intersection observer or 10 x 10 grid. Maybe both. 
-                            // strainData.strains.forEach(async (strain) => {
                                 let i = 0;
                                 strains = strainData.strains.length
                                 let arrayBracketInt = 0
                                 $(barrel).detach()
-                                // let incrementer = arrayBracketInt += arrayBracketInt
                                 for (let i = 0; i < strainData.strains.length; i++) {
-                                    // console.log([i])
-                                    // console.log(strainData.strains[i].strain)
 
-                                    // strainCont.append(strainData.strains[i].age)
                                     let strain = document.createElement('li')
                                     $(strain)
                                     .text(strainData.strains[i].strain)
@@ -839,7 +663,6 @@
                                     .css('background-size', 'cover')
                                     .css('background-repeat', 'no-repeat')
 
-
                                     strainCont
                                     .addClass('doubleSize')
                                     .addClass('grid')
@@ -847,8 +670,6 @@
                                     .append($(strain))
                                 }   
 
-// 
-    
                                     let strainBucket = []
                                     let apiKeyword = []
                                     let objectBucket = []
@@ -861,8 +682,7 @@
                                         entries.forEach( (entry) => {
                                             
                                             console.log(entry)
-                                            // console.log(entries)
-                                            // console.log(entries[0].target.outerText)
+                                            
                                             let strainName = entries[0].target.outerText || 'no name'
                                            
                                             let effectArray = []
@@ -892,8 +712,6 @@
                                             console.log(objectBucket)
                                             let displayContainer = document.createElement('div')
                                             $(displayContainer).addClass('displayContainer')
-                                                // $('.containerCont').children().detach()
-
                                               
                                                 if ($('.containerCont').children().length < 2) {
                                                     $('.containerCont').prepend($(displayContainer))
@@ -911,12 +729,6 @@
 
                                                     }
                                                     giveAndTakeAdvice()
-                                                    // setTimeout( () => {
-                                                    //     let advice = document.createElement("p")
-                                                    //     $(advice).text("You can Hover over the gold bar to head to the mines")
-                                                    //     $('.displayContainer').append(advice)
-                                                    // }, "1000")
-                                                    // setTimeout($(advice).detach(), "3000")
                                                 }
                                             
                                             let arrayBracket = 0;
@@ -980,10 +792,7 @@
                                                     // $('.displayContainer').append(objectBucket[0].strain) 
                                                     $('.displayContainer').append(displayText)
                                                 }
-                                                // if (wholeCounter.length == 7) {
-                                                //     $('.displayContainer p').detach()
-                                                // }
-                                                
+                    
                                                 if (wholeCounter.length == 7) {
                                                     wholeCounter.splice(0, wholeCounter.length)
                                                     clickCounter = 0;
@@ -1021,8 +830,6 @@
                                     let ajaxTaste = ajax.taste
                                     console.log("in the click and we do that")
 
-// <form> could access the strainuous api data and do a $('form').submit() down here as well.// noticing a problem where we're getting a 404 status code but we're able to get terminal outpu
-    // to work with.. <3 ejsuer.username %> a little puzzling. Easier to render it invisibly and work with jq object and .outerText
                             $.ajax({          
                             type: "POST",
                             // url: '/auth',   
@@ -1042,35 +849,129 @@
                             nugget: ajax.nugget,
                             }
                             })
-                            // .done( (ajaxdata) => {
-                            // console.log('data')
-                            // console.log(ajaxdata)
-                            // console.log('ajax data posted check psql terminal')
-                            // console.log("WE JUST HIT THE POST ROUTE!!!!!!!!!")
-                            // })
-
-                                                            // ajax end                                 
+                   
                             }
                             }
                             })
                             }     
                         })
 
-                                                
-                                            
-                                                // console.log(objectBucket[0].strain)
-                                                // console.log(objectBucket[0].taste)
-                                                // console.log(objectBucket[0].smell)
-                                                // console.log(event)
-                                            // console.log('got something intersecting')
-                                            // entries[0].target.style.border = "5px solid pink"
                                             entry.target.style.opacity = '1.0'
                                             entry.target.style.border = "5px solid papayawhip"
                                             entry.target.style.boxShadow = "3px 9px 6px rgb(247, 208, 36)"
                                             entry.target.style.boxShadow = "6px 9px 9px gray"
                                             entry.target.style.borderTop = ''
                                             
-                                        //     for (let i = 0; i < strainData.strains.length; i++) {
+
+                                            } else {
+                                                $('button').detach()
+                                                $('label').detach()
+                                                $('.displayContainer p').detach()
+                                                let clickCounter = 0;
+                                                wholeCounter.splice(0, wholeCounter.length)
+                                                objectBucket.splice(0, objectBucket.length)
+
+                                            }
+                                        })    
+                                    }, {threshold: 0.8}) // tbh i'm not sure why it's easier to get clicking on 0.8 vs 0.2 
+
+                                    observerLi.forEach( (strain) => {
+                                        strainObserver.observe(strain)
+                                    })
+
+                                    // .css('')
+                                // strain[incrementer]
+                            // })                                    
+                        })
+                    })
+                //  }, "3000")
+                 }, "1000")
+                } else {
+                    // window.location = '/'
+                }
+
+            }
+        setTimeout(smile, "2000")
+    })
+    strainCont.on('mouseleave', () => {
+    })
+
+    let submit = $('#submit')
+    submit
+    .css('height', '5em')
+    // .css('width', '5em')
+    .css('margin-top', '14em')
+    .css('border-radius', '50%')
+    .css('background-color', 'transparent')
+    .css('border', '2px solid transparent')
+    .css("color", 'transparent')
+    .css('background-image', "url('/img/barrier.png')")
+    .css('background-size', 'cover')
+
+   const hiddenPtag = $('.hiddenUserDataReference')
+   hiddenPtag
+//    .css('color', 'white')
+   .hide()
+
+                                    // this was going to be db.length based css activated when you hover over the gold bar and reveal the [shovel/like container] instead of the [goldbar mimosa/cherry-pie addToDbAjax container] 
+                                // if ($('.dbList .liStrain').length % 3 == 0) {    // :] 
+                                //     $(newGrid).addClass('threebythree')
+                                // }
+                                // if ($('.dbList .liStrain').length % 5 == 0) {            this is a neat idea but is not needed.
+                                //     $(newGrid).removeClass("threebythree")
+                                //     $(newGrid).addClass('fivebyfive')
+                                // } else if ($('.shovel').length < 10 && $('.dbList .liStrain').length % 3 !== 0 || $('.dbList .liStrain').length % 5 !== 0)  {
+
+                                //     for (let i = 0; i < $('.dbList').length; i++) {
+                                //         console.log("looping through the dbList")
+                                //         $('.effectContainer').push($('.liStrain')[i])
+                                //         $('.effectContainer').push($('.shovel')[i])
+                                //     }
+                                //     console.log("yeah this conditional is satisfied")
+                                //     $('.effectContainer')
+                                //     .css('flex-direction', 'row')
+                                //     .css('justify-content', 'center')
+                                //     // .css('justify-content', 'center')
+                                //     .css('', '')
+                                //     .css('', '')
+                                //     // .css('flex-direction', 'row')  .nonPretty()
+                                // } 
+
+    //     method: 'GET',
+    //     url: '/ajaxstrain',
+    //     dataTypes: 'json',
+    // }).then( (data) => {
+    //     console.log('atleast were in here')
+    //     console.log(data)
+    // })
+
+    // <!-- <form method="POST" action="/strain/digmine" class="mineform"> -->x
+    //                     <!-- <input class="mineinput" type="text" name="minereview" id="text" -->
+    //                     <!-- </form>  -->
+    //                     <!-- <li class="litaste">< %= dbstrain.taste %></li>  -->
+    //                     <!-- click taste for smell/taste-->
+    //                     <!-- <li class="lidominant">< %= dbstrain.dominant %></li> -->
+    //                     <!-- <li class="lifunfact">< %= dbstrain.funfact %></li> -->
+
+      // $.ajax({
+        //     method: 'POST',
+        //     url: '/ajaxstrain',
+        //     dataTypes: 'json',
+        // }).then (async (data) => {
+        //     console.log("atleast were over here weve done this far")
+        //     await console.log(data)
+        // })
+
+                                        // apiKeyword.splice(0, apiKeyword.length)
+        //                                         strainBucket.splice(0, strainBucket.length)
+                                        //         $('.displayContainer').contents().detach()
+                                        //         $(strain).show()
+                                        //         entry.target.style.border = ""
+                                        //         entry.target.style.boxShadow = ""
+                                        //         console.log('goodbye')
+                                        //         // strainObserver.unobserve(entries[0].target)
+
+                                                                                //     for (let i = 0; i < strainData.strains.length; i++) {
                                         //         if (strainData.strains[i].strain == strainName) {        // simple conditional checking against the forLoop index with the entry.target.outerText which would have a corersponding "strain" value in the API 
                                         //         console.log('we do have a match')
                                         //         console.log(strainData.strains[i].thc)
@@ -1132,94 +1033,55 @@
                                         //              }
                                         //          //    console.log(strainData.strains[i].thc)
                                         //         }
-                                            } else {
-                                                $('button').detach()
-                                                $('label').detach()
-                                                $('.displayContainer p').detach()
-                                                let clickCounter = 0;
-                                                wholeCounter.splice(0, wholeCounter.length)
-                                                objectBucket.splice(0, objectBucket.length)
-                                                apiKeyword.splice(0, apiKeyword.length)
-                                                strainBucket.splice(0, strainBucket.length)
-                                        //         $('.displayContainer').contents().detach()
-                                        //         $(strain).show()
-                                        //         entry.target.style.border = ""
-                                        //         entry.target.style.boxShadow = ""
-                                        //         console.log('goodbye')
-                                        //         // strainObserver.unobserve(entries[0].target)
-                                            }
-                                        })    
 
-
-
-
-                                    }, {threshold: 0.8}) // tbh i'm not sure why it's easier to get clicking on 0.8 vs 0.2 
-
-                                    observerLi.forEach( (strain) => {
-                                        strainObserver.observe(strain)
-                                    })
-
-                                    // .css('')
-                                // strain[incrementer]
-                            // })
-                                    
-                        })
-                    })
-                //  }, "3000")
-                 }, "1000")
-                } else {
-                    // window.location = '/'
-                }
-
-            }
-        setTimeout(smile, "2000")
-        // $.ajax({
-        //     method: 'POST',
-        //     url: '/ajaxstrain',
-        //     dataTypes: 'json',
-        // }).then (async (data) => {
-        //     console.log("atleast were over here weve done this far")
-        //     await console.log(data)
-        // })
-    })
-
-    strainCont.on('mouseleave', () => {
-    })
-
-    let submit = $('#submit')
-    submit
-    .css('height', '5em')
-    // .css('width', '5em')
-    .css('margin-top', '14em')
-    .css('border-radius', '50%')
-    .css('background-color', 'transparent')
-    .css('border', '2px solid transparent')
-    .css("color", 'transparent')
-    .css('background-image', "url('/img/barrier.png')")
-    .css('background-size', 'cover')
-
-
-
-   const hiddenPtag = $('.hiddenUserDataReference')
-   hiddenPtag
-//    .css('color', 'white')
-   .hide()
-
-    //     method: 'GET',
-    //     url: '/ajaxstrain',
-    //     dataTypes: 'json',
-    // }).then( (data) => {
-    //     console.log('atleast were in here')
-    //     console.log(data)
+                                            // $( shovel.parents()).each( (index, parent) => {
+    //     console.log('parent')
+    //     // console.log(`${parent}`)
+    //     // console.log($(parent).html())           20 mins      [parent || $(parent)]
     // })
+    // // console.log(shovel.parents()[1].outerText)
+    // console.log(shovel.parents()[2].contents().text())     // console.log(shovel.parents()[2].text())
+    
+    //     .css('border', '5px solid blue')
+    //     .animate({
+    //         position: 'relative',
+    //         top: '10px',
+    //         border: '2px solid green'
+    //     }, "1000")
+    //     .animate({
+    //         top: '-10px'
+    //     }, "1000")
+    // })
+    
+    // $( shovel.parents()).each( (index, parent) => {
+    //     console.log('parent')
+    //     // console.log(`${parent}`)
+    //     // console.log($(parent).html())           20 mins      [parent || $(parent)]
+    // })
+    // // console.log(shovel.parents()[1].outerText)
+    // console.log(shovel.parents()[2].contents().text())     // console.log(shovel.parents()[2].text())
+    
+    //     .css('border', '5px solid blue')
+    //     .animate({
+    //         position: 'relative',
+    //         top: '10px',
+    //         border: '2px solid green'
+    //     }, "1000")
+    //     .animate({
+    //         top: '-10px'
+    //     }, "1000")
+    // })
+    
+                    // if (('.newGrid').children().length < 2) {
+            // .on('mouseleave', (event) => {
+            //        $(searchMineLabel)
+            //        .unbind()
+            //        .bind()
 
-    // <!-- <form method="POST" action="/strain/digmine" class="mineform"> -->x
-    //                     <!-- <input class="mineinput" type="text" name="minereview" id="text" -->
-    //                     <!-- </form>  -->
-    //                     <!-- <li class="litaste">< %= dbstrain.taste %></li>  -->
-    //                     <!-- click taste for smell/taste-->
-    //                     <!-- <li class="lidominant">< %= dbstrain.dominant %></li> -->
-    //                     <!-- <li class="lifunfact">< %= dbstrain.funfact %></li> -->
+            //     })
+    
+
+    
 
 
 </script>
