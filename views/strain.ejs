@@ -16,7 +16,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden;
+            /* overflow: hidden; */
+
         }
         .containerCont {
             display: flex;
@@ -75,6 +76,7 @@
         h1 {
             text-align: center;
         }
+        
 
         .effectContainer {
             padding: 0;
@@ -198,7 +200,17 @@
             width: 100px;
             background-color: papayawhip;
         }
-       
+        .likelist {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: row;
+            overflow-x: scroll;
+            border: 3px solid hotpink;
+        }
+        .likeLI {
+            margin-top: 250px;
+            color: white;
+        }
     </style>
     <body class="strainBody">
         
@@ -246,8 +258,16 @@
                     <% likes.forEach( (like) => { %>
                         <% console.log('this is our likes') %>
                         <li class="likeLI"> <%= like.userId %> <%= like.strainId %> </li>
-                        <% console.log(like) %>
+                        <!-- < % console.log(like) %> -->
                     <% }) %>
+                </ul>
+                <ul class="userlist">
+                    <% allusers.forEach( (userlistuser) => { %>
+                        <% console.log("this is the userlist USER !!!!!******") %>
+                        <% console.log(userlistuser) %>
+                        <li class="userLI"> <%= userlistuser.username %> <%= userlistuser.id %> </li>  <!-- was making mistake with <3 allusers.username <3 instead of the forEach(argument/placeholder) --->
+                    <% }) %>
+
                 </ul>
                 <!-- <p class="hiddenUserDataReference" id="likes"> < %= {likes} %></p> -->
             <!-- <div class="mineCartContainer"> I THREW A MINE CART IN HERE BUT IT WAS CREATED ONTO THE MIDDLE OF THE PAGE. lets .insertAfter the cactus </div> -->
@@ -384,6 +404,27 @@
     let objectBucket = []
 
     let likeBucket = []
+    let userObjectBucket = new Array()
+
+
+    // const grabUsers = () => {
+    //     $('.userLI').each( (index, user) => {
+    //         // console.log('user')
+    //         console.log( $(user).text())
+    //         return [$(user).text()]
+    //     })
+    // }
+    // grabUsers()
+
+    const storeuser = () => {
+        $('.userLI').each( (index, user) => {
+            // userObjectBucket.push(user.username)
+            userObjectBucket.push($(user).text())            
+        })
+        console.log('thats how we do that')
+        console.log(userObjectBucket)
+    }
+    storeuser()
 
 
     inp.on('search', (event) => {
@@ -482,29 +523,35 @@
 
                 const checklikes = () => {
                     console.log('hey heres 1')
-                    // console.log($('#likeLI').each ( (like) => {
-                    //     console.log(like.userId)
-                    // }))
+                    let text = 
                     $('.likeLI').each( (index, like) => {
-                        console.log('like')
+                        // console.log('like')
                         // let content = like.textContent.toString()
                         // let content = like.textContent.toString().replace(/['']+/g, '').split(' ')                      
                         let content = like.textContent.toString().replace(/'/g, '').split(' ')                      
-                        let useridstrainid = [content[1], content[2]]
-                        console.log(useridstrainid)
+                        // let useridstrainid = [content[1], content[2]]
+                        // console.log(useridstrainid)
                 
 
                         // let subStrings = content.split.replace(/['"]+/g, '')
                         // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
                         // console.log('regex ')
                         // console.log(subStrings.replace(/[""]+/g, ''))
-                        // console.log('subStrings')
-                        // console.log(subStrings)
+
+                        // let userArray = [grabUsers()]
+                        // let userArray = [`${grabUsers()}`]
+                        // console.log([grabUsers()])
+                        
+                        // console.log('userArray')
+                        // console.log(userArray)
+
+                        // console.log(userArray[0])
+                        // console.log(userArray[1])
+
+                        
                         // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
                         likeBucket.push(content)
-                        // setTimeout( () => console.log(likeBucket), "1000")
-                        // console.log('index')
-                        // console.log(index)
+                  
                     })
                    
                 }
