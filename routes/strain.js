@@ -1,5 +1,5 @@
 const db = require('../models')
-// const { router } = require('../server') wow went 3 hours with this issue while having other issues with ajax and form. I usually dont get too fooled by these now but wow I spent 20 mins trying to find&fix and since no features were breaking I continued. A day and a half later I see this. 
+// const { router } = require('../server') 3hr nonbreakingchange issue.     
 
 let strainRouter = require('express').Router()
 
@@ -48,46 +48,7 @@ strainRouter.get('/', async (req, res) => {
     // accurateId2()
 
 //  ******************** *************************** ********************************
-    // let strains = await db.strain.findAll() 
-    // console.log('strains')
-    // console.log(strains)
 
-    // if (strains.strainId !== strains.id) {
-    //     console.log('strains.strain')
-    //     console.log(strains.strain)
-    // }
-
-    // let strains = db.strain.findAll().then( (strains) => {
-        // console.log('strains')
-        // console.log(strains)
-    // })
-
-    // db.strain.findAll().then( (strain) => {
-    //     console.log('yeah were over here')
-    //     console.log('strain')
-    //     console.log(strain)
-    // })
-
-
-    // db.strain.findOne({ 
-    //     where: { strain: 'white widow' }
-    // }).then( (singlestrain) => {
-    //     console.log('now were over here how you doin')
-    //     console.log('singlestrain')
-    //     console.log(singlestrain)
-    //     singlestrain.update({ where: { id: singlestrain.id }}, {
-    //         where: { strain: singlestrain.strain }
-    //     }).then( (update) => {
-    //         console.log('this is us doing an update')
-    //         console.log('update')
-    //         console.log(update)
-    //     })
-    // })
-
-    // console.log('hey wassup')
-    // console.log('res.locals.sessionUser')
-    // console.log(res.locals.sessionUser)
-    // console.log('hey cutie')
     const user = res.locals.sessionUser || 'undefined user'
     const ejsuser = {
         username: user.username || 'no username',
@@ -96,35 +57,28 @@ strainRouter.get('/', async (req, res) => {
         email: user.email || 'no email'
     }
     db.user.findOne({ where: { id: user.id}}).then(async (user) => {
-        console.log('user')
-        console.log(user)
         let allDb = await user.getStrains()
-        console.log('allDb')
-        console.log(allDb)
-
         db.usersStrains.findAll({
             where: { userId: user.id}
         }).then( (userstrain) => {
-            console.log('userstrain')
-            console.log(userstrain)
+
         })
 
+            db.dig.findAll().then( (likes) => {
 
-            // await db.strain.findOrCreate({       // isMinimViable db.Seed.
-            //     where: {
-            //         strain: 'wedding cake',
-            //         dominant: 'indica',
-            //         funfact: 'leafly strain of year 2019',
-            //         parents: 'triangle kush, animal mints'
-            //     }
-            // })
+            db.user.findAll().then( (allusers) => {
 
-            let allDB = allDb // || {strain: 'no strains'}
-            req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
-            req.flash('strainsuccess', 'Saving This Gold.')
-            res.render("strain", {
-                ejsuser,
-                allDB     
+                
+                let allDB = allDb // || {strain: 'no strains'}
+                req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
+                req.flash('strainsuccess', 'Saving This Gold.')
+                res.render("strain", {
+                    ejsuser,
+                    allDB,
+                    likes,
+                    allusers    // can probably store this as return statement of invoked function. will check later if there's time. 
+                })
+                })
             })
     })
 })
@@ -133,29 +87,17 @@ strainRouter.get('/', async (req, res) => {
 
 strainRouter.get('/familytree', (req, res) => {
     // [ore or ore] not a bad name for the gold-nugget themed game.
-    res.render('familytree') // more ideal to tuck these in a strain/folder.
+    res.render('familytree') // more ideal to tuck these in a strain/folder. might do a commit based on restructuring/optimizing filescope 
 })
 
 
-
-
-
 strainRouter.post('/', (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
-    // strainID!
     console.log("WE ARE HITTING THE REGULAR STRAIN ROUTE!")
-    // let user = req.body.user
-    // console.log('user.username')
-    // console.log(user.username)
-
     let userData = req.body.userkeyword     
-    // we sent the userData over, invisibly appended it to the footer, grabbed the outerText from jqObj, now its here
     console.log('userData')
     console.log(userData)
 
     let strain = req.body.strain
-    console.log('strain && strain.strain')
-    console.log(strain)
-    console.log(strain.strain)
     let dominant = req.body.dominant
     let funfact = req.body.funfact
     let parents = req.body.parents
@@ -169,8 +111,7 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
     db.user.findOne({
         where: { username: userData}        
     }).then(async (dbUserData) => {
-        // console.log('true or false')
-        // console.log(await db.strain.findOne({where:{strain: strain}}))
+
             let user = await db.user.findOne({where: { username: userData }})
             console.log('user')
             console.log(user)
@@ -183,15 +124,7 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
             }).then( (ajaxstrain) => {
                 console.log(ajaxstrain.get().strainId)
                 let newstrainid = ajaxstrain.get().strainId
-                // userstrains.forEach( (userS) => {
-                //     if (userS.strain === strain.strain) {
-                //         console.log('we dont have this strain saved')
-            // dbUserData.createStrain({
-            //     strain: strain,
-            //     dominant: dominant,
-            //     funfact: funfact,
-            //     parents: parents
-            // }).then( (strain) => {
+
                 db.usersStrains.findOrCreate({
                     where: {
                         userId: dbUserData.id,
@@ -204,76 +137,7 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
             })
         })
     })
-                // db.strain.findOne({
-                //     where: { strain: strain.strain }
-                // }).then( (dbstrain) => {
-                //     // console.log('MOST IMPORTANT!!! userData.create')
-                //     dbstrain.update({ strainId: dbstrain.id}, {     // could've specified strainId in api. just wanted to do a manual autoIncrement.
-                //         where: { strainId: null}
-                //     })
-                //         .then( (updatedstrain) => {
-                //         // console.log("updatedstrain")
-                //         // console.log(`UPDATED STRAIN: ${updatedstrain.strain}`)
-                        
-                //         db.strain.findOne({
-                //             where: { 
-                //                 strain: updatedstrain.strain
-                //             }
-                //         }).then( (dbstrain2) => {
-                //             // console.log('dbstrain2')
-                //             // console.log(dbstrain2)
-                //             // taste smell cbd thc gold nugget
-                //             dbstrain2.createEffect({
-                //                     taste: taste,       // 10 minute zinger w/ the unneeded where:{whereObject} that you'd use in findOrCreate
-                //                     smell: smell,
-                //                     cbd: cbd, 
-                //                     thc: thc,
-                //                     gold: gold,
-                //                     nug: nugget
-                                
-                //             }).then( (addedEffect) => {                            
-                //                 // console.log('addedEffect')
-                //                 // console.log(addedEffect)
-                //                 db.effect.findOne({
-                //                     where: { taste: addedEffect.taste }
-                //                 }).then( (dbEffect) => {
-                //                     dbEffect.update({ strainId: dbstrain2.strainId}, {
-                //                         where: { strainId: null }
-                //                     }).then( (updatedEffect) => {
-                //                         // console.log(updatedEffect)
-                //                         // console.log(updatedEffect.smell)
-                //                         // console.log("atleast we got all the way down over here")
 
-                //                     // })       // free one up.
-                //                 }) // dbEffect
-                //             })  
-                            // addedEffect.then
-                            
-                        // }) // dbstrain2 end
-                    // }) // db.strain.findOne()
-                // })  // db.user.findOne()
-            
-            // } else {console.log('we do have this strain saved')}
-            //     })
-            // })
-
-
-        // } else {
-        //     console.log("weve already saved this strain")
-        // }
-        // db.strain.findOrCreate({
-        //     where: {
-        //         strain: strain,
-        //         dominant: dominant,
-        //         funfact: funfact,
-        //         parents: parents,
-        //     }
-        // }).then( (strain) => {
-            // console.log(dbData.get())
-            // console.log(strain.get().strain)
-            // console.log(dbData.get().email)
-        // })
-    // })
 
     strainRouter.post('/digmine', async (req, res) => {
         console.log("we are hitting the digmine route our .submit() is successful")
@@ -351,9 +215,6 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
             console.log("there is no req.body.into_it")
         }
 
-        console.log('we are hitting the dig route')
-        console.log(req.body)
-        console.log("hey do you see that")
     })
 
 
