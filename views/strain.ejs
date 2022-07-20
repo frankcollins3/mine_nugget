@@ -257,7 +257,7 @@
                 <ul class="likelist">
                     <% likes.forEach( (like) => { %>
                         <% console.log('this is our likes') %>
-                        <li class="likeLI"> <%= like.userId %> <%= like.strainId %> </li>
+                        <li class="likeLI"> <%= like.strainId %> <%= like.userId %>  </li>
                         <!-- < % console.log(like) %> -->
                     <% }) %>
                 </ul>
@@ -435,6 +435,26 @@
                         dataTypes: 'json',
                     }).done( (data) => {
                      let innerajstrain = data.strains
+                     console.log('innerajstrain')
+                     console.log(innerajstrain)
+                     
+
+                     let returnId = (elem) => {
+                        console.log('elem')
+                        console.log(elem)
+                        for (let i = 0; i < innerajstrain.length; i++) {
+                            if (innerajstrain[i].strain == elem) {
+                                console.log("heres the strain we want")
+                                let id = (i) + 1
+                                console.log('id')
+                                console.log(id)
+                                console.log(innerajstrain[i].strain)                                        // forgot theres no strain id associated with the api. good thing we can reference the sequelizeTable.id    2) no sequelizetableId with the api.  3) lucky enough its in the exact same order we need it. We can access the array and return [index] + 1 and that will equal our id.
+                                console.log(innerajstrain[i].id)        
+                            }
+                        }
+                     }
+                     console.log("give me the returnId")
+                     returnId('GorillaGlue#4')
                     
 
         $('.searchGrid').children().detach()         // this is our container.truncate() method.
@@ -522,40 +542,60 @@
                 addToGrid()
 
                 const checklikes = () => {
-                    console.log('hey heres 1')
-                    let text = 
-                    $('.likeLI').each( (index, like) => {
-                        // console.log('like')
-                        // let content = like.textContent.toString()
-                        // let content = like.textContent.toString().replace(/['']+/g, '').split(' ')                      
-                        let content = like.textContent.toString().replace(/'/g, '').split(' ')                      
+                    // const seeThemUsers = () => {
+                        console.log('lets see them users')
+                        console.log(userObjectBucket)
+                        console.log(userObjectBucket[0])
+                         let strainForUsers = $('#ptagtext').text()
+                         $('.likeLI').each( (index, like) => {
+                             // console.log('like')
+                             // let content = like.textContent.toString()
+                             // let content = like.textContent.toString().replace(/['']+/g, '').split(' ')                      
+                        // let content = like.textContent.toString().replace(/[']/g, "''").split(' ')
+                            let content = like.textContent.toString().replace(/['']/g, '') // .split() // can seem to use **[] || '' ** new Array() or 'string' ** .split i                         
+                            console.log('content')
+                            console.log(content)
+                            // const res = content.match(/\d+/g)?.[1];
+                            const useridRegex = content.match(/\d+/g)?.[1]
+                            console.log('useridRegex')
+                            console.log(useridRegex)
+
+
+                        
+                        likeBucket.push(content)
                         // let useridstrainid = [content[1], content[2]]
                         // console.log(useridstrainid)
-                
-
-                        // let subStrings = content.split.replace(/['"]+/g, '')
-                        // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
-                        // console.log('regex ')
-                        // console.log(subStrings.replace(/[""]+/g, ''))
-
-                        // let userArray = [grabUsers()]
-                        // let userArray = [`${grabUsers()}`]
-                        // console.log([grabUsers()])
-                        
-                        // console.log('userArray')
-                        // console.log(userArray)
-
-                        // console.log(userArray[0])
-                        // console.log(userArray[1])
-
-                        
-                        // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
-                        likeBucket.push(content)
-                  
                     })
+                    }
+                checklikes()    
+                        
+
+
+                        for (let i = 0; i < userObjectBucket.length; i++) {         // i incorrectly had this for loop set outside of the $('.LI').each() loop. I kept the top part of this for loop above, while dragging the closing forloop bracket within the checkLikes function, outside of the likebucket.push(content)
+                        let cleanId = userObjectBucket[i].replace(/[a-z]/g, '')         //!! remember seeing this and just guessed at it. getting easier/more fluent. we're going to 
+                        // console.log(userObjectBucket[i])
+                        // console.log('hoose userobject index')
+                        // console.log(userObjectBucket[i])
+                        // let cleanId = userObjectBucket[i].replace(/\d+/g, '')    // using d+ accesses the numbers they are the characters being removed. 
+                        
+                        for (let i = 0; i < likeBucket.length; i++) {
+                            // console.log('hoose userobject index but in the likeBucket loop')
+                            console.log(` heres the regex code ${cleanId}`)
+                                // console.log("like bucket items")
+                                // console.log(likeBucket[i])
+                                // console.log($(likeBucket[i]).text())
+                                
+                            }
+                        }
+
+    
+                            // let subStrings = content.split.replace(/['"]+/g, '')
+                            // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
+                            // console.log('regex ')
+                            // console.log(subStrings.replace(/[""]+/g, '')) 
+                            // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
+                    // }                
                    
-                }
-                 checklikes()    
 
             $('.newGrid').on('mouseleave', (event) => {
                     $('h1').detach()
