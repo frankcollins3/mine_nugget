@@ -1,6 +1,6 @@
 const db = require('../models')
 // const { router } = require('../server') 3hr nonbreakingchange issue.     
-
+let axios = require("axios")
 let strainRouter = require('express').Router()
 
 
@@ -71,6 +71,8 @@ strainRouter.get('/', async (req, res) => {
                 // console.log(allusers)
 
             db.mine.findAll().then( (reviews) => {
+                console.log('here they are')
+                console.log(reviews)
             // let allreviews = await reviews.get()     [async func]
                 
                 let allDB = allDb // || {strain: 'no strains'}
@@ -97,12 +99,13 @@ strainRouter.get('/familytree', (req, res) => {
 })
 
 
-strainRouter.post('/', (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
+strainRouter.post('/', async (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
     console.log("WE ARE HITTING THE REGULAR STRAIN ROUTE!")
     let userData = req.body.userkeyword     
     console.log('userData')
     console.log(userData)
 
+  
     let strain = req.body.strain
     let dominant = req.body.dominant
     let funfact = req.body.funfact
@@ -118,6 +121,7 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
         where: { username: userData}        
     }).then(async (dbUserData) => {
 
+    
             let user = await db.user.findOne({where: { username: userData }})
             console.log('user')
             console.log(user)
@@ -146,22 +150,31 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
 
 
     strainRouter.post('/digmine', async (req, res) => {
+        let ghurl = "https://frankcollins3.github.io/strainuous/strain.json"
+        let strains = axios.get(ghurl).data
+        console.log(strains)
+
+
+
         console.log("we are hitting the digmine route our .submit() is successful")
         if (req.body.mine) {
+            console.log("route.js mine post route ")
             console.log(req.body)
             console.log('weve got a mine and this is successful so far')
             let preFindOneStrain = req.body.strainKeyword
             let review = req.body.mine
-            if (await db.mine.findOne({ where: { review }}) == null) {
+            // if (await db.mine.findOne({ where: { review }}) == null) {
                 console.log("weve got a null")
                 db.strain.findOne({
                     where: { strain : preFindOneStrain }
                 }).then( (strainInIfBlock) => {
                     console.log(strainInIfBlock.get())
-
                     let idForStrain = strainInIfBlock.strainId
+
                     console.log('idForStrain')
                     console.log(idForStrain)
+
+                    
                     strainInIfBlock.createMine({
                     // making [executive?] judgment call: it took 6 months building a pokedex i just built and about 6 days to get here. I now wonder why theres going to be a title for this review and i'm willing to let this be one of those "bugs"/non-100%-sensible things. I could have an input pop up requesting "title data"()=> then .input.onclick ---> input.mine comes up. I spent good 5 hours making sure the input popping up and .effectContainer.leave looks okay and is fluid, non-obnoxious, natural feeling. Too much hovering, there is no emphasis/importance to this mine review. 
                     review: review,
@@ -172,9 +185,9 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
                         console.log(newMine.get().review)
                     })
                 })
-            } else {
-                console.log('weve already added a mine/review to this strain')
-            }
+            // } else {
+                // console.log('weve already added a mine/review to this strain')
+            // }
 
         } else {
             console.log("nothing to see here")
