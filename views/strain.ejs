@@ -270,7 +270,7 @@
                     <% }) %>
                 </ul>
 
-                <ul class="reviewlist">
+                <ul class="hiddenUserDataReference reviewlist">
                     <% console.log('this is our reviews') %>
                     <% reviews.forEach( (review) => { %>
                         <% console.log(review) %>
@@ -418,6 +418,9 @@
 
     let reviewBucket = []
     let userObjectBucket2 = [] // just so we have some space away from the other bucket array clears itself upon behavior
+    
+    let strainidbucket = []
+    const reviewbucket = []
 
     // const grabUsers = () => {
     //     $('.userLI').each( (index, user) => {
@@ -633,57 +636,108 @@
                         }
                         accessUserObjects()
 
-                        const userAndReviews = () => {
+
+                        const pushIdToBucket = () => {
                             console.log('were in the user reviews')
+                            console.log("p tag text")
+                            console.log($('#ptagtext').text())
+                            let containertext = $('#ptagtext').text().replace(/\s/g, '')
+                            console.log('containertext')
+                            console.log(containertext)
+                            for (let i = 0; i < innerajstrain.length; i++) {
+                                console.log("userreview ajax loop")
+                                if (innerajstrain[i].strain == containertext) {
+                                    console.log("in the containertext ajax conditional")
+                                    let reviewAndAjaxId = (i) + 1
+                                   strainidbucket.push(reviewAndAjaxId)
+                                    console.log('reviewAndAjaxId') 
+                                    console.log(reviewAndAjaxId) 
+                                    console.log(innerajstrain[i])
+                                }
+                            }
+                        }
+                        pushIdToBucket()
+
+                        const userAndReviews = () => {
+                            let reviewContainer = document.createElement('div')
+                            $(reviewContainer)
+                            .attr('id', 'reviewContainer')
+                            .css('border', '5px solid papayawhip')
+                            .css('height', '300px')
+                            .css('width', '300px')
+                            .css('overflow', 'scroll')
+                            .css('padding', '0em 5em 0em 5em')
+                            .css('margin', '2em')
+                            .addClass('dbList')
+                            // $('.newGrid').append($(reviewContainer))
+                            $(reviewContainer).insertAfter($('#usernamecontainer'))
+
                             // $('.liStrain').forEach( (user) => {
                                 userObjectBucket.forEach( (user) => {
-
-                                console.log('user reviews user')
-                                console.log(user)
+                                // console.log('user reviews user')
+                                // console.log(user)
                                 let cleanId = user.replace(/[a-z]/g, '')
-                                console.log('cleanId in the reviews and user')
-                                console.log(cleanId)
+                                // console.log('cleanId in the reviews and user')
+                                // console.log(cleanId)
                                 $('.reviewLI').each( (index, review) => {
                                     console.log("looping in the reviewli")
-                                    console.log('review')
+                                    // console.log('review')
                                     let reviewelemtext = $(review).text()
-                                    let reviewNumb = reviewelemtext.replace(/[a-z]/g, '')
+                                    let reviewNumb = reviewelemtext.replace(/[a-z]/g, '')   // this is the strainId
                                     console.log('reviewNumb')
                                     console.log(reviewNumb)
+                                    
 
-                                    // let charAfterNumb = reviewelemtext.substr(reviewelemtext.
-                                    // charAfterNumb = reviewelemtext.substr(reviewelemtext.indexOf('#1'))                               
-                                    // reviewelemtext.sub('^[^0-9]*', '', l)
-                                    //reviewelemtext.substring([^,]*$)
-                                    console.log("lets see this")
-                                    // console.log(substring( "^\\D*\\d", "", "nochar55keepchar" ))
                                     let username = reviewelemtext.replace(/.+(?=[0-9])/g, '').slice(1).replace(/\s/g, '')
-                                    // let b4number = reviewelemtext.replace(/(.+)\s\((.+)\)/g, '')
                                     const indexOfNumber = reviewelemtext.indexOf(parseInt(`${reviewNumb}`))
                                     console.log('indexOfNumber')
                                     console.log(indexOfNumber)
-                                    // let b4number = reviewelemtext.split(`${reviewNumb}`)
-                                    let b4number = reviewelemtext.slice(0, parseInt(`${indexOfNumber+1}`))  // this returns every character before the number. This feels very computer-codey to specify index of integer in characters and slice for the .charAt()/position in index. 
+                                    let b4number = reviewelemtext.slice(0, parseInt(`${indexOfNumber+1}`)).replace(/[0-9]/g, '')  // this returns every character before the number. This feels very computer-codey to specify index of integer in characters and slice for the .charAt()/position in index. 
                                     console.log('b4number')
                                     console.log(b4number)
-
-
-                                    // (.*\S)\s*\(([^()]+)  
-                                    // ^.*?(?=_)
-                                    console.log('username')
-                                    console.log(username)
-                                    // [^,]*$      // matches everything after the , 
-                                    // /a([\s\S]*)$/                                
-                        //  <li class="reviewLI"> review.review  review.strainId  review.title </li> 
-                                    console.log('reviewelemtext')
-                                    console.log(reviewelemtext)
-
-
-                                })
+                                    for (let i = 0; i < strainidbucket.length; i++) {
+                                        if (strainidbucket[i] == reviewNumb) {
+                                            console.log("strainbucket[i] == reviewNumb")
+                                            console.log(strainidbucket[i])
+                                            console.log('username')
+                                            console.log(username)
+                                            let content = `${username}: ${b4number}`
+                                            
+                                            let contentptag = document.createElement("p")
+                                            $(contentptag)
+                                            .text(content)
+                                            .addClass('papaya')
                                 
+                                            // if (!$('#reviewContainer').includes($(contentptag))) {
+                                            //     $('#reviewContainer').append($(contentptag))
+                                            // }
+
+                                            if (!reviewBucket.includes(content)) {    // we can use this to prevent duplicates in our array.
+                                                reviewBucket.push(content)                                                
+                                            }                                            
+                                        }                                                             
+                                    }                                    
+
+                        //  <li class="reviewLI"> review.review  review.strainId  review.title </li>                                     
+                                })
+                                setTimeout( () => {
+                                    console.log('reviewBucket')
+                                    console.log(reviewBucket)
+                                }, "1000")                                
                             })
                         }   
                         userAndReviews()
+
+                        const reviewBucketAndAppend = () => {
+                            for (let i = 0; i < reviewBucket.length; i++) {
+                                let loopcontent = document.createElement('p')
+                                $(loopcontent)
+                                .text(reviewBucket[i])
+                                $('#reviewContainer').append($(loopcontent))
+                            }
+                        }
+                        reviewBucketAndAppend()
+                        
 
                         
             $('.newGrid').on('mouseleave', (event) => {
@@ -694,14 +748,20 @@
                     likeBucket = []
                     // userObjectBucket = []
                     // objectBucket = []
-                    useridbucket = [] // useridbucket.splice(0, useridbucket.length)
+
+
+                    // useridbucket = [] // useridbucket.splice(0, useridbucket.length)
+                    // strainidbucket.splice(0, strainidbucket.length)
+                    // reviewBucket.splice(0, reviewBucket.length)
+                    // $('#reviewContainer').detach()
+                    // $('#reviewContainer').children().detach()
+                    // // $('#usernamecontainer').detach()
                     // $('#usernamecontainer').detach()
-                    $('#usernamecontainer').detach()
-                    $('#usernameP').detach()
-                    $('h1').detach()
-                    $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
-                    $('#ptagtext').detach() // $(ptagtext).detach()
-                    $(event.target).children().show()
+                    // $('#usernameP').detach()
+                    // $('h1').detach()
+                    // $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
+                    // $('#ptagtext').detach() // $(ptagtext).detach()
+                    // $(event.target).children().show()
             })
                     // }
                 })                                  
