@@ -71,9 +71,7 @@ strainRouter.get('/', async (req, res) => {
                 // console.log(allusers)
 
             db.mine.findAll().then( (reviews) => {
-                console.log('see some reviews')
-                console.log(reviews)
-            })
+            // let allreviews = await reviews.get()     [async func]
                 
                 let allDB = allDb // || {strain: 'no strains'}
                 req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
@@ -84,6 +82,7 @@ strainRouter.get('/', async (req, res) => {
                     likes,
                     allusers,    // can probably store this as return statement of invoked function. will check later if there's time. 
                     reviews
+                })
                 })
                 })
             })
