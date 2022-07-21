@@ -268,7 +268,14 @@
                         <% console.log(userlistuser) %>
                         <li class="userLI"> <%= userlistuser.username %> <%= userlistuser.id %> </li>  <!-- was making mistake with <3 allusers.username <3 instead of the forEach(argument/placeholder) --->
                     <% }) %>
+                </ul>
 
+                <ul class="reviewlist">
+                    <% console.log('this is our reviews') %>
+                    <% reviews.forEach( (review) => { %>
+                        <% console.log(review) %>
+                        <li class="reviewLI"><%= review.review %> <%= review.strainId %> <%= review.title %> </li> <!-- i decided to put the strainId in the middle because a regex to grab the <3review.title%> would be easier if we had a number separating the 'string' values i beli -->
+                    <% }) %>
                 </ul>
                 <!-- <p class="hiddenUserDataReference" id="likes"> < %= {likes} %></p> -->
             <!-- <div class="mineCartContainer"> I THREW A MINE CART IN HERE BUT IT WAS CREATED ONTO THE MIDDLE OF THE PAGE. lets .insertAfter the cactus </div> -->
@@ -409,6 +416,9 @@
 
     let useridbucket = new Array()
 
+    let reviewBucket = []
+    let userObjectBucket2 = [] // just so we have some space away from the other bucket array clears itself upon behavior
+
     // const grabUsers = () => {
     //     $('.userLI').each( (index, user) => {
     //         // console.log('user')
@@ -449,20 +459,20 @@
                                 console.log('id')
                                 console.log(id)
                                 return id                                
-                                console.log(innerajstrain[i].strain)                                        // forgot theres no strain id associated with the api. good thing we can reference the sequelizeTable.id    2) no sequelizetableId with the api.  3) lucky enough its in the exact same order we need it. We can access the array and return [index] + 1 and that will equal our id.
+                                // console.log(innerajstrain[i].strain)                                        // forgot theres no strain id associated with the api. good thing we can reference the sequelizeTable.id    2) no sequelizetableId with the api.  3) lucky enough its in the exact same order we need it. We can access the array and return [index] + 1 and that will equal our id.
 
                             }
                         }
                      }
-                     console.log("give me the returnId")
-                     returnId('white widow')
+                    //  console.log("give me the returnId")
+                    //  returnId('white widow')
                     
 
         $('.searchGrid').children().detach()         // this is our container.truncate() method.
         let searchword = $(event.target).val() // kind of wanted [.target.val().UpperCase()]
-        console.log($('.liStrain'))       
+        // console.log($('.liStrain'))       
         $('.liStrain').each( (i, strain) => {            
-            console.log('WERE IN THE LI STRAIN EACH LOOP')
+            // console.log('WERE IN THE LI STRAIN EACH LOOP')
             let firstLetter = $(strain).text().charAt(1)
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
             
@@ -487,8 +497,8 @@
                     $(columncont)
                     .attr('id', 'columncont')
                     .addClass('dbList2')            
-                    console.log('hey')
-                    console.log($(event.target))
+                    // console.log('hey')
+                    // console.log($(event.target))
                     $('.newGrid').children().hide()
                     let text = $(event.target).text()
                     let ptagtext = document.createElement('h1')
@@ -505,8 +515,8 @@
                     for (let i = 0; i < innerajstrain.length; i++) {
                         if (innerajstrain[i].strain.replace(/\s/g, '') == searchStrainText.replace(/\s/g, '')) {
                             newGridIndex = innerajstrain[i]
-                            console.log('newGridIndex.nugget')
-                            console.log(newGridIndex.nugget)
+                            // console.log('newGridIndex.nugget')
+                            // console.log(newGridIndex.nugget)
     
                             let taste = document.createElement('p')
                             $(taste)
@@ -529,7 +539,7 @@
                             .addClass('papaya')
                             .text(`thc: ${newGridIndex.thc} cbd: ${newGridIndex.cbd}`)
                             // console.log(innerajstrain[i].strain.replace(/\s/g, ''))
-                            console.log("hey we finnally gottit")
+                            // console.log("hey we finnally gottit")
                             $('.newGrid')
                             .append($(columncont))
                             $(columncont)
@@ -571,9 +581,11 @@
                         findLikesByMatchingIds()
 
                         const accessUserObjects = () => {
-                            console.log("creating container and appending usernames.")
-                            let usernamecontainer = document.createElement('div')
-                            
+                            console.log("creating container and appending usernames.")                
+                            // let shovel = document.createElement('div') was going to
+                          
+
+                            let usernamecontainer = document.createElement('div')                                
                             $(usernamecontainer)                            
                             .attr('id', 'usernamecontainer')
                             .addClass('dbList')
@@ -587,12 +599,12 @@
                             .css('font-size', '28px')
                             $(usernamecontainer).append($(usernameh1))
 
-                            console.log("now were in here")
-                            console.log(useridbucket)
+                            // console.log("now were in here")
+                            // console.log(useridbucket)
                             userObjectBucket.forEach( (user) => {
-                                console.log('user')
-                                console.log(user)
-                                console.log(user.replace(/[a-z]/g, ''))
+                                // console.log('user')
+                                // console.log(user)
+                                // console.log(user.replace(/[a-z]/g, ''))
                                 // let cleanId = user.replace(/\+d/g, '')
                                 let cleanId = user.replace(/[a-z]/g, '') // even after guessing this after messing it up before it still wasnt the first regex in mind to reach for. 
                                 // console.log(cleanId)
@@ -600,11 +612,9 @@
                                 for (let i = 0; i < useridbucket.length; i++) {
                                     // im using the index instead of cleanId because i believe: if i use cleanId and return/console.log(user.nameregex) it'll apply for all of them. 
                                     // if (useridbucket[i].replace(/[a-z]/g, '') ==  )
-                                    console.log('heres our measure value')
-                                    console.log(useridbucket[i])
+                                    // 
                                      if (parseInt(useridbucket[i]) == user.replace(/[a-z]/g, '')) {
-                                        console.log('here are our usernames')
-                                        console.log(user.replace(/[0-9]/g, ''))
+                                       
                                         let nameOfUser = user.replace(/[0-9]/g, '')
 
                                         let username = document.createElement('p')
@@ -623,15 +633,66 @@
                         }
                         accessUserObjects()
 
+                        const userAndReviews = () => {
+                            console.log('were in the user reviews')
+                            // $('.liStrain').forEach( (user) => {
+                                userObjectBucket.forEach( (user) => {
+
+                                console.log('user reviews user')
+                                console.log(user)
+                                let cleanId = user.replace(/[a-z]/g, '')
+                                console.log('cleanId in the reviews and user')
+                                console.log(cleanId)
+                                $('.reviewLI').each( (index, review) => {
+                                    console.log("looping in the reviewli")
+                                    console.log('review')
+                                    let reviewelemtext = $(review).text()
+                                    let reviewNumb = reviewelemtext.replace(/[a-z]/g, '')
+                                    console.log('reviewNumb')
+                                    console.log(reviewNumb)
+
+                                    // let charAfterNumb = reviewelemtext.substr(reviewelemtext.
+                                    // charAfterNumb = reviewelemtext.substr(reviewelemtext.indexOf('#1'))                               
+                                    // reviewelemtext.sub('^[^0-9]*', '', l)
+                                    //reviewelemtext.substring([^,]*$)
+                                    console.log("lets see this")
+                                    // console.log(substring( "^\\D*\\d", "", "nochar55keepchar" ))
+                                    let username = reviewelemtext.replace(/.+(?=[0-9])/g, '').slice(1).replace(/\s/g, '')
+                                    // let b4number = reviewelemtext.replace(/(.+)\s\((.+)\)/g, '')
+                                    const indexOfNumber = reviewelemtext.indexOf(parseInt(`${reviewNumb}`))
+                                    console.log('indexOfNumber')
+                                    console.log(indexOfNumber)
+                                    // let b4number = reviewelemtext.split(`${reviewNumb}`)
+                                    let b4number = reviewelemtext.slice(0, parseInt(`${indexOfNumber+1}`))  // this returns every character before the number. This feels very computer-codey to specify index of integer in characters and slice for the .charAt()/position in index. 
+                                    console.log('b4number')
+                                    console.log(b4number)
 
 
-     
-                   
+                                    // (.*\S)\s*\(([^()]+)  
+                                    // ^.*?(?=_)
+                                    console.log('username')
+                                    console.log(username)
+                                    // [^,]*$      // matches everything after the , 
+                                    // /a([\s\S]*)$/                                
+                        //  <li class="reviewLI"> review.review  review.strainId  review.title </li> 
+                                    console.log('reviewelemtext')
+                                    console.log(reviewelemtext)
 
+
+                                })
+                                
+                            })
+                        }   
+                        userAndReviews()
+
+                        
             $('.newGrid').on('mouseleave', (event) => {
+                // inp.unbind('search')            // also tried .unbind('search', (event))
+                // inp.unbind()     /// i thought i needed [.bind()&&.unbind()] to reset the containers.
+                // inp.bind('search')   // did this to try to reset the "[<h1>Into It:</h1>] container"
                 let textBucket = []
                     likeBucket = []
-                    userObjectBucket = []
+                    // userObjectBucket = []
                     // objectBucket = []
                     useridbucket = [] // useridbucket.splice(0, useridbucket.length)
                     // $('#usernamecontainer').detach()
@@ -1039,211 +1100,4 @@
 //    .css('color', 'white')
    .hide()
 
-                                    // this was going to be db.length based css activated when you hover over the gold bar and reveal the [shovel/like container] instead of the [goldbar mimosa/cherry-pie addToDbAjax container] 
-                                // if ($('.dbList .liStrain').length % 3 == 0) {    // :] 
-                                //     $(newGrid).addClass('threebythree')
-                                // }
-                                // if ($('.dbList .liStrain').length % 5 == 0) {            this is a neat idea but is not needed.
-                                //     $(newGrid).removeClass("threebythree")
-                                //     $(newGrid).addClass('fivebyfive')
-                                // } else if ($('.shovel').length < 10 && $('.dbList .liStrain').length % 3 !== 0 || $('.dbList .liStrain').length % 5 !== 0)  {
-
-                                //     for (let i = 0; i < $('.dbList').length; i++) {
-                                //         console.log("looping through the dbList")
-                                //         $('.effectContainer').push($('.liStrain')[i])
-                                //         $('.effectContainer').push($('.shovel')[i])
-                                //     }
-                                //     console.log("yeah this conditional is satisfied")
-                                //     $('.effectContainer')
-                                //     .css('flex-direction', 'row')
-                                //     .css('justify-content', 'center')
-                                //     // .css('justify-content', 'center')
-                                //     .css('', '')
-                                //     .css('', '')
-                                //     // .css('flex-direction', 'row')  .nonPretty()
-                                // } 
-
-    //     method: 'GET',
-    //     url: '/ajaxstrain',
-    //     dataTypes: 'json',
-    // }).then( (data) => {
-    //     console.log('atleast were in here')
-    //     console.log(data)
-    // })
-
-    // <!-- <form method="POST" action="/strain/digmine" class="mineform"> -->x
-    //                     <!-- <input class="mineinput" type="text" name="minereview" id="text" -->
-    //                     <!-- </form>  -->
-    //                     <!-- <li class="litaste">< %= dbstrain.taste %></li>  -->
-    //                     <!-- click taste for smell/taste-->
-    //                     <!-- <li class="lidominant">< %= dbstrain.dominant %></li> -->
-    //                     <!-- <li class="lifunfact">< %= dbstrain.funfact %></li> -->
-
-      // $.ajax({
-        //     method: 'POST',
-        //     url: '/ajaxstrain',
-        //     dataTypes: 'json',
-        // }).then (async (data) => {
-        //     console.log("atleast were over here weve done this far")
-        //     await console.log(data)
-        // })
-
-                                        // apiKeyword.splice(0, apiKeyword.length)
-        //                                         strainBucket.splice(0, strainBucket.length)
-                                        //         $('.displayContainer').contents().detach()
-                                        //         $(strain).show()
-                                        //         entry.target.style.border = ""
-                                        //         entry.target.style.boxShadow = ""
-                                        //         console.log('goodbye')
-                                        //         // strainObserver.unobserve(entries[0].target)
-
-                                                                                //     for (let i = 0; i < strainData.strains.length; i++) {
-                                        //         if (strainData.strains[i].strain == strainName) {        // simple conditional checking against the forLoop index with the entry.target.outerText which would have a corersponding "strain" value in the API 
-                                        //         console.log('we do have a match')
-                                        //         console.log(strainData.strains[i].thc)
-                                        //         $('.li').on('click', (e) => {
-                                        //             counter ++
-                                        //             wholeCounter.push(counter)
-                                        //            let clickName = event.target.innerText
-                                        //            strainData.strains.forEach( (strain) => {
-
-                                        //                if (strain.strain == clickName) {
-                                        //                     console.log(`strain name ${strain.strain}`)
-                                        //                     let taste = `taste: ${strain.taste}`
-                                        //                     let smell = `smell: ${strain.smell}`
-                                        //                     let thc = `thc: ${strain.thc}`
-                                        //                     let cbd = `cbd: ${strain.cbd}`
-                                        //                     let parents = `genetics: ${strain.parents}`
-                                        //                     let dominance = `${strain.dominant}`
-                                        //                     let fact = `${strain.funfact}`
-                                        //                     effectArray.push(taste, smell, thc, cbd, parents, dominance, fact)
-                                                        
-                                                         
-                                        //                     for (let i = 0; i < strainData.strains.length; i++) {
-                                        //                         if (strainData.strains[i].strain == entry.target.outerText) {
-                                        //                             if (!strainBucket.includes(strainData.strains[i])) {
-                                        //                             strainBucket.push(strainData.strains[i])
-                                        //                             }
-                                        //                         }
-                                        //                     }
-                                                     
-
-                                        //                     let effectinc = 0;
-                                        //                     let iterator = effectinc + effectinc
-                                                     
-                                        //                     let startPoint = effectArray - effectArray.length++
-                                        //                     effectArray[startPoint++]
-
-                                        //                     $('.dislayContainer').append(`${strain.taste}`)
-
-                                        //                     // setTimeout(postEffect, "1000")
-                                        //                 //    entry.target.append(`taste: ${strain.taste}`) 
-                                        //                 //    entry.target.append(`smell: ${strain.smell}`) 
-                                        //                 //    entry.target.append(`thc: ${strain.thc}`) 
-                                        //                 //    entry.target.append(`cbd: ${strain.cbd}`) 
-
-                                        //                 //    entry.target.append(`parents: ${strain.parents}`) 
-                                        //                 //    entry.target.append(`Dominance: ${strain.dominant}`) 
-                                        //                 //    entry.target.append(`fun fact: ${strain.funfact}`) 
-                                              
-                                        //                 //    if (!$('.displayContainer').text(`${strainBucket[0].strain}`))
-                                        //                 //    $('.displayContainer').children().detach()
-                                        //                 //    $('.displayContainer').append(`${strainBucket[0].strain}`)
-                                        //                }
-                                        //            })
-                                        //         //  console.log(`${strainName}`)
-                                        //         })
-                                        //                 // if (!strainBucket.includes(strainData.strains[i])) {             // fun wrestle verifying against duplicates to avoid doing a map based algorithm to do so. 
-                                        //                 // //  strainBucket.push(strainData.strains[i])
-                                        //                 //  }
-                                        //              }
-                                        //          //    console.log(strainData.strains[i].thc)
-                                        //         }
-
-                                            // $( shovel.parents()).each( (index, parent) => {
-    //     console.log('parent')
-    //     // console.log(`${parent}`)
-    //     // console.log($(parent).html())           20 mins      [parent || $(parent)]
-    // })
-    // // console.log(shovel.parents()[1].outerText)
-    // console.log(shovel.parents()[2].contents().text())     // console.log(shovel.parents()[2].text())
-    
-    //     .css('border', '5px solid blue')
-    //     .animate({
-    //         position: 'relative',
-    //         top: '10px',
-    //         border: '2px solid green'
-    //     }, "1000")
-    //     .animate({
-    //         top: '-10px'
-    //     }, "1000")
-    // })
-    
-    // $( shovel.parents()).each( (index, parent) => {
-    //     console.log('parent')
-    //     // console.log(`${parent}`)
-    //     // console.log($(parent).html())           20 mins      [parent || $(parent)]
-    // })
-    // // console.log(shovel.parents()[1].outerText)
-    // console.log(shovel.parents()[2].contents().text())     // console.log(shovel.parents()[2].text())
-    
-    //     .css('border', '5px solid blue')
-    //     .animate({
-    //         position: 'relative',
-    //         top: '10px',
-    //         border: '2px solid green'
-    //     }, "1000")
-    //     .animate({
-    //         top: '-10px'
-    //     }, "1000")
-    // })
-    
-                    // if (('.newGrid').children().length < 2) {
-            // .on('mouseleave', (event) => {
-            //        $(searchMineLabel)
-            //        .unbind()
-            //        .bind()
-
-            //     })
-    
-                            //     console.log("were in near the likes and were looping")
-                            //     console.log(innerajstrain[i].strain)
-                            //     if (innerajstrain[i].strain.includes(strainForIdFunction)) {
-                            //         console.log(innerajstrain[i].strain)
-                                    
-                            //     }
-                            // }                        
-                            // console.log($('#ptagtext').text().replace(/\s/g, ''))                             // let innerloopid = parseInt(returnId(strainForIdFunction))
-                            // console.log(returnId($('#ptagtext').text()))
-                            // console.log(returnId($('#ptagtext').text().replace(/\s/g, '')))
-                            // console.log(` heres the regex code ${cleanId}`)
-                                // console.log("like bucket items")
-                                // console.log(likeBucket[i])
-                                // console.log($(likeBucket[i]).text())   
-    
-// first 3 loop setup:   outerMostLevel:     userObjectBucket[i]/users -----> likeBucket[i]/db.dig/like ----> innerajstrain.length from our ajax call.     [PROBLEM WITH THIS IS WHEN I TRY TO ACCESS LIKES IN INNERAJSTRAIN IT ONLY RETURNS 1 val]
-                    // 
-                        // for (let i = 0; i < userObjectBucket.length; i++) {         // i incorrectly had this for loop set outside of the $('.LI').each() loop. I kept the top part of this for loop above, while dragging the closing forloop bracket within the checkLikes function, outside of the likebucket.push(content)
-                        // let cleanId = userObjectBucket[i].replace(/[a-z]/g, '')         //!! remember seeing this and just guessed at it. getting easier/more fluent. we're going to 
-                        // console.log(userObjectBucket[i])
-                        // console.log('hoose userobject index')
-                        // console.log(userObjectBucket[i])
-                        // let cleanId = userObjectBucket[i].replace(/\d+/g, '')    // using d+ accesses the numbers they are the characters being removed.                         
-
-                        // for (let i = 0; i < likeBucket.length; i++) {    // i first had this loop set up this way 
-                            // console.log('lets see our likes please')
-                                // console.log(likeBucket[i])
-                            // console.log('cleanId')
-                            // console.log(cleanId)
-                            // console.log('return strainId')
-                            // console.log("heres the p tag text")
-                            // console.log($('#ptagtext').text().toString())
-
-
-                            // let subStrings = content.split.replace(/['"]+/g, '')
-                            // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
-                            // console.log('regex ')
-                            // console.log(subStrings.replace(/[""]+/g, '')) 
-                            // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
-                    // }               
 </script>
