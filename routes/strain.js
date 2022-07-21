@@ -67,7 +67,13 @@ strainRouter.get('/', async (req, res) => {
             db.dig.findAll().then( (likes) => {
 
             db.user.findAll().then( (allusers) => {
+                // console.log('allusers')
+                // console.log(allusers)
 
+            db.mine.findAll().then( (reviews) => {
+                console.log('see some reviews')
+                console.log(reviews)
+            })
                 
                 let allDB = allDb // || {strain: 'no strains'}
                 req.flash('age', 'SAFETY FIRST: Are you 18 years or older?')
@@ -76,7 +82,8 @@ strainRouter.get('/', async (req, res) => {
                     ejsuser,
                     allDB,
                     likes,
-                    allusers    // can probably store this as return statement of invoked function. will check later if there's time. 
+                    allusers,    // can probably store this as return statement of invoked function. will check later if there's time. 
+                    reviews
                 })
                 })
             })
@@ -159,7 +166,8 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
                     strainInIfBlock.createMine({
                     // making [executive?] judgment call: it took 6 months building a pokedex i just built and about 6 days to get here. I now wonder why theres going to be a title for this review and i'm willing to let this be one of those "bugs"/non-100%-sensible things. I could have an input pop up requesting "title data"()=> then .input.onclick ---> input.mine comes up. I spent good 5 hours making sure the input popping up and .effectContainer.leave looks okay and is fluid, non-obnoxious, natural feeling. Too much hovering, there is no emphasis/importance to this mine review. 
                     review: review,
-                    strainId: idForStrain
+                    strainId: idForStrain,
+                    title: req.body.title
                     }).then( (newMine) => {
                         console.log(newMine)
                         console.log(newMine.get().review)
@@ -215,6 +223,9 @@ strainRouter.post('/', (req, res) => {      // i was going to do a set of input 
             console.log("there is no req.body.into_it")
         }
 
+        console.log('we are hitting the dig route')
+        console.log(req.body)
+        console.log("hey do you see that")
     })
 
 
