@@ -185,6 +185,8 @@ if ($(location)[0].pathname.includes('strain')) {
 
     let inputCounter = 0
     let wholeinputCounter = new Array()
+
+    strainidBucket= []
     strain
     .on('mouseenter', (event) => {
         navMineHover++
@@ -219,10 +221,62 @@ if ($(location)[0].pathname.includes('strain')) {
             .css('border-radius', '50%')
             .attr('src', '/img/mine.png')           
             .on('mouseenter', (event) => {               // if you this under .show() [line206]  $('.mineimg').show() you have to hover over the first goldbar 3x to see the event pop up.
+            console.log("does this correspond")
             // if ($('.mineinput').length % 2 == 0) {          // bit proud of this non-working non-solution tbh. seems codey to even think of that. autoSet to .nonPretty() unfortunately.
                 //     $('.mineinput').detach()
                 // }
-                const strainIdForPostRoute = $(mineimg).parents()[1].innerText
+                console.log("check the siblings")
+                // console.log($(mineimg).siblings())
+
+                // console.log("check the parents")
+                console.log("check that li")
+                // console.log($(event.target).parents()) 
+                // console.log($(event.target).parents()[0].outerText) // i was using $(mineimg).parents() instead of $(event.target).parents(). tried many of .parents([0].innerText || [0].firstChild.childNode type of values.  and splice and regex to clear whitespacing.)
+                let nameOfHoverParent = $(event.target).parents()[0].outerText
+                console.log('nameOfHoverParent')
+                console.log(nameOfHoverParent)
+
+                // console.log($(mineimg).parents('li'))                 console.log($(mineimg).siblings('li').text())
+
+               
+
+                let ghurl = "https://frankcollins3.github.io/strainuous/strain.json"
+
+                $.ajax({
+                    method: 'GET',
+                    url: ghurl,
+                    dataTypes: 'json'
+                }).then( (ajaxdata) => {
+                    // console.log(ajaxdata)
+                    let strainfromajax = ajaxdata.strains
+                    console.log('strainfromajax')
+                    console.log(strainfromajax)
+                    for (let i = 0; i < strainfromajax.length; i++) {
+                        if (strainfromajax[i].strain == nameOfHoverParent) {
+                            console.log("were in the if statement in ajax")
+                            console.log(strainfromajax[i])
+                            console.log(strainfromajax[i].funfact)
+                            let id = (i) + 1                        
+                            strainidBucket.push(id)
+                            console.log('strainidBucket')
+                            console.log(strainidBucket[0])
+                        }
+                    }
+
+                })
+
+                // let strainIdForPostRoute = $(mineimg).parents()[0].innerText
+                let strainIdForPostRoute = $(event.target).parents()[0].innerText
+
+                console.log('strainIdForPostRoute')
+                console.log(strainIdForPostRoute)
+                // let parentslength = $(mineimg).parents().length //
+
+                // ACCIDENTAL INFINITE LOOP CODE
+                // for (let i = 0; parentslength; i++) {
+                //     console.log("see the index")
+                //     console.log(parentslength[i])
+                // }
              
 
                 // console.log("we are hovering on the other mine photos")
@@ -300,6 +354,7 @@ if ($(location)[0].pathname.includes('strain')) {
                         else if (wholeinputCounter.length == 2) {
                             inputCounter = 0
                             wholeinputCounter.splice(0, wholeinputCounter.length)
+                            strainidBucket.splice(0, strainidBucket.length) // useridBucket = [] redeclare as empty array. I feel theres more specificity and control by asserting a new valued default vs redeclaring as it originally was. å
                             $(evt.target).hide()
                             // console.log('we are leaving this thing')
                             // console.log($(evt.target))
@@ -312,7 +367,7 @@ if ($(location)[0].pathname.includes('strain')) {
                                 url: '/strain/digmine',   
                                 data: {
                                     // userkeyword: `${formName}`, we dont need userInfo. it is not about of the [db.strain&&db.mine] association.
-                                    strainKeyword: `${strainIdForPostRoute}`,
+                                    strainKeyword: nameOfHoverParent,         // ugh we dont need the id
                                     mine: `${mineinputvalue}`,
                                     title: $('#ejsname')[0].outerText
                                 }
