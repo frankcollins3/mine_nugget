@@ -118,6 +118,7 @@
             justify-content: center;            
         }
         .papaya {
+            font-family: Chancery Urw L;
             text-align: center;
             font-size: 22px;
             color: papayawhip;
@@ -254,14 +255,14 @@
                 <p class="hiddenUserDataReference" id="user"> <%= ejsuser %> </p>
                 <p class="hiddenUserDataReference" id="ejsname"> <%= ejsuser.username %></p>
                 <!-- <ul class="hiddenUserDataReference"> -->
-                <ul class="likelist">
+                <ul class="hiddenUserDataReference likelist">
                     <% likes.forEach( (like) => { %>
                         <% console.log('this is our likes') %>
                         <li class="likeLI"> <%= like.strainId %> <%= like.userId %>  </li>
                         <!-- < % console.log(like) %> -->
                     <% }) %>
                 </ul>
-                <ul class="userlist">
+                <ul class="hiddenUserDataReference userlist">
                     <% allusers.forEach( (userlistuser) => { %>
                         <% console.log("this is the userlist USER !!!!!******") %>
                         <% console.log(userlistuser) %>
@@ -406,6 +407,7 @@
     let likeBucket = []
     let userObjectBucket = new Array()
 
+    let useridbucket = new Array()
 
     // const grabUsers = () => {
     //     $('.userLI').each( (index, user) => {
@@ -460,6 +462,7 @@
         let searchword = $(event.target).val() // kind of wanted [.target.val().UpperCase()]
         console.log($('.liStrain'))       
         $('.liStrain').each( (i, strain) => {            
+            console.log('WERE IN THE LI STRAIN EACH LOOP')
             let firstLetter = $(strain).text().charAt(1)
             if (firstLetter == searchword) {     // i wonder why strict equality only returns 1 value when other dataNames satisfy the condition of ".charAt(1) == 'w' for example.". 
             
@@ -539,117 +542,104 @@
                     }
                 }
                 addToGrid()
-
                 const checklikes = () => {
-                    // const seeThemUsers = () => {
-                        console.log('lets see them users')
-                        // console.log(userObjectBucket)
-                        // console.log(userObjectBucket[0])
+                    
                          let strainForUsers = $('#ptagtext').text()
                          $('.likeLI').each( (index, like) => {
-                             // console.log('like')
-                             // let content = like.textContent.toString()
-                             // let content = like.textContent.toString().replace(/['']+/g, '').split(' ')                      
-                        // let content = like.textContent.toString().replace(/[']/g, "''").split(' ')
                             let content = like.textContent.toString().replace(/['']/g, '') // .split() // can seem to use **[] || '' ** new Array() or 'string' ** .split i                         
-                            // console.log('content')
-                            // console.log(content)
-                            // const res = content.match(/\d+/g)?.[1];
                             const useridRegex = content.match(/\d+/g)?.[1]
-                            console.log('useridRegex')
-                            console.log(useridRegex)                        
-                        likeBucket.push(content)
-                        // let useridstrainid = [content[1], content[2]]
-                        // console.log(useridstrainid)
+                        likeBucket.push(content)            
                     })
                     }
                 checklikes()   
 
-
-
-                        console.log('im right over here wittit')
-                        console.log(`this is who i be watch ${returnId('mimos')}`)
-
-
-                    //     let returnId = (elem) => {             
-                    //     for (let i = 0; i < innerajstrain.length; i++) {
-                    //         // if (innerajstrain[i].strain == elem) {
-                    //         if (innerajstrain[i].strain.includes(elem)) {
-                    //             let id = (i) + 1
-                    //             console.log('id')
-                    //             console.log(id)
-                    //             return id                                
-                    //             console.log(innerajstrain[i].strain)
-                    //         }
-                    //     }
-                    //  }
-
-
-
-                        for (let i = 0; i < userObjectBucket.length; i++) {         // i incorrectly had this for loop set outside of the $('.LI').each() loop. I kept the top part of this for loop above, while dragging the closing forloop bracket within the checkLikes function, outside of the likebucket.push(content)
-                        let cleanId = userObjectBucket[i].replace(/[a-z]/g, '')         //!! remember seeing this and just guessed at it. getting easier/more fluent. we're going to 
-                        // console.log(userObjectBucket[i])
-                        // console.log('hoose userobject index')
-                        // console.log(userObjectBucket[i])
-                        // let cleanId = userObjectBucket[i].replace(/\d+/g, '')    // using d+ accesses the numbers they are the characters being removed.                         
-                        for (let i = 0; i < likeBucket.length; i++) {
-                            // console.log('cleanId')
-                            // console.log(cleanId)
-                            // console.log('return strainId')
-                            // console.log("heres the p tag text")
-                            // console.log($('#ptagtext').text().toString())
-                            let strainForIdFunction = $('#ptagtext')[0].innerText       // painful 90min+ problem trying $('#ptagtext').text() 
-                            // console.log('strainForIdFunction')
-                            // console.log(strainForIdFunction)                        
-                            // let reset = strainForIdFunction.slice(0, strainForIdFunction.length-1)         // oops only had one [strainforid.length-1] argument for slice. It only returns the last number. I was testing this outside of the loop with 1 last letter missing off of mimosa and it returnId was returning the correct loopindex(i)+1 /sequelizeIdInt
-
-                            let whitewid = 'white widow' // i wonder why this works but the characters returned from console.log(strainForIdFunction) dont do anything.
-                            for (let i = 0; i < innerajstrain.length; i++) {
-                                // if (innerajstrain[i].strain.includes(`${strainForIdFunction}`))
-                                if (innerajstrain[i].strain == strainForIdFunction) {
-                                console.log("we in the loop")
-                                console.log(innerajstrain[i].strain)    
-                                console.log((i) + 1)
-                                
-                                console.log()
-                                
-
-                                
-                            }
-                            //     console.log("were in near the likes and were looping")
-                            //     console.log(innerajstrain[i].strain)
-                            //     if (innerajstrain[i].strain.includes(strainForIdFunction)) {
-                            //         console.log("we in the loop and we crazy")
-                            //         console.log(innerajstrain[i].strain)
-                                    
-                            //     }
-                            }
-                            
-
-                            // console.log($('#ptagtext').text().replace(/\s/g, ''))                             // let innerloopid = parseInt(returnId(strainForIdFunction))
-                            // console.log(returnId($('#ptagtext').text()))
-                            // console.log(returnId($('#ptagtext').text().replace(/\s/g, '')))
-                            console.log(` heres the regex code ${cleanId}`)
-                                // console.log("like bucket items")
-                                // console.log(likeBucket[i])
-                                // console.log($(likeBucket[i]).text())
-                                
+                            const findLikesByMatchingIds = () => {
+                                let strainForIdFunction = $('#ptagtext')[0].innerText       // painful 90min+ problem trying $('#ptagtext').text() 
+                                let whitewid = 'white widow' // i wonder why this works but the characters returned from console.log(strainForIdFunction) dont do anything.
+                                for (let i = 0; i < innerajstrain.length; i++) {
+                                    if (innerajstrain[i].strain == strainForIdFunction) {
+                                        let strainloopid = (i) + 1                                    
+                                        for (let i = 0; i < likeBucket.length; i++) {
+                                            if (likeBucket[i].match(/\d+/g)?.[0] == strainloopid) {                                            
+                                              useridbucket.push(likeBucket[i].match(/\d+/g)?.[1])       // with our ids pushed to our bucket we can now use a different function to access the userobjects in the userobject.length array 
+                                        }                                
+                                }                             
+                                }
                             }
                         }
 
-    
-                            // let subStrings = content.split.replace(/['"]+/g, '')
-                            // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
-                            // console.log('regex ')
-                            // console.log(subStrings.replace(/[""]+/g, '')) 
-                            // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
-                    // }                
+                        findLikesByMatchingIds()
+
+                        const accessUserObjects = () => {
+                            console.log("creating container and appending usernames.")
+                            let usernamecontainer = document.createElement('div')
+                            
+                            $(usernamecontainer)                            
+                            .attr('id', 'usernamecontainer')
+                            .addClass('dbList')
+                            .css('border', '5px solid papayawhip')
+                            $('.newGrid').append($(usernamecontainer))
+                            let usernameh1 = document.createElement('h1')
+                            $(usernameh1)
+                            .text('Into It:')
+                            .css('color', 'papayawhip')
+                            .css('font-family', 'Urw Chancery L')
+                            .css('font-size', '28px')
+                            $(usernamecontainer).append($(usernameh1))
+
+                            console.log("now were in here")
+                            console.log(useridbucket)
+                            userObjectBucket.forEach( (user) => {
+                                console.log('user')
+                                console.log(user)
+                                console.log(user.replace(/[a-z]/g, ''))
+                                // let cleanId = user.replace(/\+d/g, '')
+                                let cleanId = user.replace(/[a-z]/g, '') // even after guessing this after messing it up before it still wasnt the first regex in mind to reach for. 
+                                // console.log(cleanId)
+                                // console.log('cleanId')
+                                for (let i = 0; i < useridbucket.length; i++) {
+                                    // im using the index instead of cleanId because i believe: if i use cleanId and return/console.log(user.nameregex) it'll apply for all of them. 
+                                    // if (useridbucket[i].replace(/[a-z]/g, '') ==  )
+                                    console.log('heres our measure value')
+                                    console.log(useridbucket[i])
+                                     if (parseInt(useridbucket[i]) == user.replace(/[a-z]/g, '')) {
+                                        console.log('here are our usernames')
+                                        console.log(user.replace(/[0-9]/g, ''))
+                                        let nameOfUser = user.replace(/[0-9]/g, '')
+
+                                        let username = document.createElement('p')
+                                        $(username)
+                                        .attr("id", 'usernameP')
+                                        .text(nameOfUser)
+                                        .addClass('papaya')
+                                        $(usernamecontainer).append($(username))
+                                        // to show likes click the shovel that .show() the like container.
+
+                                     }       
+
+                                }
+                                
+                            })
+                        }
+                        accessUserObjects()
+
+
+
+     
                    
 
             $('.newGrid').on('mouseleave', (event) => {
+                let textBucket = []
+                    likeBucket = []
+                    userObjectBucket = []
+                    // objectBucket = []
+                    useridbucket = [] // useridbucket.splice(0, useridbucket.length)
+                    // $('#usernamecontainer').detach()
+                    $('#usernamecontainer').detach()
+                    $('#usernameP').detach()
                     $('h1').detach()
                     $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
-                    $('#ptagtext') // $(ptagtext).detach()
+                    $('#ptagtext').detach() // $(ptagtext).detach()
                     $(event.target).children().show()
             })
                     // }
@@ -1216,8 +1206,44 @@
 
             //     })
     
-
+                            //     console.log("were in near the likes and were looping")
+                            //     console.log(innerajstrain[i].strain)
+                            //     if (innerajstrain[i].strain.includes(strainForIdFunction)) {
+                            //         console.log(innerajstrain[i].strain)
+                                    
+                            //     }
+                            // }                        
+                            // console.log($('#ptagtext').text().replace(/\s/g, ''))                             // let innerloopid = parseInt(returnId(strainForIdFunction))
+                            // console.log(returnId($('#ptagtext').text()))
+                            // console.log(returnId($('#ptagtext').text().replace(/\s/g, '')))
+                            // console.log(` heres the regex code ${cleanId}`)
+                                // console.log("like bucket items")
+                                // console.log(likeBucket[i])
+                                // console.log($(likeBucket[i]).text())   
     
+// first 3 loop setup:   outerMostLevel:     userObjectBucket[i]/users -----> likeBucket[i]/db.dig/like ----> innerajstrain.length from our ajax call.     [PROBLEM WITH THIS IS WHEN I TRY TO ACCESS LIKES IN INNERAJSTRAIN IT ONLY RETURNS 1 val]
+                    // 
+                        // for (let i = 0; i < userObjectBucket.length; i++) {         // i incorrectly had this for loop set outside of the $('.LI').each() loop. I kept the top part of this for loop above, while dragging the closing forloop bracket within the checkLikes function, outside of the likebucket.push(content)
+                        // let cleanId = userObjectBucket[i].replace(/[a-z]/g, '')         //!! remember seeing this and just guessed at it. getting easier/more fluent. we're going to 
+                        // console.log(userObjectBucket[i])
+                        // console.log('hoose userobject index')
+                        // console.log(userObjectBucket[i])
+                        // let cleanId = userObjectBucket[i].replace(/\d+/g, '')    // using d+ accesses the numbers they are the characters being removed.                         
+
+                        // for (let i = 0; i < likeBucket.length; i++) {    // i first had this loop set up this way 
+                            // console.log('lets see our likes please')
+                                // console.log(likeBucket[i])
+                            // console.log('cleanId')
+                            // console.log(cleanId)
+                            // console.log('return strainId')
+                            // console.log("heres the p tag text")
+                            // console.log($('#ptagtext').text().toString())
 
 
+                            // let subStrings = content.split.replace(/['"]+/g, '')
+                            // let subStrings = content.replace(/['"]+/g, '')                  // this isn't necessary but its nice to see the double quotes.             
+                            // console.log('regex ')
+                            // console.log(subStrings.replace(/[""]+/g, '')) 
+                            // console.log(like.textContent)           // thought this wouldn't have worked but we already accessed a jq Object and set [index, like] as their own placeholders. I'm surprised to use vanilla js [textContent] on something that has a jq object route with correct output shown. 
+                    // }               
 </script>
