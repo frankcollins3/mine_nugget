@@ -286,12 +286,12 @@ if ($(location)[0].pathname.includes('strain')) {
                     // no submit button on our very basic form. [cool2see]: form.submit() vs $(evt.target).val()
                     $(mineinput).on('click', (evt) => {         // a more visually appealing, but still .nonPretty() .nonFlowsWell() solution. 
                         console.log("here we go!")
+                        console.log('ejs name')
+                        console.log($('#ejsname'))
                         console.log( $('.nameOrNugget'))
                         console.log($('.nameOrNugget')[0])
                         console.log($('.nameOrNugget')[0].firstChild)
-                        let preTitle = $('.nameOrNugget')[0].firstChild.toString().replace(/\s+/g, '')
-                        console.log('preTitle')
-                        console.log(preTitle)
+
                         inputCounter++
                         wholeinputCounter.push(inputCounter)
                         if (wholeinputCounter.length == 1) {
@@ -314,7 +314,7 @@ if ($(location)[0].pathname.includes('strain')) {
                                     // userkeyword: `${formName}`, we dont need userInfo. it is not about of the [db.strain&&db.mine] association.
                                     strainKeyword: `${strainIdForPostRoute}`,
                                     mine: `${mineinputvalue}`,
-                                    title: `${preTitle}`
+                                    title: $('#ejsname')[0].outerText
                                 }
                                 }).then( (mine) => {
                                     // console.log(mine)
