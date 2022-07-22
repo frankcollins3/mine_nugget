@@ -56,7 +56,7 @@
             h1.unbind('mouseenter') // this allows the h1 to be untargetable with a mouseevent. 
             // section.append(h1) && h1.mouseenter() is being targeted with the same event governed by parent container events.
 
-            let whitespacepattern = '/\s/g'
+            let randomstrainbucket = new Array() // []
              
             let strainmap = new Map()
 
@@ -96,6 +96,9 @@
                 const findEffect = (elem) => {
                     let randomstrain = ajaxstrain[Math.floor(Math.random()*ajaxstrain.length)]
                     let randomname = randomstrain.strain
+                    console.log('findEffect random name')
+                    console.log(randomname)
+
                     let randomgold = randomstrain.gold
                     let prepoint = randomgold.split(', ')
                     let wordlength = prepoint.length -1 // factoring in arraybased index making sure none of our values are exclusive to our options created with our randomizers.
@@ -110,7 +113,6 @@
                     $(event.target).append()
                     $(elem).append($(randomwordptag))
                     // section.append($(randomwordptag))
-
                     // strainmap.set(randomname, randomword)
                      randomstrain = ''
                      randomname = ''
@@ -126,6 +128,7 @@
                 }   
                 // findEffect()
 
+
                 const findStrains = (elem) => {
                     // console.log("we are now clicking on the element we hovered upon")
                     // console.log('click target') // when we can get the text of the keyword (the only text besides our h1). We can dig through the api key for strains that share keywords.
@@ -133,56 +136,81 @@
                     // console.log('heres the context')
                     // console.log($(elem.target).context)
                     const text = $(elem.target).context.outerText       // ["Ore or Ore\n\neuphoria"] ** actual iterm2 output ** we want the text after the \n || newline **     
-                    const lowertext = text.replace(/[A-Z]/g, '').replace(/\s/g, '')
+
+                    const lowertext = text.replace(/[A-Z]/g, '').replace(/\s/g, '')     // id rather be a little less DRY and a lot more guaranteed. really have to dive into react.js
                     console.log('lowertext')
                     console.log(lowertext)
                     // const newText = text.replace(/[^\/]+S) )                
                     console.log('text')
                     console.log(text)
 
-                    
                     for (let i = 0; i < ajaxstrain.length; i++) {
-                        console.log('strain and gold')
-                        console.log(ajaxstrain[i].strain)
-                        let loopgold = ajaxstrain[i].gold
-                        let goldsplit = loopgold.split(', ')
-                        let splitlength = goldsplit.length
-                        console.log('splitlength')
-                        console.log(splitlength)
-                        for (let i = 0; i < goldsplit.length; i++) {
-                            console.log('i')
-                            console.log(goldsplit[i])
-                            strainmap.set(lowertext[i], goldsplit[i])
-                        }
-                        goldsplit.forEach ( (g) => {
-                            console.log('g')
-                            console.log(g)
-                            // console.log(g[0])
-                            // console.log(`G1: ${g[1]}`)
-                            // console.log(`G2 like gatorade: ${g[2]}`)
-                            // console.log(`G3: ${g[]}`)
-                            // console.log(g[2])
-                            // console.log(g)
-                            if (g == lowertext) {
-                                for (let i = 0; i < ajaxstrain[i].length; i++) {
-                                    console.log('we have a match')
-                                    console.log('lowertext')
-                                    console.log('g')
-                                    let goldmatch = ajaxstrain[i].split(', ')
-                                    for (let i = 0; i < goldmatch.length; i++) {
-                                        if (goldmatch[i] == g) {
-                                            console.log("3rd loop")
-                                        }
-                                    }
-                                    // if (ajaxstrain[i].gold.includes(g)) {
-                                    //     console.log("in 2 loops we have a match")
-                                    //     console.log('g from second loop')
-                                    //     console.log(g)
-                                    // }
-                                }
-                            }
+                        console.log("in the loop and we do that")
+                        if (ajaxstrain[i].gold.replace(/\s/g, '').includes(lowertext)) {
+                            console.log("we have our match")
+                            let int = (i) + 1
+                            console.log('int')
+                            console.log(int)
+                            let splitGold = ajaxstrain[i].gold.split(', ')
+                            console.log('splitGold split the gold up')
+                            console.log(splitGold)
+                            $(splitGold).each( (index, g) => {
+                                console.log('g')
+                                console.log(g)
+                                strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
+                            })
+                            
 
-                        })
+                            
+                            // strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
+                        }
+                    }
+
+                    
+                    // for (let i = 0; i < ajaxstrain.length; i++) {
+                    //     console.log('strain and gold')
+                    //     console.log(ajaxstrain[i].strain)
+                    //     let loopgold = ajaxstrain[i].gold
+                    //     let goldsplit = loopgold.split(', ')
+                    //     let splitlength = goldsplit.length
+                    //     console.log('splitlength')
+                    //     console.log(splitlength)
+                    //     for (let i = 0; i < goldsplit.length; i++) {
+                    //         console.log('i')
+                    //         console.log(goldsplit[i])
+                    //         // strainmap.set(`${lowertext}[i]`, goldsplit[i])
+                    //         // strainmap.set(`${ajaxstrain[i].strain}`, goldsplit[i]) this gets us to a value that doesn't change again. we're getting closer with this line of code here. 
+                    //         strainmap.set(`${ajaxstrain[i].strain}`, goldsplit[i])
+                    //     }
+                    //     goldsplit.forEach ( (g) => {
+                    //         console.log('g')
+                    //         console.log(g)
+                    //         // console.log(g[0])
+                    //         // console.log(`G1: ${g[1]}`)
+                    //         // console.log(`G2 like gatorade: ${g[2]}`)
+                    //         // console.log(`G3: ${g[]}`)
+                    //         // console.log(g[2])
+                    //         // console.log(g)
+                    //         if (g == lowertext) {
+                    //             for (let i = 0; i < ajaxstrain[i].length; i++) {
+                    //                 console.log('we have a match')
+                    //                 console.log('lowertext')
+                    //                 console.log('g')
+                    //                 let goldmatch = ajaxstrain[i].split(', ')
+                    //                 for (let i = 0; i < goldmatch.length; i++) {
+                    //                     if (goldmatch[i] == g) {
+                    //                         console.log("3rd loop")
+                    //                     }
+                    //                 }
+                    //                 // if (ajaxstrain[i].gold.includes(g)) {
+                    //                 //     console.log("in 2 loops we have a match")
+                    //                 //     console.log('g from second loop')
+                    //                 //     console.log(g)
+                    //                 // }
+                    //             }
+                    //         }
+
+                    //     })
 
                         // if (ajaxstrain[i].gold.includes(lowertext)) {
                         //     // let ajaxgold = ajaxstrain[i].gold.split(', ')
@@ -207,12 +235,8 @@
 
                             // })
                         
-                            console.log('we are within the conditional')
-                            console.log(ajaxstrain[i])
-                            console.log(ajaxstrain[i].strain)
-                            console.log(ajaxstrain[i].gold)
                         // }
-                    }
+                    // }
                     setTimeout( () => console.log(strainmap), "2000")
 
                     // for (let i = 0; i < ajaxstrain[i].length; i++) {
