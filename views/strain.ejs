@@ -8,6 +8,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
     </head>
     <style> 
        
@@ -15,15 +16,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* overflow: hidden; */
+            overflow: hidden;
 
         }
         .containerCont {
+            /* padding: 2em; */
             display: flex;
             flex-direction: column;
             align-items: center; 
         }
         .strainContainer {
+            position: relative;
+            top: 3em;
+            /* margin-top: 400px; */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,6 +39,7 @@
 
         .displayContainer {
             /* margin-top: 3em; */
+            /* margin: 2em 2em 2em 2em; */
             margin: 0em 2em 0em 2em;
             /* padding-top: 3em; */
             height: 100px;
@@ -44,6 +50,8 @@
             align-items: center;
             background-color: rgb(62, 50, 32);
             border: 3px solid rgb(247, 208, 36);
+            border-bottom: '';
+            /* border: 3px solid rgb(247, 208, 36); */
             box-shadow: inset 8px 6px 9px papayawhip;
         }
          .dbList {
@@ -90,6 +98,7 @@
             align-items: center; 
             /* justify-content: center; */
         }
+  
         .searchIn {
             margin-top: 5em;
             height: 8em;
@@ -144,6 +153,8 @@
             background-repeat: no-repeat;
             margin-top: 1em;
         }
+        
+        
 
 ::-webkit-scrollbar {
   width: 20px;
@@ -170,11 +181,11 @@
         }
         .li {
             opacity: 0.3;
-            margin-top: 0.7em;
+            /* margin-top: em; */
             list-style-type: none;
             font-size: 22px;
             color: papayawhip;
-            line-height: 9.9em;
+            line-height: 12.9em;
             /* line-height: 7.7em; */
             text-shadow: 1px 1px 1px rgb(247, 208, 36);
             /* box-shadow: 9px 3px 6px papayawhip; */
@@ -211,30 +222,12 @@
             margin-top: 250px;
             color: white;
         }
-        
-        /* @media screen and (min-device-width: 777px) and (max-device-width: 1020px) {
-            .strainBody {
-                background-color: blue
-            }
-        } */
-        /* @media screen and (min-device-width: 777px) and (max-device-width: 1020px) { 
+    
+        @media only screen and (max-width: 1024px) {
             .strainBody {
                 background-color: orange;
             }
-        } */
-
-        /* @media only screen and (min-device-width: 770px) and (max-device-width: 1024px) { */
-        @media only screen and (max-device-width: 1024px) {
-            .strainBody {
-                background-color: blue !important;
-            }
-            form {
-                border: 20px solid orange !important;
-            }
-        
-        }
-
-        
+    }
 
     </style>
     <body class="strainBody">
@@ -316,19 +309,9 @@
     // nice to have a personal "scope"/spectrum of wondering whether its easier to do things in a way thats individual & moving from other parts. 
     goldCount = 0
     wholeGoldCount = new Array()
-    
     let formHover = false
-    // if (!$('#strainbarrel')) {
-    //     console.log('theres a strainBarrel')
-    // } else {
-    //     console.log('not anymore')
-    // }
-        
     let dbStrainBucket = $('.dbStrainBucket')
     dbStrainBucket.hide()    
-
-
-
     let formName = $('#ejsname')[0].outerText                     
     let strainName = $('.liStrain')[0].outerText
     
@@ -401,14 +384,8 @@
     let strainContWidth = $('.strainContainer')[0].clientWidth
     // $('.displayContainer').addClass('doubleSize') // .width, '${strainContWidth}' it wasn't matching the jquery object clientWidth. that clientWidth was 400
 
-    let cherrypiebg = '/img/strain_photo/cherrypie.png '
-    let DoSiDosbg = '/img/strain_photo/Do-Si-Dos.png '
-    let GorillaGlue4bg = '/img/strain_photo/GorillaGlue#4.png '
-    let mimosabg = '/img/strain_photo/mimosa.png '
-    let pineappleexpressbg = '/img/strain_photo/pineappleexpress.png '
-    let weddingcakebg = '/img/strain_photo/weddingcake.png'
-    let whitewidowbg = '/img/strain_photo/whitewidow.png'
-    let bgBucket = [cherrypiebg, DoSiDosbg, GorillaGlue4bg, mimosabg, pineappleexpressbg, weddingcakebg, whitewidowbg]
+    let cherrypiebg = '/img/strain_photo/cherrypie.png' // no real pictures for this app. 
+    // let bgBucket = [cherrypiebg, DoSiDosbg, GorillaGlue4bg, mimosabg, pineappleexpressbg, weddingcakebg, whitewidowbg]
 
     let bod = $('.strainBody')
     bod
@@ -433,27 +410,14 @@
    inp.hide()
 
     let textBucket = []
-    let objectBucket = []
-
+    // let objectBucket = []
     let likeBucket = []
     let userObjectBucket = new Array()
-
     let useridbucket = new Array()
-
     let reviewBucket = []
     let userObjectBucket2 = [] // just so we have some space away from the other bucket array clears itself upon behavior
-    
     let strainidbucket = []
     const reviewbucket = []
-
-    // const grabUsers = () => {
-    //     $('.userLI').each( (index, user) => {
-    //         // console.log('user')
-    //         console.log( $(user).text())
-    //         return [$(user).text()]
-    //     })
-    // }
-    // grabUsers()
 
     const storeuser = () => {
         $('.userLI').each( (index, user) => {
@@ -726,7 +690,7 @@
                                     console.log(b4number)
                                     for (let i = 0; i < strainidbucket.length; i++) {
                                         if (strainidbucket[i] == reviewNumb) {
-                                            console.log("strainbucket[i] == reviewNumb")
+                                            console.log("strainidbucket[i] == reviewNumb")
                                             console.log(strainidbucket[i])
                                             console.log('username')
                                             console.log(username)
@@ -958,20 +922,26 @@
                                     let strainBucket = []
                                     let apiKeyword = []
                                     let objectBucket = []
-                                    let photoBucket = []
+                                    // let photoBucket = []
                                     let clickCounter = 0
                                     let wholeCounter = []
                                     //  *&&* intersection Observer code. might do a: if $(strainCont).scroll('', ()=> observer.init() type code  -->
-                                    let observerLi = document.querySelectorAll('.li')       
+                                    let observerLi = document.querySelectorAll('.li')   
+                                    $(observerLi)
+                                    .addClass('observerLi')    
                                     let strainObserver = new IntersectionObserver(entries => {      // blew 40 minutes without entries.forEach( if(entry.isIntersecting)) factoring in all of the entries and using .isIntersecting is automatically also satisfying our else condition on other entries not intersecting.
                                         entries.forEach( (entry) => {
-                                            
-                                            console.log(entry)
+                                            console.log("were watching up here with entry.target')")
+                                            console.log(entry.target)
+
                                             
                                             let strainName = entries[0].target.outerText || 'no name'
-                                           
+                                           console.log('strainName')
+                                           console.log(strainName)
                                             let effectArray = []
                                             if (entry.isIntersecting) {       // left this off for an hour while working and wasn't impeded by it until now.
+                                            console.log("this entry is intersecting!!!!!")
+                                            console.log(entry.target)
                                             for (let i = 0; i < strainData.strains.length; i++) {
                                                 if (strainName == strainData.strains[i].strain) {
                                                     console.log("this the")
@@ -986,14 +956,16 @@
                                             console.log(keyword)
                                             const checkForApi = () => {
                                                 for (let i = 0; i < strainData.strains.length; i++) {
-                                                    if (strainData.strains[i].strain == keyword) {
-                                                        console.log('okay here we go')
+                                                    // if (strainData.strains[i].strain == keyword) {
+                                                    if (strainData.strains[i].strain.includes(keyword)) {
+                                                        console.log(`if intersecting if strain ${strainData.strains[i].strain} keyword ${keyword}}`)
                                                         console.log(strainData.strains[i])
                                                         objectBucket.push(strainData.strains[i])
                                                     }
                                                 }
                                             }
                                             checkForApi()
+                                            console.log('objectBucket')
                                             console.log(objectBucket)
                                             let displayContainer = document.createElement('div')
                                             $(displayContainer).addClass('displayContainer')
@@ -1023,6 +995,9 @@
                                        
                                             $(entry.target).on('click', (event) => {
                                                 clickCounter++
+                                                console.log('clickCounter')
+                                                console.log(clickCounter)
+
                                                 wholeCounter.push(clickCounter)
                                                 console.log('jq entry target click')
                                                 console.log(objectBucket)
@@ -1149,6 +1124,8 @@
                                             
 
                                             } else {
+                                                console.log("no longer watching over here with this target")
+                                                console.log(entry.target)
                                                 $('button').detach()
                                                 $('label').detach()
                                                 $('.displayContainer p').detach()
@@ -1156,6 +1133,8 @@
                                                 wholeCounter.splice(0, wholeCounter.length)
                                                 objectBucket.splice(0, objectBucket.length)
 
+                                                apiKeyword.splice(0, apiKeyword.length)
+                                                strainBucket.splice(0, strainBucket.length)
                                             }
                                         })    
                                     }, {threshold: 0.8}) // tbh i'm not sure why it's easier to get clicking on 0.8 vs 0.2 
