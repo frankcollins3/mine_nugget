@@ -157,14 +157,25 @@
                             $(splitGold).each( (index, g) => {
                                 console.log('g')
                                 console.log(g)
-                                strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
-                            })
-                            
-
-                            
+                                // strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
+                                strainmap.set(ajaxstrain[i].strain, ajaxstrain[i].gold)
+                            })                                                                                    
                             // strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
                         }
                     }
+
+                    const findMap = () => {
+                        console.log('in the find map')
+                        // for (let i = 0; i < ajaxstrain.length; i++) {
+                        //     console.log(strainmap.get(`${ajaxstrain[i].strain}`))
+                        // }
+                        console.log("lets see the keys")
+                        console.log(strainmap.keys())
+                    }
+                    findMap()
+                    
+
+                        
 
                     
                     // for (let i = 0; i < ajaxstrain.length; i++) {
