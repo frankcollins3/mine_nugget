@@ -10,7 +10,7 @@
             }
             </style>
         <div class="surveyContainer">
-            <h1> Ore or Ore</h1>
+            <!-- <h1> Ore or Ore</h1> -->
 
         </div>
 
@@ -33,13 +33,34 @@
             .css('height', surveyHeight * 0.7 )
             .css('width', surveyHeight * 0.7 )
             .css('border', '5px solid papayawhip')
+            .css('margin-top', '-3.33em')
 
             let containerHeight = surveyCont.height().toFixed()
             let containerWIdth = surveyCont.width().toFixed()
 
-            randomValue = ''
              
             let strainmap = new Map()
+
+            for (let i = 0; i < 3; i++) {
+                let section = document.createElement('div')
+                let h1 = document.createElement('h1')
+                $(h1)
+                .text('Ore or Ore')
+                $(section)
+                .addClass('section')
+                .css('height', containerHeight)
+                .css('width', '100%')
+                .css("border", "rgb(247, 208, 36)")
+                .css('box-shadow', '15px 8px 13px papayawhip')
+                $(surveyCont).append($(section))
+                $(section).append($(h1))
+            }
+
+            let section = $('.section')
+            section
+            .css('box-shadow', '20px 20px 20px rgb(247, 208, 36)')
+            // .css(margin-top', '-3em')
+
 
 
             let urlaj = `https://frankcollins3.github.io/strainuous/strain.json` 
@@ -53,11 +74,33 @@
 
                 let ajaxstrain = ajdata.strains
 
-                let randomstrain = ajaxstrain[Math.floor(Math.random()*ajaxstrain.length)]
-                console.log('randomstrain and name')
-                console.log(randomstrain)
-                console.log(randomstrain.strain)
-                strainmap.set('strain', `${randomstrain.gold}`)
+                const findEffect = () => {
+                    let randomstrain = ajaxstrain[Math.floor(Math.random()*ajaxstrain.length)]
+                    console.log('randomstrain and name')
+                    console.log(randomstrain)
+                    console.log(randomstrain.strain)
+                    strainmap.set('strain', `${randomstrain.gold}`)
+                }   
+
+                section
+                .mouseenter( (event) => {
+                    $(event.target).css('border', '10px solid papayawhip')
+                    console.log('thats called hovering')
+                    findEffect()
+                    let randomStrain = strainmap.get('strain')
+                    console.log('randomStrain')
+                    console.log(randomStrain)
+                    // let prepainpoint = randomStrain.split()
+                    let prepainpoint = randomStrain.split(', ')  // (2) ['insomnia', 'focused'] ** this is what we want ** picking one word from db.strain.gold
+                    console.log('prepainpoint')
+                    console.log(prepainpoint)
+                    $(event.target).unbind('mouseenter')
+                    
+                })
+
+
+
+
             })
             console.log("heres our strainmap")
             setTimeout( () => console.log(strainmap), "1000")
@@ -67,19 +110,7 @@
             console.log(mapitems)
 
 
-            const getRandomKey = (mapset) => {
-                let index = Math.floor(Math.random() * mapset.size)
-                let cntr = 0
-                for (let key of mapset.keys() ) {
-                    if (cntr++ == index) {
-                        console.log('key')
-                        console.log(key)
-                        return key
-                    }
-                }
-                console.log('index')
-                console.log(index)
-            }
+           
             // getRandomKey(strainmap)
 
 
@@ -92,18 +123,9 @@
             // console.log(randomMapItem)
 
                 
-            for (let i = 0; i < 3; i++) {
-                let section = document.createElement('div')
-                $(section)
-                // .css('height', containerHeight/3)
-                // .css('width', containerWidth/3)
-                .css('height', containerHeight)
-                .css('width', '100%')
-                .css("border", "rgb(247, 208, 36)")
-                .css('box-shadow', '15px 8px 13px papayawhip')
-                $(surveyCont).append($(section))
-            }
 
+
+       
             $("h1")
             .css('text-align', 'center')
             .css('color', 'papayawhip')
