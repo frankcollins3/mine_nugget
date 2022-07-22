@@ -8,7 +8,6 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
     </head>
     <style> 
        
@@ -206,12 +205,37 @@
             flex-flow: row nowrap;
             justify-content: row;
             overflow-x: scroll;
-            border: 3px solid hotpink;
+            /* border: 3px solid hotpink; */
         }
         .likeLI {
             margin-top: 250px;
             color: white;
         }
+        
+        /* @media screen and (min-device-width: 777px) and (max-device-width: 1020px) {
+            .strainBody {
+                background-color: blue
+            }
+        } */
+        /* @media screen and (min-device-width: 777px) and (max-device-width: 1020px) { 
+            .strainBody {
+                background-color: orange;
+            }
+        } */
+
+        /* @media only screen and (min-device-width: 770px) and (max-device-width: 1024px) { */
+        @media only screen and (max-device-width: 1024px) {
+            .strainBody {
+                background-color: blue !important;
+            }
+            form {
+                border: 20px solid orange !important;
+            }
+        
+        }
+
+        
+
     </style>
     <body class="strainBody">
         
@@ -651,10 +675,12 @@
                                     console.log("in the containertext ajax conditional")
                                     let reviewAndAjaxId = (i) + 1
                                    strainidbucket.push(reviewAndAjaxId)
+                                   console.log(reviewAndAjaxId) 
+                                   reviewAndAjaxId = ''
+                                   console.log('reviewAndAjaxId') 
+                                   console.log(reviewAndAjaxId) 
                                    console.log('strainidbucket we are in the pushidToBucket function!!')
                                    console.log(strainidbucket)
-                                    console.log('reviewAndAjaxId') 
-                                    console.log(reviewAndAjaxId) 
                                     console.log(innerajstrain[i])
                                 }
                             }
@@ -761,6 +787,7 @@
 
 
                     useridbucket = [] // useridbucket.splice(0, useridbucket.length)
+                    useridbucket2 = []
                     strainidbucket.splice(0, strainidbucket.length)
                     reviewBucket.splice(0, reviewBucket.length)
 
