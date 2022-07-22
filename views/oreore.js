@@ -56,6 +56,7 @@
             h1.unbind('mouseenter') // this allows the h1 to be untargetable with a mouseevent. 
             // section.append(h1) && h1.mouseenter() is being targeted with the same event governed by parent container events.
 
+            let whitespacepattern = '/\s/g'
              
             let strainmap = new Map()
 
@@ -110,34 +111,122 @@
                     $(elem).append($(randomwordptag))
                     // section.append($(randomwordptag))
 
-                    strainmap.set(randomname, randomword)
+                    // strainmap.set(randomname, randomword)
                      randomstrain = ''
                      randomname = ''
                      randomgold = ''
                      prepoint = ''
                      wordlength = ''
                      randomword = ''
-                    console.log('randomname')
-                    console.log(randomname)  
-                    console.log('strainmap')                              
-                    console.log(strainmap)                              
+                    // console.log('randomname')
+                    // console.log(randomname)  
+                    // console.log('strainmap')                              
+                    // console.log(strainmap)                              
                     // strainmap.set('strain', `${randomstrain.gold}`)
                 }   
                 // findEffect()
 
                 const findStrains = (elem) => {
-                    console.log("we are now clicking on the element we hovered upon")
-                    console.log('click target') // when we can get the text of the keyword (the only text besides our h1). We can dig through the api key for strains that share keywords.
-                    console.log($(elem.target))
-                    console.log('heres the context')
-                    console.log($(elem.target).context)
+                    // console.log("we are now clicking on the element we hovered upon")
+                    // console.log('click target') // when we can get the text of the keyword (the only text besides our h1). We can dig through the api key for strains that share keywords.
+                    // console.log($(elem.target))
+                    // console.log('heres the context')
+                    // console.log($(elem.target).context)
                     const text = $(elem.target).context.outerText       // ["Ore or Ore\n\neuphoria"] ** actual iterm2 output ** we want the text after the \n || newline **     
-                    const lowertext = text.replace(/[A-Z]/g, '')
+                    const lowertext = text.replace(/[A-Z]/g, '').replace(/\s/g, '')
                     console.log('lowertext')
                     console.log(lowertext)
                     // const newText = text.replace(/[^\/]+S) )                
                     console.log('text')
                     console.log(text)
+
+                    
+                    for (let i = 0; i < ajaxstrain.length; i++) {
+                        console.log('strain and gold')
+                        console.log(ajaxstrain[i].strain)
+                        let loopgold = ajaxstrain[i].gold
+                        let goldsplit = loopgold.split(', ')
+                        let splitlength = goldsplit.length
+                        console.log('splitlength')
+                        console.log(splitlength)
+                        for (let i = 0; i < goldsplit.length; i++) {
+                            console.log('i')
+                            console.log(goldsplit[i])
+                            strainmap.set(lowertext[i], goldsplit[i])
+                        }
+                        goldsplit.forEach ( (g) => {
+                            console.log('g')
+                            console.log(g)
+                            // console.log(g[0])
+                            // console.log(`G1: ${g[1]}`)
+                            // console.log(`G2 like gatorade: ${g[2]}`)
+                            // console.log(`G3: ${g[]}`)
+                            // console.log(g[2])
+                            // console.log(g)
+                            if (g == lowertext) {
+                                for (let i = 0; i < ajaxstrain[i].length; i++) {
+                                    console.log('we have a match')
+                                    console.log('lowertext')
+                                    console.log('g')
+                                    let goldmatch = ajaxstrain[i].split(', ')
+                                    for (let i = 0; i < goldmatch.length; i++) {
+                                        if (goldmatch[i] == g) {
+                                            console.log("3rd loop")
+                                        }
+                                    }
+                                    // if (ajaxstrain[i].gold.includes(g)) {
+                                    //     console.log("in 2 loops we have a match")
+                                    //     console.log('g from second loop')
+                                    //     console.log(g)
+                                    // }
+                                }
+                            }
+
+                        })
+
+                        // if (ajaxstrain[i].gold.includes(lowertext)) {
+                        //     // let ajaxgold = ajaxstrain[i].gold.split(', ')
+                        //     console.log('ajaxgold')
+                        //     console.log(ajaxgold)
+                        // }   //  if **********(gold = lowertext)********
+
+                            // ajaxgold.forEach( (index, goldname) => {
+                            //     console.log('goldname')
+                            //     console.log(goldname)
+                                
+                            //     $(goldname).each( (gname, i) => {
+                            //         console.log('gname')
+                            //         console.log(gname)
+                            //     })
+                                
+                                // if (goldname.replace(/\s/g, '') == lowertext.replace(/\s/g, '')) {
+                                //     console.log('we have a match')
+                                //     console.log(`goldname: ${goldname}`)
+                                //     console.log(`lowertext: ${lowertext}`)
+
+
+                            // })
+                        
+                            console.log('we are within the conditional')
+                            console.log(ajaxstrain[i])
+                            console.log(ajaxstrain[i].strain)
+                            console.log(ajaxstrain[i].gold)
+                        // }
+                    }
+                    setTimeout( () => console.log(strainmap), "2000")
+
+                    // for (let i = 0; i < ajaxstrain[i].length; i++) {
+                    //     console.log("before the conditional")
+                    //     console.log(ajaxstrain[i])
+                    //     if (ajaxstrain[i].gold.includes(lowertext)) {
+                    //         console.log("this is us in our for loop")
+                    //         console.log(ajaxstrain[i])
+                    //         console.log(ajaxstrain[i].strain)
+                    //         console.log(ajaxstrain[i].parents)
+                    //     }
+                    // }
+
+
                     // let username = reviewelemtext.replace(/.+(?=[0-9])/g, '').slice(1).replace(/\s/g, '')
                     // let newtext = text.replace(/.+(?=[n])/g, '') // this replaces only our \n character and returns Ore or Ore
                     // let splitText = newtext.split(', ') // splitting the text. if we look for words that are longer than [ arrayBased[2] || 3 ] like "Ore or Ore" all our words besides ore will be longer. thats a distinguishing factor that can allow us to target.
@@ -157,10 +246,9 @@
                     // const textAfterNewline = text.replace([?>n]) // rough draft regex. we could also dig for a regex that only captures words with all lowercase letteres.
                     // you can look at
 
-                    // for (let i = 0; i < ajaxstrain[i]; i++) {
-                    //     if (ajaxstrain[i].gold.includes())
-                    // }
                     $(elem.target).unbind('click')
+                    console.log('strainmap')
+                    console.log(strainmap)
                 }
 
                 section
@@ -185,11 +273,11 @@
 
             })
             console.log("heres our strainmap")
-            setTimeout( () => console.log(strainmap), "1000")
+            // setTimeout( () => console.log(strainmap), "1000")
             // let randomMapItem = strainmap[Math.floor(Math.random()*strainmap.length)] cant do this.
-            let mapitems = Array.from(strainmap)
-            console.log('mapitems')
-            console.log(mapitems)
+            // let mapitems = Array.from(strainmap)
+            // console.log('mapitems')
+            // console.log(mapitems)
 
 
            
@@ -197,9 +285,9 @@
 
 
             // const getRandomItem = strainmap => strainmap.get([...strainmap.keys()][Math.floor(Math.random() * strainmap.size)])
-            const getRandomItem = strainmap => {
-             return    [...strainmap][Math.floor(Math.random()*strainmap.size)]
-            }
+            // const getRandomItem = strainmap => {
+            //  return    [...strainmap][Math.floor(Math.random()*strainmap.size)]
+            // }
             // console.log(getRandomKey(strainmap))
             // console.log('randomMapItem')
             // console.log(randomMapItem)
