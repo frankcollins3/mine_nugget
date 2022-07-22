@@ -488,6 +488,7 @@
                                 
             let searchMineLabel = document.createElement('h1')
             $(searchMineLabel)
+            .attr('id', 'searchMineLabel')
             .addClass('papaya')
              
             .html(searchStrainText)
@@ -646,10 +647,12 @@
                             console.log(containertext)
                             for (let i = 0; i < innerajstrain.length; i++) {
                                 console.log("userreview ajax loop")
-                                if (innerajstrain[i].strain == containertext) {
+                                if (innerajstrain[i].strain.replace(/\s/g, '') == containertext) {
                                     console.log("in the containertext ajax conditional")
                                     let reviewAndAjaxId = (i) + 1
                                    strainidbucket.push(reviewAndAjaxId)
+                                   console.log('strainidbucket we are in the pushidToBucket function!!')
+                                   console.log(strainidbucket)
                                     console.log('reviewAndAjaxId') 
                                     console.log(reviewAndAjaxId) 
                                     console.log(innerajstrain[i])
@@ -703,10 +706,11 @@
                                             console.log(username)
                                             let content = `${username}: ${b4number}`
                                             
-                                            let contentptag = document.createElement("p")
-                                            $(contentptag)
-                                            .text(content)
-                                            .addClass('papaya')
+                                            // let contentptag = document.createElement("p")
+                                            // $(contentptag)
+                                            // .text(content)
+                                            // .addClass('contentptag')
+                                            // .addClass('papaya')
                                 
                                             // if (!$('#reviewContainer').includes($(contentptag))) {
                                             //     $('#reviewContainer').append($(contentptag))
@@ -735,12 +739,18 @@
                                 .text(reviewBucket[i])
                                 $('#reviewContainer').append($(loopcontent))
                             }
+                            reviewBucket = []
                         }
                         reviewBucketAndAppend()
                         
 
                         
             $('.newGrid').on('mouseleave', (event) => {
+                // inp.unbind()
+                inp.bind('search')
+                // $('#searchMineLabel').unbind('mouseenter')
+                // $('#searchMineLabel').bind('mouseenter')
+
                 // inp.unbind('search')            // also tried .unbind('search', (event))
                 // inp.unbind()     /// i thought i needed [.bind()&&.unbind()] to reset the containers.
                 // inp.bind('search')   // did this to try to reset the "[<h1>Into It:</h1>] container"
@@ -750,18 +760,19 @@
                     // objectBucket = []
 
 
-                    // useridbucket = [] // useridbucket.splice(0, useridbucket.length)
-                    // strainidbucket.splice(0, strainidbucket.length)
-                    // reviewBucket.splice(0, reviewBucket.length)
-                    // $('#reviewContainer').detach()
-                    // $('#reviewContainer').children().detach()
-                    // // $('#usernamecontainer').detach()
+                    useridbucket = [] // useridbucket.splice(0, useridbucket.length)
+                    strainidbucket.splice(0, strainidbucket.length)
+                    reviewBucket.splice(0, reviewBucket.length)
+
+                    $('#reviewContainer').detach()
+                    $('#reviewContainer').children().detach()
                     // $('#usernamecontainer').detach()
-                    // $('#usernameP').detach()
-                    // $('h1').detach()
-                    // $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
-                    // $('#ptagtext').detach() // $(ptagtext).detach()
-                    // $(event.target).children().show()
+                    $('#usernamecontainer').detach()
+                    $('#usernameP').detach()
+                    $('h1').detach()
+                    $('#columncont').detach() //      // $(columncont).detach() created the funciton then got an undefined error. setAttr for targetability.                     
+                    $('#ptagtext').detach() // $(ptagtext).detach()
+                    $(event.target).children().show()
             })
                     // }
                 })                                  
@@ -1147,7 +1158,7 @@
     submit
     .css('height', '5em')
     // .css('width', '5em')
-    .css('margin-top', '14em')
+    .css('margin-top', '20em')
     .css('border-radius', '50%')
     .css('background-color', 'transparent')
     .css('border', '2px solid transparent')
