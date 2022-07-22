@@ -9,12 +9,16 @@
             }
             .surveyContainer {
                 /* border: 5px solid hotpink; */
-                /* display: flex; */
-                text-align: center;
+                 display: flex; 
+                 text-align: center;
                 display: grid;
                 grid-template-rows: 1fr;
-                grid-template-columns: 1fr;
-                
+                grid-template-columns: 1fr; 
+
+                /* display: flex;    .nonPretty()
+                flex-flow: row nowrap;
+                justify-content: center; */
+                                
                 transform: scale(0.3);
                 box-shadow: 12px 8px 15px rgb(247, 208, 36);
             }
@@ -59,7 +63,7 @@
                 let section = document.createElement('div')
                 let h1 = document.createElement('h1')
                 $(h1)
-                .text('Ore or Ore')
+                .text('ORE OR ORE')
                 $(section)
                 .addClass('section')
                 .css('height', containerHeight)
@@ -121,7 +125,43 @@
                 }   
                 // findEffect()
 
-            
+                const findStrains = (elem) => {
+                    console.log("we are now clicking on the element we hovered upon")
+                    console.log('click target') // when we can get the text of the keyword (the only text besides our h1). We can dig through the api key for strains that share keywords.
+                    console.log($(elem.target))
+                    console.log('heres the context')
+                    console.log($(elem.target).context)
+                    const text = $(elem.target).context.outerText       // ["Ore or Ore\n\neuphoria"] ** actual iterm2 output ** we want the text after the \n || newline **     
+                    const lowertext = text.replace(/[A-Z]/g, '')
+                    console.log('lowertext')
+                    console.log(lowertext)
+                    // const newText = text.replace(/[^\/]+S) )                
+                    console.log('text')
+                    console.log(text)
+                    // let username = reviewelemtext.replace(/.+(?=[0-9])/g, '').slice(1).replace(/\s/g, '')
+                    // let newtext = text.replace(/.+(?=[n])/g, '') // this replaces only our \n character and returns Ore or Ore
+                    // let splitText = newtext.split(', ') // splitting the text. if we look for words that are longer than [ arrayBased[2] || 3 ] like "Ore or Ore" all our words besides ore will be longer. thats a distinguishing factor that can allow us to target.
+                    // console.log('splitText')
+                    // console.log(splitText)
+                    // $(splitText).each( (index, splitword) => {
+                    //     if (splitword.length < 2) {
+                    //         console.log("these are less than 2")
+                    //         console.log(splitword)
+                    //     } else {
+                    //         console.log("these are longer than 2")
+                    //         console.log(splitword)
+                    //     }
+                    // })
+
+
+                    // const textAfterNewline = text.replace([?>n]) // rough draft regex. we could also dig for a regex that only captures words with all lowercase letteres.
+                    // you can look at
+
+                    // for (let i = 0; i < ajaxstrain[i]; i++) {
+                    //     if (ajaxstrain[i].gold.includes())
+                    // }
+                    $(elem.target).unbind('click')
+                }
 
                 section
                 .mouseenter( (event) => {
@@ -129,6 +169,7 @@
                     console.log('thats called hovering')
                     findEffect($(event.target))
                     $(event.target).unbind('mouseenter')
+                    $(event.target).bind('click', findStrains) // if you invoke findStrains() in here you wont be happy.
                 })
                     
                 // let randomStrain = strainmap.get('strain')
