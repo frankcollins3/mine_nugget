@@ -1,0 +1,74 @@
+Project Mine_Nugget {
+    database_type: 'PostgreSQL'
+    note: 'Gold Mine themed front & back end'
+}
+
+Table user {
+    id int [pk, increment]
+    username string
+    password string
+    email string
+}
+
+Table strain {
+    strainId int [pk, increment]
+    strain string
+    dominant string
+    funfact string
+    parents string
+}
+
+
+Table effect {
+    strainId int [pk, increment]
+    taste string
+    smell text
+    gold string
+    mine CHAR
+    nug string
+    thc int
+    cbd int
+}
+
+
+Table mine {
+    review text
+    title string 
+    strainId int [pk]
+    note: "reviews or comments"
+}
+
+
+Table dig {
+    userId int 
+    strainId int [pk]
+    into_it boolean
+    note: "likes table"
+}
+
+
+Table usersstrains {
+    userId int [ref: > user.id]
+    strainId int [ref: > strain.strainId]
+}
+
+
+
+Table users {
+    id integer
+    username varchar
+    role varchar
+    created_at timestamp
+}
+
+
+
+
+
+Ref: strain.strainId > user.id 
+Ref: effect.strainId > strain.strainId
+Ref: dig.strainId > strain.strainId
+Ref: mine.strainId > strain.strainId
+
+
+
