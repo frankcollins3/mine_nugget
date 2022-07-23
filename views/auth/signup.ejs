@@ -10,11 +10,44 @@
         <link rel="stylesheet" href="">
     </head>
     <style>
+        body {
+            display: flex;
+            flex-flow: column wrap;
+            align-items: center;
+            /* align-content: center; */
+            justify-content: center;
+            /* margin-top: 7rem; */
+            height: 100%;
+            /* align-content: center; */
+        }
         .doublesize {
             transform: scale(2.0);
         }
+        .captchaGrid {
+            display: grid;
+            height: 400px;
+            width: 400px;
+            /* background-color: hotpink; */
+            grid-template-rows: 30% 30% 30%;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .halfsize {
+            transform: scale(0.5);
+        }
+        .gridContainer {
+            transform: scale(1.75);
+        }
+        .sprite {
+            height: 45px;
+            width: 45px;
+        }
     </style>
     <body>
+        <header> </header>
+        <div class="captchagrid">
+
+        </div>
+    
 
         <form method="POST" action="/auth" id="signup">   
             <!-- this has a similar scope of require('.') it still assumes current reference relative to -->
@@ -44,6 +77,8 @@
                 </select>
                 
             </div>
+
+            <footer> </footer>
             
         <script src="" async defer></script>
     </body>
@@ -54,19 +89,31 @@
     let input = $('input')
     let height = $(document).height().toFixed()
 
+    let goldborder = document.createElement('div')
+    $(goldborder)
+    .css('height', height*0.8)
+    .css('width', height*0.8)
+    .css('border', '5px solid rgb(247, 208, 36)')
+    
+
     $('body')
+    .css('overflow', 'hidden')
     .css('display', 'flex')
     .css('flex-flow', 'column nowrap')
     .css('align-items', 'center')
+    .css('justify-content', 'center')
+    .css('height', '100vh')
     .css('background-color', 'rgb(62, 50, 32')
-
+    
     $('form')
-    .addClass('doublesize')
+    .hide()
+    // .addClass('doublesize')
     .css('color', 'papayawhip')
     .css('text-align', 'center')
     .css('margin-top', '12em')
     .css('max-width', '50%')
-
+    // .show()
+    
     $('#signup')
     // .addClass()
 
@@ -90,6 +137,194 @@
     let eventCount = 0
     let wholeCount = new Array()
 
+    // <!-- ***  captcha code -->
+    let gridContainer = document.createElement('div')
+    $(gridContainer)
+    .addClass('doublesize')
+    .css('border', '5px solid papayawhip')
+    .addClass('gridContainer')
+    .css('height', height*0.4)
+    .css('width', height*0.4)
+    .css('display', 'flex')
+    .css('flex-direction', 'column wrap')
+    .css('justify-content', 'center')
+    .css("align-items", "center")
+    $('body').append($(gridContainer))
+
+    let grid = $('.captchagrid')
+    grid
+    .addClass('gridcaptcha')
+    .css('height', height*0.2)
+    .css('width', height*0.2)
+    .css('display', 'flex')
+    .css("flex-flow", "row")
+    .css('justify-content', 'space-between')
+    .css('align-items', 'center')
+    .css('border', 'transparent')
+    // .css('box-shadow', '8px 12px 12px')
+    $('.gridContainer').append($('.captchagrid'))
+
+    const dynamiteoption = '/img/dynamite.png'
+    const barsoption = '/img/gold-bars.png'
+    const goldoption = '/img/gold.png'
+    const coneoption = '/img/signupsigns.png'
+    // const mineoption = '/img/mine.png'
+    // const cartoption = '/img/mining-cart.png'
+    const pickoption = '/img/pickaxe.png'
+
+    const barrieroption = '/img/barrier.png'
+    // const cactusoption = '/img/cactus.png'
+
+    // const tagoption = '/img/firetag.png'
+
+
+    let bgbucket = [dynamiteoption, barsoption, goldoption, coneoption, barrieroption, pickoption]  // Assignment to constant variable.  [const || let]
+    console.log('bgbucket')
+    console.log(bgbucket)
+    let randombgvalue = bgbucket[Math.floor(Math.random()*bgbucket.length)]
+    console.log('randombgvalue')
+    console.log(randombgvalue)
+
+
+    const createBarrier = () => {
+        let barrier = document.createElement('img')
+        $(barrier)
+        .css('display', 'flex')
+        .attr('src', '/img/barrier.png')
+        .css('height', '45px')
+        .css('height', '45px')
+        $('.gridcaptcha').append($(barrier))
+        //         let barrier = document.createElement('img')
+        //         $(barrier)
+        //         .css('display', 'flex')
+        //         .attr('src', '/img/barrier.png')
+        //         .css('height', '45px')
+        //         .css('width', '45px')
+        //         console.log($(barrier))
+        //         $('.gridcaptcha').append($(barrier))
+        //     }
+    }
+    // createBarrier()
+
+    const evaluateBg = (elem) => {
+        console.log("clicking in a callback func")
+        console.log($(elem.target))
+        let objclass = $(elem.target)[0].classList[1]
+        console.log('objclass')
+        console.log(objclass)
+        if (objclass.includes('gold')) {
+            console.log('we struck gold')
+            console.log("our box has our bg; which we assigned class based on the background")
+        } else {
+            console.log("our object has no gold in the bg or the class")
+        }
+    }
+
+    const changebg = () => {
+    
+        randombgvalue = ''
+        randombgvalue = bgbucket[Math.floor(Math.random()*bgbucket.length)]
+        console.log('this is us changing the background')
+        let bg = randombgvalue  // have to set the randombg as a value and assert consistency by adding a class of the same exact name as our image background so we can target it in the $(jq) element object. if we just use [randombgvalue] separately 
+        $('.box') // i set this up as $('.box') first, and it ended up with the first assigned value remaining consistent across later instances of the function repeating. I also first had this set up as random interval. I assigned this to an event since we had greater specificity with $('.b')
+        .removeClass(`${$('.box')[0].classList[1]}`)    // remove whatever class is assigned every time this function runs so we can give it a new class.
+        .addClass(`${bg}`)
+        .css('background-image', `url(${bg})`)
+        // .css('background-image', `url(${randombgvalue})`)
+
+        .css('background-size', 'cover')
+        .css('background-repeat', 'no-repeat')
+        // .css('border', '5px solid hotpink')
+        // $('.box').css('border', '5px solid hotpink')   
+    }
+
+
+    const createOptionBox = () => {
+        let box = document.createElement('div')
+        $(box)
+        .addClass('box')
+        .css('height', '100px')
+        .css('width', '100px')
+        // .css('border', '5px solid papayawhip')
+        .css('box-shadow', '8px 12px 8px rgb(247, 208, 36)')
+        $('.gridcaptcha').append($(box))
+        // .mouseenter( (elem) => changebg(elem))
+        .on('click', (elem) => evaluateBg(elem))
+        // $('body').append($(box))
+    }
+    // createOptionBox()
+    const appendToGrid = () => {
+        createBarrier()
+        createOptionBox()
+        createBarrier()
+    }
+    appendToGrid()
+
+
+    
+ 
+    // changebg()
+    setInterval(changebg, "1000")
+
+
+
+
+  
+
+    
+    let captchaimg = document.createElement('img')
+    $(captchaimg)
+    .attr('src', '/img/cone_hat.png')
+    .css('height', '45px')
+    .css('width', '45px')
+    // $('.gridContainer').append($(captchaimg))
+    $(captchaimg).insertBefore($('.gridContainer'))
+
+    let cone = document.createElement('img')
+    $(cone)
+    .attr('src', coneoption)
+    .css('height', '125px')
+    .css('width', '125px')
+$('.gridContainer').append($(cone))
+
+
+
+    // .insertAfter($('.captchagrid'))
+
+    // .insertAfter($('.gridContainer'))
+
+    // for (let i = 0; i < 2; i++) {
+    //     let barrier = document.createElement('img')
+    //     $(barrier)
+    //     .attr('src', '/img/barrier.png')
+    //     .css('height', '45px')
+    //     .css('width', '45px')
+    //     $('.gridContainer').append$(barrier)
+    // }
+
+
+    // const captchaGrid = () => {
+    //     let captchagrid = document.createElement('div')
+    //     $(captchagrid)
+    //     .addClass('captchaGrid')
+    //     $('body').append($(captchagrid))
+
+    //     console.log('captchagrid')
+    //     console.log(captchagrid)
+    // }
+    // captchaGrid()
+  
+    // const addToGrid = () => {
+    //     const optionbox = document.createElement('div')
+    //     $(optionbox)
+    //     .css('height', '125px')
+    //     .css('width', '125px')
+    //     .css('border', '5px solid papayawhip')
+    //     $('.captchagrid').append($(optionbox))
+    // }
+
+
+    // <!-- *** code related to form -->
     $(document).on('mousemove', (e) => {    
         if (e.clientY < parseInt(height/1.75)) {   // nice.
             eventCount++
