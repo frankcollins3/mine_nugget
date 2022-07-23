@@ -8,6 +8,9 @@
                 box-shadow: 10px 10px 10px papayawhip;
             }
             .surveyContainer {
+                position: relative;
+                top: -3.33em;
+                /* margin-top: -2.25em; */
                 /* border: 5px solid hotpink; */
                  display: flex; 
                  text-align: center;
@@ -22,11 +25,23 @@
                 transform: scale(0.3);
                 box-shadow: 12px 8px 15px rgb(247, 208, 36);
             }
+            .shrinkify { 
+                margin-top: 1em;
+                transform: scale(0.3);
+            }
+
+            @media (min-width: 770px) and (max-width: 1024px) {
+                body {
+                    background-color: purple;
+                }
+            }
+
             </style>
         <div class="surveyContainer">
             <!-- <h1> Ore or Ore</h1> -->
-
         </div>
+        <img src="/img/mine.png" class="oremine">
+
 
   
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -55,11 +70,21 @@
             let h1 = $('h1')
             h1.unbind('mouseenter') // this allows the h1 to be untargetable with a mouseevent. 
             // section.append(h1) && h1.mouseenter() is being targeted with the same event governed by parent container events.
+            let oremine = $('.oremine')
+            $(oremine)
+            .addClass('shrinkify')
+            .css('opacity', '0.1')
+
 
             let randomstrainbucket = new Array() // []
+
+            let randomwordbucket = []   // created in .section.mouseE(findEffect)   ---> this will hold the word chosen amongst the substrings created during gold.split()
              
             let strainmap = new Map()
 
+            let oreCounter = 0
+            let wholeOre = []
+            
             for (let i = 0; i < 3; i++) {
                 let section = document.createElement('div')
                 let h1 = document.createElement('h1')
@@ -96,13 +121,24 @@
                 const findEffect = (elem) => {
                     let randomstrain = ajaxstrain[Math.floor(Math.random()*ajaxstrain.length)]
                     let randomname = randomstrain.strain
-                    console.log('findEffect random name')
-                    console.log(randomname)
+                    // console.log('findEffect random name')
+                    // console.log(randomname)
 
                     let randomgold = randomstrain.gold
                     let prepoint = randomgold.split(', ')
                     let wordlength = prepoint.length -1 // factoring in arraybased index making sure none of our values are exclusive to our options created with our randomizers.
                     let randomword = prepoint[Math.floor(Math.random()*prepoint.length)]
+
+                    // console.log('randomword')
+                    // console.log(randomword)
+                    randomwordbucket.push(randomword)
+                    // console.log('randomwordbucket')
+                    // console.log(randomwordbucket)
+                    const changePage = () => {
+                        location.href = '/'
+                    }
+
+
 
                     let randomwordptag = document.createElement('p')
                     $(randomwordptag)
@@ -128,6 +164,50 @@
                 }   
                 // findEffect()
 
+                const findbykeyword = (keyword) => {
+                    console.log("find by keyword")
+                    console.log('keyword')
+                    console.log(keyword)
+                    let i = 0
+                    let length = ajaxstrain.length
+                    console.log("***********before the conditional****************")
+                    for (let i = 0; i < ajaxstrain.length; i++) {
+                        // console.log(ajaxstrain[i].strain)
+                        // console.log(ajaxstrain[i].gold)
+                        let keywordsplit = ajaxstrain[i].gold.split(', ')
+                        // console.log('keywordsplit')
+                        // console.log(keywordsplit)
+                        // console.log(ajaxstrain[i].strain.toString().toUpperCase())
+                        // console.log(keywordsplit.toString().toUpperCase())
+
+
+
+                        // for (let i = 0; i < keywordsplit.length; i++) {
+                        //     console.log(`1st one ${keywordsplit[0]} 2nd one ${keywordsplit[keywordsplit.length-1]}`)
+                        //     console.log(keywordsplit[i])
+                        //     // if (keyword.includes(keywordsplit[i].replace(/\s/g, ''))) {
+                        //         if (keyword.toString() == keywordsplit[i].toString()) {
+                        //         console.log(`we have equality with keyword: ${keyword}`)    // we have equality with keyword: insomnia
+                        //         console.log(ajaxstrain[i])
+                        //         console.log(` this strain is returning for ${keyword} ${ajaxstrain[i].strain}`)
+                        //     }
+                        // }
+
+
+
+                        // for (let i = 0; i < keywordsplit.length; i++) {
+                        //     if (keywordsplit[i] == keyword) {
+                        //     // if (keywordsplit[i].replace(/\s/g, '').includes(keyword)) {
+                        //         console.log('we found words with the keywords')
+                        //         console.log("after the conditional")
+                        //         console.log(ajaxstrain[i])
+                        //         console.log(`has keyword ${ajaxstrain[i].strain}`)
+                        //     }
+                        // }
+                    }                    
+                }
+                // findbykeyword()
+                findbykeyword('insomnia')
 
                 const findStrains = (elem) => {
                     // console.log("we are now clicking on the element we hovered upon")
@@ -141,38 +221,90 @@
                     console.log('lowertext')
                     console.log(lowertext)
                     // const newText = text.replace(/[^\/]+S) )                
-                    console.log('text')
-                    console.log(text)
+                    // console.log('text')
+                    // console.log(text)
 
                     for (let i = 0; i < ajaxstrain.length; i++) {
                         console.log("in the loop and we do that")
                         if (ajaxstrain[i].gold.replace(/\s/g, '').includes(lowertext)) {
-                            console.log("we have our match")
+                            // console.log("we have our match")
                             let int = (i) + 1
-                            console.log('int')
-                            console.log(int)
+                            // console.log('int')
+                            // console.log(int)
                             let splitGold = ajaxstrain[i].gold.split(', ')
                             console.log('splitGold split the gold up')
                             console.log(splitGold)
                             $(splitGold).each( (index, g) => {
-                                console.log('g')
-                                console.log(g)
+                                // console.log("these are our golds/GS!")
+                                // console.log('g')
+                                // console.log(g)
                                 // strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
                                 strainmap.set(ajaxstrain[i].strain, ajaxstrain[i].gold)
                             })                                                                                    
                             // strainmap.set(`${ajaxstrain[i].strain}${int}`, ajaxstrain[i].gold)
                         }
                     }
+                        const findMap = () => {
+    
+                            // console.log('in the find map')
+                            // console.log(strainmap.keys())
+                            // for (let i = 0; i < ajaxstrain.length; i++) {
+                            //     console.log(strainmap.get(`${ajaxstrain[i].strain}`))
+                            console.log("lets see the keys")
+                            for (let [key, value] of strainmap) {
+                                console.log([key])
+                                let keystrain = document.createElement('p')
+                                $(keystrain)
+                                .text([key])
+                                // .addClass('papaya') 
+                                .css('font-size', '100px')
+                                .css('color', 'papayawhip')  
+                                // console.log('keystrain')
+                                // console.log($(keystrain))
+                                // $(elem.target).siblings().siblings().hide()
+                                $(elem.target).append($(keystrain))
+                                
+                                strainmap.clear()
+                                // randomstrainbucket.push($(keystrain))
+                                // if (randomstrainbucket.includes([key])) {
+                                //     console.log('now it includes the key')
+                                // }                                
+                            }
+                            // }
+                        }
+                        findMap()
 
-                    const findMap = () => {
-                        console.log('in the find map')
-                        // for (let i = 0; i < ajaxstrain.length; i++) {
-                        //     console.log(strainmap.get(`${ajaxstrain[i].strain}`))
-                        // }
-                        console.log("lets see the keys")
-                        console.log(strainmap.keys())
-                    }
-                    findMap()
+                        const wordbucketfunc = () => {
+                            console.log('heres the wordbucket')
+                            console.log(randomwordbucket[0])
+                            for (let i = 0; i < ajaxstrain.length; i++) {
+                                console.log('word bucket func')
+                                console.log(ajaxstrain[i].gold)
+                                let pregold = ajaxstrain[i].gold.split(', ')
+                                console.log(randomwordbucket[0])
+                                for (let i = 0; i < pregold.length; i++) {
+                                    console.log(pregold[0])
+                                }
+
+                            }
+                        }
+                        wordbucketfunc()
+
+
+
+
+
+                        const loopKeys = () => {
+                            // console.log("in the loopkeys funciton")
+                            for (let i = 0; i < randomstrainbucket.length; i++) {
+                                console.log(randomstrainbucket[i])
+
+                                // console.log('well how are you doing')
+                            }
+                        }
+                        loopKeys()
+
+
                     
 
                         
@@ -288,6 +420,19 @@
 
                 section
                 .mouseenter( (event) => {
+                    oreCounter++
+                    wholeOre.push(oreCounter)
+                    if (wholeOre.length == 3) {
+                        oremine
+                        .css('opacity', '1.0')
+                        .css('border-radius', '50%')
+                        .css('box-shadow', '12px 9px 13px papayawhip')
+                        .on('mouseenter', () => {
+                            console.log("were on the mine")
+                            location.href = '/'
+                        })
+                        // .on('click', changePage())
+                    }
                     $(event.target).css('border', '10px solid papayawhip')
                     console.log('thats called hovering')
                     findEffect($(event.target))
@@ -296,7 +441,7 @@
                 })
                     
                 // let randomStrain = strainmap.get('strain')
-                // console.log('randomStrain')
+                //   console.log('randomStrain')
                 // console.log(randomStrain)
                 // // let prepainpoint = randomStrain.split()
                 // let prepainpoint = randomStrain.split(', ')  // (2) ['insomnia', 'focused'] ** this is what we want ** picking one word from db.strain.gold
