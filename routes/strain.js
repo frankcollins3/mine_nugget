@@ -5,8 +5,18 @@ let strainRouter = require('express').Router()
 
 
 
-
 strainRouter.get('/', async (req, res) => {
+    const checkForSurvey = () => {
+        let randomNumb = Math.floor(Math.random()* 10) + 1 
+        if (randomNumb == 7) {
+            res.render('oreore')
+        }
+    }
+    checkForSurvey()
+
+
+    
+
     const accurateId = async () => {          // this was harder than just copy paste. forgot to invoke accurateId() when it was all 1 function. I was still on getting the update message to work properly so the non-invoked() line of code didn't mess up much. I forgot that the original length was based on db.strain.findAll().length 
         await  db.strain.findAll().then(async (strains) => {              
               const updateStrain = async () => {                      
@@ -47,6 +57,7 @@ strainRouter.get('/', async (req, res) => {
     }
     // accurateId2()
 
+
 //  ******************** *************************** ********************************
 
     const user = res.locals.sessionUser || 'undefined user'
@@ -71,7 +82,7 @@ strainRouter.get('/', async (req, res) => {
                 // console.log(allusers)
 
             db.mine.findAll().then( (reviews) => {
-                console.log('here they are')
+                console.log('here are the reviews')
                 console.log(reviews)
             // let allreviews = await reviews.get()     [async func]
                 
@@ -96,6 +107,11 @@ strainRouter.get('/', async (req, res) => {
 strainRouter.get('/familytree', (req, res) => {
     // [ore or ore] not a bad name for the gold-nugget themed game.
     res.render('familytree') // more ideal to tuck these in a strain/folder. might do a commit based on restructuring/optimizing filescope 
+})
+
+
+strainRouter.get("/oreore", (req, res) => {
+    res.render('oreore')
 })
 
 
