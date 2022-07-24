@@ -43,6 +43,9 @@
         .hidden {
             opacity: 0.0;
         }
+        .shrinkify {
+            transform: scale(0.3);
+        }
     </style>
     <body>
         <header> </header>
@@ -80,6 +83,7 @@
                 </select>
                 
             </div>
+            <p class="login"> Login instead? </a>
 
             <footer class="footer">
                 <!-- <div class="hidden box"> </div> -->
@@ -124,6 +128,14 @@
     
     $('#signup')
     // .addClass()
+
+    $('.login')
+    .css('color', 'papayawhip')
+    .on('mouseenter', (event) => $(event.target).css('cursor', 'pointer'))
+    .on("click", () => location.href = '/auth/login')
+    // .css("border", "5px solid pink")
+    
+    // .css("border", "5px solid hotpink")
 
     // .css('height', '100px') 
     // .css('width', '100px')
