@@ -44,6 +44,9 @@
         .doublesize {
             transform: scale(2.0);
         }
+        .signup {
+            transform: scale(0.3);
+        }
     </style>
     <body>
         
@@ -87,6 +90,7 @@
       
     </div>
     <!-- the animation function done in jq from alerts.ejs doesn't do what we want it to do here. -->
+    <p class="signup">signup instead?</p>
     
 </form>
 
@@ -117,6 +121,11 @@ $('.goldSubmit')        // this gold speck looking trick is not the first time d
 $('.formBox')
 .css('margin-top', '2em')
 // .css('border', '5px solid pink')
+
+$('.signup')
+.css('color', 'papyawhip')
+.mouseenter( (elem) => $(elem.target).css('cursor', 'pointer'))
+.on('click', () => location.href = '/auth/signup')
 
 
 $('.submitLabel')
