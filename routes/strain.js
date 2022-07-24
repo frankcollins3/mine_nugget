@@ -5,10 +5,10 @@ let strainRouter = require('express').Router()
 
 
 
-strainRouter.get('/', async (req, res) => {
+const getStrain = async (req, res) => {
     const checkForSurvey = () => {
         let randomNumb = Math.floor(Math.random()* 10) + 1 
-        if (randomNumb == 7) {
+        if (randomNumb == 76) {
             res.render('oreore')
         }
     }
@@ -100,22 +100,20 @@ strainRouter.get('/', async (req, res) => {
                 })
             })
     })
-})
+}
+// })
 
-
-
-strainRouter.get('/familytree', (req, res) => {
+const treegame =  (req, res) => {
     // [ore or ore] not a bad name for the gold-nugget themed game.
     res.render('familytree') // more ideal to tuck these in a strain/folder. might do a commit based on restructuring/optimizing filescope 
-})
+}
 
 
-strainRouter.get("/oreore", (req, res) => {
+const survey = (req, res) => {
     res.render('oreore')
-})
+}
 
-
-strainRouter.post('/', async (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
+const strainPost = async (req, res) => {      // i was going to do a set of input based conditional logic to allow 1 post route to share many different sources of information. 
     console.log("WE ARE HITTING THE REGULAR STRAIN ROUTE!")
     let userData = req.body.userkeyword     
     console.log('userData')
@@ -162,16 +160,15 @@ strainRouter.post('/', async (req, res) => {      // i was going to do a set of 
             })
             })
         })
-    })
-
-
-    strainRouter.post('/digmine', async (req, res) => {
+    }
+    
+    const likecommentPost =   async (req, res) => {
         let ghurl = "https://frankcollins3.github.io/strainuous/strain.json"
         let strains = axios.get(ghurl).data
         console.log(strains)
-
-
-
+    
+    
+    
         console.log("we are hitting the digmine route our .submit() is successful")
         if (req.body.mine) {
             console.log("route.js mine post route ")
@@ -186,10 +183,10 @@ strainRouter.post('/', async (req, res) => {      // i was going to do a set of 
                 }).then( (strainInIfBlock) => {
                     console.log(strainInIfBlock.get())
                     let idForStrain = strainInIfBlock.strainId
-
+    
                     console.log('idForStrain')
                     console.log(idForStrain)
-
+    
                     
                     strainInIfBlock.createMine({
                     // making [executive?] judgment call: it took 6 months building a pokedex i just built and about 6 days to get here. I now wonder why theres going to be a title for this review and i'm willing to let this be one of those "bugs"/non-100%-sensible things. I could have an input pop up requesting "title data"()=> then .input.onclick ---> input.mine comes up. I spent good 5 hours making sure the input popping up and .effectContainer.leave looks okay and is fluid, non-obnoxious, natural feeling. Too much hovering, there is no emphasis/importance to this mine review. 
@@ -204,7 +201,7 @@ strainRouter.post('/', async (req, res) => {      // i was going to do a set of 
             // } else {
                 // console.log('weve already added a mine/review to this strain')
             // }
-
+    
         } else {
             console.log("nothing to see here")
         }
@@ -214,7 +211,7 @@ strainRouter.post('/', async (req, res) => {      // i was going to do a set of 
             let preuser = req.body.userkeyword
             let prestrain = req.body.strainKeyword
             let like = req.body.into_it
-
+    
             // let username = db.user.findOne({where:{username: preuser}})
             let strain = await db.strain.findOne({where:{strain: prestrain}}).then( async (str) => {
                 await db.user.findOne({where:{username: preuser}}).then(async (user)=> {
@@ -241,20 +238,30 @@ strainRouter.post('/', async (req, res) => {      // i was going to do a set of 
                     } else {
                         console.log("a dig has already been attached to this strain.")
                     }
-
-
+    
+    
                 })
             })
             // console.log(strain.get().strain)
-
+    
         } else {
             console.log("there is no req.body.into_it")
         }
-
         console.log('we are hitting the dig route')
         console.log(req.body)
         console.log("hey do you see that")
-    })
+    }
+
+strainRouter.get('/', getStrain)        // this looks a bit neater this way 
+strainRouter.get('/familytree', treegame)
+strainRouter.get("/oreore", survey)
+strainRouter.post('/', strainPost)
+strainRouter.post('/digmine', likecommentPost)
+
+
+
+
+
 
 
 
