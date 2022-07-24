@@ -7,7 +7,6 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
     </head>
     <style>
         body {
@@ -47,10 +46,11 @@
     </style>
     <body>
         <header> </header>
+        <%- include('../partials/alerts.ejs') %>
         <div class="captchagrid">
-
+            
         </div>
-    
+        
 
         <form method="POST" action="/auth" id="signup">   
             <!-- this has a similar scope of require('.') it still assumes current reference relative to -->
@@ -110,12 +110,15 @@
     .css('height', '100vh')
     .css('background-color', 'rgb(62, 50, 32')
     
+    $('.formbox')
+    .css('margin-top', '2em')
+
     $('form')
     .hide()
     // .addClass('doublesize')
     .css('color', 'papayawhip')
     .css('text-align', 'center')
-    .css('margin-top', '12em')
+    // .css('margin-top', '12em')       // taking off our .nonUgly() margin-top: since I didn't know [height:       a height property was needed on display: flex  for align-items to work with column]
     .css('max-width', '50%')
     // .show()
     
@@ -186,11 +189,9 @@
     let foundGoldArray = ['nothing']
 
     let bgbucket = [dynamiteoption, barsoption, goldoption, coneoption, barrieroption, pickoption]  // Assignment to constant variable.  [const || let]
-    console.log('bgbucket')
-    console.log(bgbucket)
+    
     let randombgvalue = bgbucket[Math.floor(Math.random()*bgbucket.length)]
-    console.log('randombgvalue')
-    console.log(randombgvalue)
+    
 
 
     const createBarrier = () => {
@@ -214,6 +215,7 @@
     // createBarrier()
 
     const evaluateBg = (elem) => {
+        // $('.clickme').css("opacity", '0.0')
         // console.log("clicking in a callback func")
         // console.log($(elem.target))
         let objclass = $(elem.target)[0].classList[1]
@@ -222,9 +224,15 @@
         if (objclass.includes('gold')) {
             $('.gridContainer').detach()
             $('.gridContainer').children().detach()
+            $('.label').detach()
             $('form')
             .show()
-            .addClass('doubl')
+            .addClass('doublesize')
+            $('.captcha')
+            .addClass('fakeBoop')
+            .css('margin-top', '200px')
+
+
             // foundGold = true
             foundGoldArray.push('foundgold')
 
@@ -236,11 +244,7 @@
     }
 
     const changebg = (elem) => {
-        console.log('foundGoldArray')
-        console.log(foundGoldArray)
-        console.log("box that should die")
-        console.log($('.box'))
-            if ($('.box')[0]) {         // i thought this code would work with just $('.box') if you take this code out you get an undefined error in [let objclass = $('.box')[0]
+                    if ($('.box')[0]) {         // i thought this code would work with just $('.box') if you take this code out you get an undefined error in [let objclass = $('.box')[0]
                 let objclass = $('.box')[0].classList[1] || 'hey'   // undefined error without specifying an alternative 
                             randombgvalue = ''
                         randombgvalue = bgbucket[Math.floor(Math.random()*bgbucket.length)]
@@ -248,16 +252,11 @@
                         let bg = randombgvalue  // have to set the randombg as a value and assert consistency by adding a class of the same exact name as our image background so we can target it in the $(jq) element object. if we just use [randombgvalue] separately 
                         $('.box') // i set this up as $('.box') first, and it ended up with the first assigned value remaining consistent across later instances of the function repeating. I also first had this set up as random interval. I assigned this to an event since we had greater specificity with $('.b')
                         .removeClass(objclass)    // remove whatever class is assigned every time this function runs so we can give it a new class.
-                        
                         .addClass(`${bg}`)
-                        .css('background-image', `url(${bg})`)
-                        // .css('background-image', `url(${randombgvalue})`)
-                        
+                        .css('background-image', `url(${bg})`)                      
                         .css('background-size', 'cover')
                         .css('background-repeat', 'no-repeat')
-                        // .css('border', '5px solid hotpink')
-                        // $('.box').css('border', '5px solid hotpink')   
-                        // }
+                      
                     } else {
                         console.log("no box!")
                     }
@@ -269,6 +268,7 @@
 
     const createOptionBox = () => {
         let box = document.createElement('div')
+        
         $(box)
         .addClass('box')
         .css('height', '100px')
@@ -276,10 +276,24 @@
         // .css('border', '5px solid papayawhip')
         .css('box-shadow', '8px 12px 8px rgb(247, 208, 36)')
         $('.gridcaptcha').append($(box))
+        .on('click', (elem) => evaluateBg(elem))
         // $('.footer').append($(box))
         // .mouseenter( (elem) => changebg(elem))
-        .on('click', (elem) => evaluateBg(elem))
         // $('body').append($(box))
+        console.log('click me')
+        let label = document.createElement('label')
+        $(label)
+        .addClass('label')
+        .text($('.clickme').text()) //very cool we can access our hidden alert and just set that alert.text() to this label over here. 
+        .addClass('.vanish')
+        .css('color', 'rgb(247, 208, 36)')
+        .attr('for', 'box')
+        .addClass('doublesize')
+        // .css("border", "2px dotted hotpink")
+        // // .text('hey')
+        // // $('.captchaGrid').insertAfter())
+        $('body').append($(label))
+
     }
     // createOptionBox()
     const appendToGrid = () => {
@@ -329,6 +343,7 @@
     
     let captchaimg = document.createElement('img')
     $(captchaimg)
+    .addClass('captcha')
     // .addClass('box')
     .attr('src', '/img/cone_hat.png')
     .css('height', '45px')
@@ -389,7 +404,7 @@ $('.gridContainer').append($(cone))
             if (wholeCount.length < 33) {       
                 input.css('box-shadow', '3px 3px 6px papayawhip')
             } else {
-                console.log('how is you doin that')
+                // console.log('how is you doin that')
                 input.css('box-shadow', '')
                 $(document).unbind()   // this'll save client performance.                 // document.body.removeEventListener('mousemove')
                 // setTimeout( () => wholeCount.splice(0, wholeCount.length), "4000") // if someone wants to see this flash again I don't want the event to unbind()from the object. I just don't want this to be consistently firing, causing a performance loss. Hmm now it's stepping all over the animation from travelling inbetween the form and the focus on subtlety.
@@ -426,18 +441,13 @@ $('.gridContainer').append($(cone))
         // console.log(et)
         let id = et.context.id
         let cleanid = id.slice(6)               // fiddled for about 40 minutes without the .charAt part. id.charAt(1).toUpperCase().id.slice(6)
-        console.log('cleanid')
-        console.log(cleanid)
         // let cleanerid = cleanid.charAt(0).toUpperCase()
         // let cleanerid = cleanid.charAt(4).toUpperCase() // The charAt() function returns the character at a given position in a string              oh wow nice to have a 10 minute tap out and google charAt() it's returning only the character at. 
-        // console.log('cleanerid')
-        // console.log(cleanerid)
+
         let firstChar = cleanid.charAt(0).toUpperCase()
-        // let cleanidSlice = cleanid.slice(0, 1)
-        
+
         //  spent close to 2 hours on this font-family function here.
-        let idlength = cleanid.length
-        
+        let idlength = cleanid.length        
         let cleanidSlice = cleanid.slice(1, cleanid.length)         // sername, assword, mail. took way too long to get this right.        let cleanestId = `${firstChar}${cleanidSlice}`  // pretty proud of this. I could've just changed the letter one lowercase letter down. Also could've just googled how to slice first letter off.
         let cleanestId = `${firstChar}${cleanidSlice}`
         // if (cleanid.includes('email' || 'password' || 'age' || 'username')) {  or .includes('email', 'password', 'age', etc.)
@@ -446,30 +456,12 @@ $('.gridContainer').append($(cone))
                     $(index).css('font-family', 'Urw Chancery L') // would feel funny putting letter-spacing on cursive text
                     $(index).css('font-size', `22px`)
                 }
-                // console.log($(index).children())    //wow thought .contents() would save... $(index)[0]
-                // if ($(index).text() == cleanid ) {          // $(index).includes !func_err
-                //     console.log('ladies and gentleman')
-                //     $(index).css('border', '15px solid pink')
-                // }
+                // console.log($(index).children())    //wow thought .contents() would save... $(index)[0]                 // if ($(index).text() == cleanid ) {          // $(index).includes !func_err                
                 // let thiss = $(this) a bit surprised $(this) $(this.target) dont return errors $(this)[0] does. 
             })
         }
         })
     }) 
 
-     
-    
-    // $('select > option').css('color', 'green') never tried to do css on a 
-
-    // $('.ageInput').append($(inputOption2))
-
-    // for (let i = 18; i < 35)
-
-    // if (optionvalue = 35. optionvalue = '35+')
-
-    // possible: click if you want to 
-
-    // $('input')  // .nonPretty()
-    $('.formbox')
-    .css('margin-top', '2em')
+  
 </script>
