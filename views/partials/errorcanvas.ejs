@@ -1,0 +1,43 @@
+<canvas id="errorcanvas" height="300" width="300"></canvas>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+        let windowToCanvas = function(canvas, x, y) {
+        let bbox = canvas.getBoundingClientRect();
+        return {
+            x: (x - bbox.left) * (canvas.width  / bbox.width),
+            y: (y - bbox.top)  * (canvas.height / bbox.height)
+        };
+    };
+    
+    image = new Image();
+    image.src = "/img/gold.png";
+    image.onload = function (e) {
+        let canvas = document.getElementById('errorcanvas'),
+            context = canvas.getContext('2d');
+    
+        let pattern = context.createPattern(image, "repeat");
+    
+        function draw(loc) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = pattern;
+            context.beginPath();
+            context.moveTo(loc.x, loc.y);
+            context.lineTo(loc.x + 300, loc.y + 60);
+            context.lineTo(loc.x + 70, loc.y + 200);
+            context.closePath();
+            context.fill();
+        }
+    
+        canvas.onmousemove = function(e) {
+            let event = e || window.event,
+                x = event.x || event.clientX,
+                y = event.y || event.clientY,
+                loc = windowToCanvas(canvas, x, y);
+    
+            draw(loc);
+        };
+    }
+</script>
+
+<!-- could also do module.exports -->
