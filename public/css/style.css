@@ -1,28 +1,5 @@
-body {
-    overflow: hidden;
-    display: flex;
-    flex-flow: column wrap;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
-    width: 100%;
-    /* background-color: rgb(46, 38, 25); back up black*/
-    background-color: rgb(62, 50, 32);
 
-    /* border: 5px solid rgb(247, 208, 36); */
-    /* background-color: rgb(247, 208, 36); */
-}
 
-.section {
-    display: flex;
-    flex-direction: column wrap;
-    align-items: center;
-    margin-top: 15em;
-    /* padding: 5em; */
-    /* border: 5px solid black; */
-    height: 15em;
-    width: 30%;
-}
 
 /* no jquery transform  */
 .unlit { transform: rotate(200deg); position: relative; left: 10em;}
@@ -42,9 +19,84 @@ body {
     background-repeat: no-repeat;  */
 }
 
+.mine {
+    transform: scale(0.30);
+}
+section {
+   display: flex;
+   flex-direction: column wrap;
+   align-items: center;
+   margin-top: 10em;
+   height: 30em;
+   width: 30%;
+}
+.shrink {
+   margin-top: 10%;
+   /* transform: scale(0.8); */
+   transform: scale(0.2);
+   /* transform: scale(0.) */
+}
+/* .canvasContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+} */
+  /* .flashLightFlicker2 {
+    animation: onLight2 20s;
+    animation-iteration-count: 1;
+}
+
+@keyframes onLight {
+    0% {
+        transform: rotate(1deg); 
+    }
+    20% {
+        transform: rotate(1deg);
+    } */
 
 
+    .fakeBoop  {
+position: relative;
+/* border: 15px solid royalblue; */
+animation: movement 5s infinite;                /* [animate infinite] not correct. need the timing. */
 
+}
+
+@keyframes movement {
+    0%, 100% {
+    top: -1px,
+}
+10% {
+    top: 1px
+}
+20% {
+    top: -1px
+}
+30% {
+    top: 1px;
+}
+40% {
+    top: -1px
+}
+50% {
+    top: 1px
+}
+60% {
+    top: -2px   
+    }
+    70% {
+    top: 2px
+    }
+    80% {
+    top: -2px
+    }
+    90% {
+    top: 2px;
+    }
+}
+.preFade {
+    transform: scale(0.25);
+}
 
  /* strain page  */
  #doublesize {
@@ -52,9 +104,477 @@ body {
  }
 
 
+ /* @media (min-width: 1000px) and (max-width: 1200px) { */
+
  /* ::-webkit-scrollbar {
     //   width: 10px;
     // }
     
     // /* Track */
+ /* main route */
+ .homebody {
+    /* overflow: hidden; */
+    background-color: orange;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+.mine {
+     transform: scale(0.30);
+}
+section {
+    display: flex;
+    flex-direction: column wrap;
+    align-items: center;
+    margin-top: 10em;
+    height: 30em;
+    width: 30%;
+}
+.shrink {
+    margin-top: 10%;
+    /* transform: scale(0.8); */
+    transform: scale(0.2);
+    /* transform: scale(0.) */
+}
+.canvasContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* margin-top: */
+    }
+#minecanvas {
+    margin-top: 200px;
+}
+
+
+.barriercontainer {
+    /* border: 5px solid powderblue; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.strainBody {
+    /* background-color: purple; */
+    background-color: rgb(62, 50, 32);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    /* align-items: center; */
+    overflow: hidden;
+
+}
+.containerCont {
+    margin-top: 2em;
+    /* border: 5px solid green; */
+    /* padding: 2em; */
+    display: flex;
+    flex-flow: column nowrap;
+    /* flex-direction: column wrap; */
+    justify-content: cemter;
+    align-items: center; 
+}
+.strainContainer {
+    margin-top: 2em;
+    height: 50%;
+    transform: scale(0.8);
+    position: relative;
+    top: 5em;
+    /* margin-top: 400px; */
+    display: flex;
+    flex-direction: column;
+    /* height:  */
+    align-items: center;
+    /* background-image: url('/img/helmet.png');
+    background-size: cover;
+    background-repeat: no-repeat; */
+}
+
+.displayContainer {
+    /* margin-top: 3em; */
+    /* margin: 2em 2em 2em 2em; */
+    margin: 0em 2em 0em 2em;
+    /* padding-top: 3em; */
+    height: 90px;
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(62, 50, 32);
+    border: 3px solid rgb(247, 208, 36);
+    border-bottom: '';
+    /* border: 3px solid rgb(247, 208, 36); */
+    box-shadow: inset 8px 6px 9px papayawhip;
+}
+ .dbList {
+    list-style-type: none;
+    color: papayawhip;
+    font-weight: bold;
+    font-family: URW Chancery Lew;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+.dbList2 {
+    text-align: center;
+    color: papayawhip;
+    font-weight: bold;
+    padding: 2.25em;
+    margin: 1em;
+}
+.dbStrainBucket {
+    list-style-type: none;
+    color: papayawhip;
+    font-weight: bold;
+    font-family: URW Chancery Lew;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+h1 {
+    text-align: center;
+}
+
+
+.effectContainer {
+    padding: 0;
+    margin: 0em 3em 0em 3em;
+    align-self: center;
+    list-style-type: none;
+    color: papayawhip;
+    font-weight: bold;
+    font-family: URW Chancery Lew;
+     display: flex;
+    flex-direction: column;
+    align-items: center; 
+    /* justify-content: center; */
+}
+
+.searchIn {
+    margin-top: 5em;
+    height: 8em;
+    color: black;
+    background-image: url('/img/signupsigns.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-weight: gold;
+    text-align: center;
+    border: 3px solid #FFA663;             
+    /* text-shadow: 1px 1px 1px rgb(247, 208, 36); */ 
+    border-radius: 40%;
+}
+.cactus {
+    /* position: absolute;  hmm... */ 
+    margin-top: -8em;
+}
+.ghost {
+    opacity: 0.0;
+}
+.newGrid {
+    overflow: scroll;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;            
+}
+.papaya {
+    font-family: Chancery Urw L;
+    text-align: center;
+    font-size: 22px;
+    color: papayawhip;
+}
+.searchGrid {    
+    overflow: scroll;                       /* we dont need the scroll here but i think it looks okay. */
+    height: 7em;
+    width: 8em;
+    border: 3px solid papayawhip;
+    box-shadow: 3px 6px 9px rgb(247, 208, 36);
+    margin-top: 4em;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+    box-shadow: inset 5px 9px 5px grey;
+    border-radius: 10px;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: papayawhip;
+    border-radius: 10px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    ul {
+        padding: 0;
+    }
+    .li {
+        opacity: 0.3;
+        /* margin-top: em; */
+        list-style-type: none;
+        font-size: 22px;
+        color: papayawhip;
+        line-height: 10.9em;
+        /* line-height: 7.7em; */
+        text-shadow: 1px 1px 1px rgb(247, 208, 36);
+        /* box-shadow: 9px 3px 6px papayawhip; */
+        box-shadow: 3px 3px 9px papayawhip;
+    }
+    p {
+        /* margin: 3em 2em 3.3em 2em; */
+        color: papayawhip;
+        font-size: 22px;
+        text-shadow: 1px 1px 1px rgb(247, 208, 36)
+    }
+    .grid {
+        display: grid;
+         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;           
+         /* // goal 10 by 3 for 30 or so units of data. well need a good sized grid. currently working with 7 as a mock start.  */ 
+        grid-template-columns: 1fr; 
+    }
+    .doubleSize {
+    transform: scale(2.0);
+    }
+    .mineCartContainer {
+        height: 100px;
+        width: 100px;
+        background-color: papayawhip;
+    }
+    .likelist {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: row;
+        overflow-x: scroll;
+        /* border: 3px solid hotpink; */
+    }
+    .likeLI {
+        margin-top: 250px;
+        color: white;
+    }
+    
+    /* @media only screen and (max-width: 1024px) { */
+        /* * {
+            border: 2px solid hotpink;
+        } */
+        .navbody {
+            /* border: 5px solid; */
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+    
+            /* position: relative; */
+            /* margin-top: 400px; */
+        }
+        .displayContainer {
+            /* border: 5px solid hotpink; */
+            position: relative;
+            top: -2em;
+            /* margin-top: -2em; */
+        }
+        /* .strainBody { */
+            /* border: 2px dotted hotpink; */
+            /* background-color: peachpuff; */
+            /* border-radius: 50%;
+            background-color: orange; */
+        /* } */
+    
+        .strainContainer {
+            width: 60%;
+        }
+    
+
+
+     @media only screen and (max-width: 1024px) {
+.barrierContainer {
+    display: column wrap;
+
+}
+        .barrier {
+            /* align-self: flex-end; */
+            /* border: 5px dotted yellow; */
+            /* transform: scale(0.8); */
+            transform: scale(0.60);
+            /* order: 3; */
+        }
+        .pickimg {
+            transform: scale()
+        }
+    /* .canvasContainer { */
+        /* order: 1;
+    } */
+
+    .homebody {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column wrap;
+        /* height: 100vh; */
+        height: 100%;
+        justify-content: center;
+        align-items: center; 
+        /* background-color: green; */
+    }
+    /* .barriercontainer {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-content: center;
+        
+        /* align-items: center; */
+      /*  */
+    /* .canvasContainer {
+        /* margin-top: -50%; */
+    /* .navbody.responsive {position: relative;}
+    .navbody a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .navbody.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    } */
+
+
+/* ************ strain.ejs */
+
+
+/* .mine {         
+    height: 45px;
+    width: 45px;
+    border: 2px solid papayawhip;
+    border-radius: 50%;
+    background-image: url('/img/mine.png');
+    box-shadow: 10px 10px 10px papayawhip;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 1em;
+    transform: scale(2.0);
+} */
+
+
+
+
+/* } */
+
+
+
+
+
+
+
+
+
+
    
+/******  signup.ejs */
+
+.bodysignup {
+    /* border: 5px dotted hotpink; */
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    /* align-content: center; */
+    justify-content: center;
+    /* margin-top: 7rem; */
+    height: 100%;
+    /* align-content: center; */
+}
+.doublesize {
+    transform: scale(2.0);
+}
+.captchaGrid {
+    display: grid;
+    height: 400px;
+    width: 400px;
+    /* background-color: hotpink; */
+    grid-template-rows: 30% 30% 30%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.halfsize {
+    transform: scale(0.5);
+}
+.gridContainer {
+    transform: scale(1.75);
+}
+.sprite {
+    height: 45px;
+    width: 45px;
+}
+.hidden {
+    opacity: 0.0;
+}
+}
+
+/**** error */
+.errorbody {
+    text-align: center;
+    /* display: grid;
+    grid-template-rows: 1fr; */
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* background-image: linear-gradient(45deg, rgb(247,208,36)); */
+    background-color: rgb(62, 50, 32);
+}
+
+#picktext {
+    color:rgb(247, 208, 36)
+}
+
+.errorRow {
+    display: flex;
+    flex-flow: row nowrap;
+    /* justify-content: space-between; */
+    align-items: space-between;
+    width: 80%;
+}
+
+.errorspinning {
+    animation: spinning 5s infinite;
+}
+
+@keyframes spinning {
+    0%, 100% {
+      /* transform   */
+    }
+    5% {
+        transform: rotate(7deg)         
+    }
+    20% {
+        transform: rotate(0deg)
+    }
+    31% {
+        transform: rotate(10deg)        
+    }
+    40% {
+        transform: rotate(0deg)                
+    }
+    46% {
+        transform: rotate(7deg)                
+    }
+    75% {
+        transform: rotate(-180deg)
+    }
+    90% {        
+        /* transform: rotate(360deg) */
+    }
+}
