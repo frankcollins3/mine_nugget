@@ -1,4 +1,4 @@
-
+<!-- <canvas id="#minecanvas"></canvas> -->
 <script>
 
 const canvas = document.getElementById("minecanvas");
@@ -38,6 +38,9 @@ let cartY = canvas.height / 4;
 
 let coinX = 50;
 let coinY = 50;
+let luckyNumber = 777
+let luckyNumber2 = 222;
+let triple3s = luckyNumber - luckyNumber2
 
 let keysPressed = {};
 function setupKeyboardListeners() {
@@ -75,8 +78,9 @@ let update = function () {
     && coinY <= (cartY + 32)
   ) {
 
-    coinX = coinX + 50;
-    coinY = coinY + 70;
+    coinX = coinX + 555; // strike gold
+    // coinX = coinX + luckyNumber-LuckyNumber2; // brake check
+    // coinY = coinY + 70;
   }
 };
 
