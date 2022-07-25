@@ -13,25 +13,19 @@ const flash = require('connect-flash')
 const { createCanvas, loadImage } = require('canvas')// also was considering using canvas with app.use instead of putting into the res.render('index', {canvas]})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const routes = require('./routes')
 // const SECRET_SESH = process.env.SECRET_SESSION
 const db = require('./models')
 
 // passport = config/ppConfig.js
 // express flash
+const globalVar = (req, res, next) => {
+    res.locals.alerts = req.flash()
+   res.locals.canvas = { createCanvas, loadImage }
+   req.flash()
+   res.locals.sessionUser = req.user // res.locals[within rendering/view scope] vs app.locals. which holds the settings for the app.
+   next()
+}
 // rowdy logger?
 
 // let PORT = process.env.PORT || 7777
@@ -41,7 +35,6 @@ const sessionObject = {
     resave: false,
     saveUninitialized: true
 }
-
 
 app.use(session(sessionObject))
 app.use(passport.initialize())
@@ -53,27 +46,30 @@ app.use(flash())
 
 // MIDDLEWARE
 app.set('view engine', 'ejs') 
-const path = require("path");
-app.use("/", express.static(path.join(__dirname, "public")));
+// const path = require("path");
+// app.use("/", express.static(path.join(__dirname, "public")));
+
+app.use(express.static(__dirname + '/public'));
+
+// app.use("/", express.static('public'))
 app.use(express.urlencoded({extended: false})) // allows us to parse form data.
 // app.use('/', routes)
-app.use( (req, res, next) => {
-    res.locals.hey = 'hey'
-     res.locals.alerts = req.flash()
-    res.locals.canvas = { createCanvas, loadImage }
-    req.flash()
-    res.locals.sessionUser = req.user // res.locals[within rendering/view scope] vs app.locals. which holds the settings for the app.
-    next()
-})
+app.use(globalVar)
+    
 
+let getauth = require('./routes/auth')
+let getstrains = require('./routes/strain')
+const gohome = require('./routes')
 
+app.use('/auth', getauth)
+app.use('/strain', getstrains)
+app.use('/', gohome)
 
-
-app.use('/auth', require('./routes/auth'))
-app.use('/strain', require('./routes/strain'))
-app.use('/', require('./routes'))
-// app.use('/', routes)
-
+// module functions
+const hello = () => {
+    console.log('hello')
+}
+module.exports = {hello}
 
 
 
