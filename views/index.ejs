@@ -7,96 +7,41 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/css/style.css">
+        <!-- <link rel="stylesheet" href="/css/style.css"> -->
     </head>
     <style>
-        .mine {
-             transform: scale(0.30);
-        }
-        section {
-            display: flex;
-            flex-direction: column wrap;
-            align-items: center;
-            margin-top: 10em;
-            height: 30em;
-            width: 30%;
-        }
-        .shrink {
-            margin-top: 10%;
-            /* transform: scale(0.8); */
-            transform: scale(0.4);
-            /* transform: scale(0.) */
-        }
+
     </style>
-    <body>
+    <body class="homebody">
         <%- include('./partials/navbar.ejs') %>
    
 
-        <!-- const { createCanvas, loadImage } = require('canvas')
-        const canvas = createCanvas(200, 200)
-        const ctx = canvas.getContext('2d')
+
+
         
-        // Write "Awesome!"
-        ctx.font = '30px Impact'
-        ctx.rotate(0.1)
-        ctx.fillText('Awesome!', 50, 100)
         
-        // Draw line under text
-        var text = ctx.measureText('Awesome!')
-        ctx.strokeStyle = 'rgba(0,0,0,0.5)'
-        ctx.beginPath()
-        ctx.lineTo(50, 102)
-        ctx.lineTo(50 + text.width, 102)
-        ctx.stroke()
         
-        // Draw cat with lime helmet
-        loadImage('examples/images/lime-cat.jpg').then((image) => {
-          ctx.drawImage(image, 50, 0, 70, 70)
-        
-          console.log('<img src="' + canvas.toDataURL() + '" />')
-        }) -->
-
-      
-<!-- 
-        const newCanvas = $('#canvas')
-        const ctx = canvas.getContext('2d') 
-    
-        console.log(newCanvas)
-        ctx.fillStyle = 'papayawhip' -->
-    
-
-
-            <div class="canvasContainer">
-                <canvas id="minecanvas" height="400" width="400"> </canvas>
-            </div>
-
-
-            <!-- < % if (canvas) { %>             -->
-                <!-- < % if (canvas.getContext) { %> -->
-                    <!-- < % console.log("hey there is the canvas context") %> -->
-                <!-- < % } %> -->
-                <!-- < % const mineCanvas = canvas.createCanvas %> -->
-                <!-- < % %> -->
-                <!-- < % %> -->
-                <!-- < % %> -->
+        <footer>
+            <!-- < % if (sessionUser) { %>      -->
+                <div class="barriercontainer">
+                    <img src="/img/barrier.png" class="barrier">
+                    <img src="/img/barrier.png" class="barrier">
+                </div>           
                 <!-- < % } else { %> -->
-                    <!-- < % console.log("there is not the canvas") %> -->
-                    <!-- < % } %> -->
-
-
-         
-            
-                 <footer>
-                <% if (sessionUser) { %>
-                    <img src="/img/barrier.png" class="barrier">
-                    <img src="/img/mine.png" class="mine">
-                    <img src="/img/barrier.png" class="barrier">
-                    <% } else { %>
-                        <img src="/img/cactus.png" class="cactus"
-                        <% } %>
-                        <%- include('./partials/alerts.ejs') %>
-                    </footer>
+                    <!-- <img src="/img/cactus.png" class="cactus" .nonPretty()--> 
+                </footer>
+                <div class="canvasContainer">
                     
+                    <canvas id="minecanvas"> </canvas>
+                    <img src="/img/mine.png" class="mine">
+                    <%- include('./partials/canvas.ejs') %>
+                </div>
+                
+                <%- include('./partials/alerts.ejs') %>
+                
+                <!-- < % if (!sessionUser) { %>
+                    <img src="/img/cactus.png" class="cactus">
+                     <!-- // .nonPretty()                      -->
     </body>
 
               <!-- const canvas = document.getElementById('canvas');
@@ -112,8 +57,7 @@
                   <!-- < % const ctx = canvas.getContext('2d') %>    -->
                   <!-- < % ctx.fillStyle = 'green' %>    -->
                   <!-- < % ctx.fillRect(10, 10, 140, 100) %>    -->
-                 
-                 <% %>  
+           
 
 
 
@@ -123,21 +67,42 @@
 
 <script>
     /*
+const movementDisplay = document.querySelector('#movement');
 const game = document.querySelector('#game');
 
-            // Syncing up the canvas's internal height and width to its apparent height and width:
-            const computedStyle = getComputedStyle(game);
-            const height = computedStyle.height;
-            const width = computedStyle.width;
-            game.height = parseInt(height);
-            game.width = parseInt(width);
+// Syncing up the canvas's internal height and width to its apparent height and width:
+const computedStyle = getComputedStyle(game);
+const height = computedStyle.height;
+const width = computedStyle.width;
+game.height = parseInt(height);
+game.width = parseInt(width);
+
+// Grab a context and set its properties:
+const ctx = game.getContext('2d');
+ctx.fillStyle = 'white';
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 5;
+
+
+const game = document.querySelector('#game');
+
+// Syncing up the canvas's internal height and width to its apparent height and width:
+const computedStyle = getComputedStyle(game);
+const height = computedStyle.height;
+const width = computedStyle.width;
+game.height = parseInt(height);
+game.width = parseInt(width);
 */
+
+
+
 $('body')
-    .css('overflow', 'hidden')
+    // .css('overflow', 'hidden')
     .css("display", "flex")
     .css('flex-flow', 'column wrap')
+    .css("justify-content", 'center')
     .css('align-items', 'center')
-    .css('justify-content', 'flex-end')
+    // .css('justify-content', 'flex-end')
     .css('height', '100%')
     .css('width','100%')
     .css('background-color', 'rgb(62, 50, 32)')
@@ -158,18 +123,30 @@ $('body')
 
     let footer = $('footer')
     footer
-    .css('margin-top', '10em');
-    // footer.children().forEach( (footerElement) => {         // tried footer first also tried .children()...
-    //     footerElement.addClass('shrink')
-    // })
+    // .css('margin-top', '10em');
 
-    // fun to do this.
 
-    // loopAndShrink(footer)                // leaving here for anyone who wants to see the equivalent of doing it another way. Have to force coding habit to
+    //1)  I was originally going to use this loopandshrink cbfunc: it made the barrier and .cactus/.mine very tiny. 
+    // 2) I decided to move the canvas element&&behavior into a partials file to import. you could also do a module.exports like how our models are set up in our [./models]
+    // 3) after moving things into the partials file, the mine got quite a bit larger and was a bit connected to the stretched out canvas that the mine cart rolls around upon. I like the overlap since it enhances/emphasizes the theming in my opinion. 
+
+    //     const loopAndShrink = (elem) => {                   
+    //     let i = 0;
+    //     length = elem.length
+    //     for (i; i < length; i++) {
+    //         console.log('atleast were over here')
+    //         $(elem[i]).addClass('shrink')
+    //     }
+    // }
+
+    // loopAndShrink(footer)
+
+
     // for (let i = 0; i < footer.length; i++) {
     //     console.log(footer[i])
     //     $(footer[i]).addClass("shrink")     // :]
     // }
+
 
     $('.goldbar')
     .css('height', '85px')
@@ -178,7 +155,7 @@ $('body')
     let mine = $('.mine')
     mine
     .addClass('mine')
-    .css('margin-top', '-4.4em')
+    // .css('margin-top', '30.4em')
 
     signuptxt = $('#smoketxtsignup')
     logintxt = $('#smoketxtlogin')
@@ -194,156 +171,389 @@ $('body')
     // optionInput
 
 
+    let cactus = $('.cactus')
+    cactus
+    .css('margin-top', '5em')
+    .addClass('fakeBoop')
     // * THIS * IS * CODE * FOR * THE * M       I       N       E       *******                 G       A       M       E               **********                  ********                    *********
-     
-
-    function draw() {
-      const minecanvas = document.getElementById('minecanvas');
-      if (minecanvas.getContext) {
-        const ctx = minecanvas.getContext('2d');
+  
+    // const canvas = document.createElement("canvas");
 
 
-        console.log('how are you even figuring this out right now')
-        // ctx.fillStyle = 'rgb(200, 0, 0)';
-        // ctx.fillRect(10, 10, 50, 50);
 
-        // const drawcanvas = () => {
-            ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-            ctx.fillStyle = 'papayawhip';
-            ctx.fillRect(30, 30, 500, 500);
-            ctx.fillRect(30, 30, 50, 50);
-            ctx.stroke()
-        // }
-            const mineimg = new Image()
-            mineimg.src = 'img/mining-cart.png'     // looks like a bag of popcorn a bit... thinking this .icon over.
-            mineimg.style.height = '40px'
-            mineimg.style.width = '40px'
 
-            console.log('mineImg')
-            console.log(mineimg)
+    
 
-            mineimg.onload = () => {
-                ctx.drawImage(mineimg, 40, 100, mineimg.width/10, mineimg.height/10)
-                // context.drawImage(image, 0, 0, image.width*2, image.height * 2);
-                ctx.beginPath()
+//     test.addEventListener("mousemove", function(evt) {
+//   var mousePos = getMousePos(test, evt);
+//   mouse.x = mousePos.x;
+//   mouse.y = mousePos.y;
+// });
 
-            }
+// function getMousePos(canvas, event) {
+//   var rect = canvas.getBoundingClientRect();
+//   return {
+//     x: event.clientX - rect.left,
+//     y: event.clientY - rect.top
+//   };
+// }
+
+// $('#minecanvas').on('mousemove', (e) => {
+//     let mousePos = getMousePos($('#minecanvas'), e)
+//     mouse.x = mousePos.x
+//     mouse.y = mousePos.y
+// })
+
+
+// const getMousepos = (canvas, event) => {
+//     console.log("ill admit were seeing the butt right now")
+//     const rect = canvas.getBoundingClientRect()
+//     return {
+//         x: event.clientX - rect.left,
+//         y: event.clientY - rect.top
+//     }
+// }
+
+
+
+
+    // function draw() {
+    //   const canvas = document.getElementById('minecanvas');
+    // //   if (canvas.getContext) {
+        
+    //     const ctx = canvas.getContext('2d');
+    //     ctx.fillStyle = 'papayawhip';
+    //     ctx.fillRect(10, 10, 400, 400);
+    //     const img = new Image()
+    //     // const img = document.getElementById('lamp')
+    //     img.src = 'img/cart.png' // img/mining-cart.png
+    //     img.onload = () => {
+    //         // $('img').attr("src", '/img/cart.png')
+    //         const pattern = ctx.createPattern(img, 'no-repeat') // string argument
+    //         ctx.fillStyle = pattern
+    //         ctx.fillRect(0, 0, 300, 300)            
+    //     }
+    //     // ctx.fillStyle = 'papayawhip';
+    //     // ctx.fillRect(30, 30, 500, 500);
+    // }
+    // draw()
+
+
+
+    // draw()
+
+
+// const canvas = document.getElementById('canvas');
+// const ctx = canvas.getContext('2d');
+
+// const img = new Image();
+// img.src = 'canvas_createpattern.png';
+// img.onload = function() {
+//   const pattern = ctx.createPattern(img, 'repeat');
+//   ctx.fillStyle = pattern;
+//   ctx.fillRect(0, 0, 300, 300);
+// };
+
+//     const img = new Image();
+// img.src = '/public/img/mining-cart.png';
+// img.onload = function() {
+//   const pattern = ctx.createPattern('/public/img/mining-cart.png', 'no-repeat');
+//   ctx.fillStyle = pattern;
+// //   ctx.rect(19, 50, 40, 34);
+//   ctx.rect(100, 60, 50, 80);
+//   ctx.stroke()
+// //   ctx.fillRect(19, 50, 40, 34);
+// };
+            // mineimg.onload = (event) => {
+            //     console.log('target')
+            //     console.log($(event.target))
+            //     console.log('this')
+            //     console.log($(this))            
+            //     ctx.drawImage(mineimg, 40, 100, mineimg.width/10, mineimg.height/10)
+            //     ctx.beginPath()
+            // }
+            // context.drawImage(image, 0, 0, image.width*2, image.height * 2);
+            // $(event.target).css("border", "8px solid green")
         // drawcanvas()
-
-
-
-
         // minecanvas.loadImage('public/img/mining-cart.png').then(img => {
         //     ctx.drawImage(image, 30, 30, 70, 70)
         //     ctx.stroke()
         // })
-
         // ctx.stroke();
-  }
-// }
-        // canvas.loadImage('public/img/mining-cart.png').then(img => {
-        //     context.drawImage(image, 30, 30, 70, 70)
-        //     // const buffer = canvas.toBuffer('')
-        // })           
-    }
-    draw()
+//   }
+// // }
+//         // canvas.loadImage('public/img/mining-cart.png').then(img => {
+//         //     context.drawImage(image, 30, 30, 70, 70)
+//         //     // const buffer = canvas.toBuffer('')
+//         // })           
+    
+//     draw()
 
 //     loadImage('./logo.png').then(image => {
 //   context.drawImage(image, 340, 515, 70, 70)
 //   const buffer = canvas.toBuffer('image/png')
 //   fs.writeFileSync('./test.png', buffer)
 // })
-
-
-    console.log('mineCanvas')       // cant access the mineCanvas down here. NO DOM. We have to append the canvas and give it a class and it will be targetable. 
-    // console.log(mineCanvas) 
-
-
-
-    
-     const loopAndShrink = (elem) => {                   
-        let i = 0;
-        length = elem.length
-        for (i; i < length; i++) {
-            console.log('atleast were over here')
-            $(elem[i]).addClass('shrink')
-        }
-    }
-    loopAndShrink(footer)
-    
-    let map = []
-    let down = []
-
-    const up = (jqObj) => {
-        jqObj
-        .animate({ left: '+5px'})
-    }
-
-
+  // console.log(mineCanvas) 
     // $(document).on('keydown', 'body', cart, (e) => {
-    $(document).on('keydown', 'body', (e) => {
-        if (!map[e.which]) {
-            console.log('hey')
-            console.log(`here is the e.which ${e.which}`)
-            down.push(e.which)
-            // if (e.key === 'd') {
-                if (down[0] == '68') {
-                    console.log("lets see")
-                    up(cart)
-                    down = [] // wow didn't realize this is shorter code for: down.splice(0, ))
-                    // cart
-                }
-            }
-        })
-
+  
                     // .animate({
                     //     left: '+5px'
                     // }, "1000", () => {
                     //     // $(document).unbind()
                     //     // $(document).bind()
                     // })
+        // ctx.fillStyle = 'rgb(200, 0, 0)';
+        // ctx.fillRect(10, 10, 50, 50);
+        
+        // const drawcanvas = () => {
+        
+        //     function draw() {
+        //       const minecanvas = document.getElementById('minecanvas');
+        //       if (minecanvas.getContext) {
+        //         const ctx = minecanvas.getContext('2d');
+        
+        //             console.log('how are you even figuring this out right now')
+        //             ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+        //             ctx.fillStyle = 'papayawhip';
+        //             ctx.fillRect(30, 30, 500, 500);
+        //             ctx.fillRect(30, 30, 50, 50);
+        //             ctx.stroke()
+        
+        // const img = new Image();
+        // img.src = '/public/img/gold.png';
+        // img.onload = function() {
+        //   const pattern = ctx.createPattern(img, 'repeat');
+        //   ctx.fillStyle = pattern;
+        //   ctx.fillRect(50, 50, 300, 300);
+        // };
+        
+        // const patternCanvas = document.createElement('canvas');
+        // const patternContext = patternCanvas.getContext('2d');
+        
+        // Give the pattern a width and height of 50
+        // patternCanvas.width = 50;
+        // patternCanvas.height = 50;
+        
+        // Give the pattern a background color and draw an arc
+        // patternContext.fillStyle = '#fec';
+        // patternContext.fillRect(0, 0, patternCanvas.width, patternCanvas.height);
+        // patternContext.arc(0, 0, 50, 0, .5 * Math.PI);
+        // patternContext.stroke();
+        
+        // Create our primary canvas and fill it with the pattern
+        // const canvas = document.createElement('canvas');
+        // const ctx = canvas.getContext('2d');
+        // const pattern = ctx.createPattern(patternCanvas, 'repeat');
+        // ctx.fillStyle = pattern;
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Add our primary canvas to the webpage
+        // document.body.appendChild(canvas);
+        
+        
+        // const canvas = document.getElementById('minecanvas');
+        // console.log('canvas')
+        // console.log(canvas)
+        // const ctx = canvas.getContext('2d');
+        
+        // const img = new Image();
+        // img.src = 'public/img/mining-cart.png';
+        // img.onload = function() {
+        //   const pattern = ctx.createPattern(img, 'no-repeat');
+        // //   ctx.fillStyle = pattern;
+        //   ctx.fillStyle = 'blue';
+        //   ctx.fillRect(0, 0, 300, 300);
+        // };
+        
+        // const patternCanvas = document.createElement('canvas');
+        // const patternContext = patternCanvas.getContext('2d');
+        
+        // // Give the pattern a width and height of 50
+        // patternCanvas.width = 50;
+        // patternCanvas.height = 50;
+        
+        // // Give the pattern a background color and draw an arc
+        // patternContext.fillStyle = '#fec';
+        // patternContext.fillRect(0, 0, patternCanvas.width, patternCanvas.height);
+        // patternContext.arc(0, 0, 50, 0, .5 * Math.PI);
+        // patternContext.stroke();
+        
+        // // Create our primary canvas and fill it with the pattern
+        // // const canvas = document.createElement('canvas');
+        // const canvas = document.getElementById('minecanvas');
+        // const ctx = canvas.getContext('2d');
+        // const pattern = ctx.createPattern(patternCanvas, 'repeat');
+        // ctx.fillStyle = pattern;
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // // Add our primary canvas to the webpage
+        // document.body.appendChild(canvas);
+
+                //  $(document).on('key', () => {
+    //      console.log("now we gotcha")
+    //      if (event.key == 'd') {
+    //          cart
+    //          .animate({
+    //              left: '+5px'
+    //          }, "1000", () => {
+    //              $(document).on('keydown', () => {
+    //                  cart
+    //                  .animate({
+    //                      left: '+5px'
+    //                  })
+    //              })
+    //               $(document).unbind('keydown')
+    //               $(document).bind('keydown')
+    //          })
+    //      } else if (event.key == 'a') {
+    //          cart
+    //          .animate({
+    //              right: '5px'
+    //          }, "1000", () => {
+    //               $(document).unbind('keydown')
+    //               $(document).bind('keydown')
+    //          })
+    //      }
+    //       if (event.key === 'd') {
+    //        if (event.key === '39') {
+    //           cart
+    //           .animate({
+    //               left: 'left + 5px'
+    //           }, "1000", () =>{
+    //               $(document).unbind('keydown')
+    //               $(document).bind('keydown')
+    //           })
+    //       }
+    //     }})
+        
+    // $(document).on('keydown', 'body', (e) => {
+    //     if (!map[e.which]) {
+    //         console.log('hey')
+    //         console.log(`here is the e.which ${e.which}`)
+    //         down.push(e.which)
+    //         // if (e.key === 'd') {
+    //             if (down[0] == '68') {
+    //                 console.log("lets see")
+    //                 up(cart)
+    //                 down = [] // wow didn't realize this is shorter code for: down.splice(0, ))
+    //                 // cart
+    //             }
+    //         }
+    //     })
+    // console.log(mineCanvas) 
 
 
 
+    
+    //  const loopAndShrink = (elem) => {                   
+    //     let i = 0;
+    //     length = elem.length
+    //     for (i; i < length; i++) {
+    //         console.log('atleast were over here')
+    //         $(elem[i]).addClass('shrink')
+    //     }
+    // }
+    // loopAndShrink(footer)
+    
+    // let map = []
+    // let down = []
+
+    // const up = (jqObj) => {
+    //     jqObj
+    //     .animate({ left: '+5px'})
+    // }
+
+            //  const loopAndShrink = (elem) => {                   
+    //     let i = 0;
+    //     length = elem.length
+    //     for (i; i < length; i++) {
+    //         console.log('atleast were over here')
+    //         $(elem[i]).addClass('shrink')
+    //     }
+    // }
+    // loopAndShrink(footer)
+    
+    // let map = []
+    // let down = []
+
+    // const up = (jqObj) => {
+    //     jqObj
+    //     .animate({ left: '+5px'})
+    // }
 
 
-     $(document).on('key', () => {
-         console.log("now we gotcha")
-         if (event.key == 'd') {
-             cart
-             .animate({
-                 left: '+5px'
-             }, "1000", () => {
-                 $(document).on('keydown', () => {
-                     cart
-                     .animate({
-                         left: '+5px'
-                     })
-                 })
-                  $(document).unbind('keydown')
-                  $(document).bind('keydown')
-             })
-         } else if (event.key == 'a') {
-             cart
-             .animate({
-                 right: '5px'
-             }, "1000", () => {
-                  $(document).unbind('keydown')
-                  $(document).bind('keydown')
-             })
-         }
-          if (event.key === 'd') {
-           if (event.key === '39') {
-              cart
-              .animate({
-                  left: 'left + 5px'
-              }, "1000", () =>{
-                  $(document).unbind('keydown')
-                  $(document).bind('keydown')
-              })
-          }
-        }})
+    // function draw() {
+    // // create the pattern. 
+    // const patternCanvas = document.createElement('canvas')
+    // patternContext = patternCanvas.getContext('2d')
+    // // sizing && color specifications for the pattern
+    // patternCanvas.width = 50 
+    // patternCanvas.height = 50 // height = patternCanvas.height || 50
+    // // patternCanvas.fillStyle = '#FFF'
+    // patternCanvas.src = '/img/cart.png'
+    // patternContext.fillRect(0, 0, patternCanvas.width || 50, patternCanvas.height || 50)
+    // patternContext.stroke()
+
+    // console.log('patternCanvas')    // 
+    // console.log(patternCanvas)
+
+    // // create our primary canvas
+    //   const canvas = document.getElementById('minecanvas');        
+    //     const ctx = canvas.getContext('2d');
+    //     const pattern = ctx.createPattern(patternCanvas, 'no-repeat')
+    //     ctx.fillStyle = pattern;
+    //     ctx.fillRect(10, 10, 400, 400);
+
+    //     // ctx.fillStyle = 'papayawhip';
+    //     ctx.fillRect(30, 30, 500, 500);
+    // }
+    // draw()
+ 
+    // document.onkeydown=function(e)
+    // {
+    //     $('.locdisplay').text(cart.x)
+    //     console.log('e.keyCode')
+    //     console.log(e.keyCode)
+    //   pos++;
+    // //   key=window.event?e.keyCode:e.which;
+    //   key=window.event?e.keyCode:e.which;
+    // }
+
+   
+    // document.onkeyup=function(e){
+    //     pos--
+    // }
+    
+    // setInterval(function()
+    // {
+    //   if(pos==0)return;
+    //   if(key==37){
+    //     x-=0.2
+    // };
+    //   if(key==38) {
+    //     // $(cart).addClass('turn') 
+    //     y-=0.2;
+    //   }
+
+    //   if(key==39)x+=0.2;
+    //   if(key==40)y+=0.2;
+    //     canvas.width=canvas.width;
+    //   ctx.drawImage(cart,x,y);
+    // },5);
+    
+    // setInterval( () => {
+    //     // ctx.drawImage(gold, 50, 50)
+    //     ctx.drawImage(gold, 100, 100)
+    // }, 5)
 
 
+    // $('#minecanvas')
+    // .css("border", '5px solid papayawhip')
+    // .css('box-shadow', '15px 15px 15px rgb(247, 208, 36)')
 
 </script>
+
+
+
+
