@@ -7,6 +7,8 @@ const ejs = require('ejs')
 const passport = require('./config/ppConfig')
 let routes = require('./routes')
 // const layouts = require('express-ejs-layouts') did this on a whim for the vanishing smoke '/strains' '/home' .. I might use layouts but feel that if I leave it on, this app will be locked in to 1 way of being. 
+let key1 = process.env.key1 || 'skeletonkey'
+let key2 = process.env.key2 || 'openkey'
 
 const { Pool } = require('pg');
 const pool = new Pool({
