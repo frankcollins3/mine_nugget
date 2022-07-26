@@ -14,20 +14,6 @@ const cookieSession = require('cookie-session')
 // const pg = require('pg')
 // store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
 const session = require('express-session')
-// const redisStore = require("connect-redis")(session)
-// let sessionStore = new redisStore({ client: redisClient})
-
-// tore: new RedisStore({ client: redisClient })
-// const asyncconfig = async () => {
-//     const client = await redis.createClient()
-// }
-
-// Method 1
-// const redisClient1 = redis.createClient({
-//   host: process.env.REDIS_HOST,
-//   port: process.env.REDIS_PORT,
-//   password: process.env.REDIS_PASSWORD
-// })
 
 const flash = require('connect-flash')
 
@@ -68,7 +54,7 @@ app.use(flash())
 
 app.use(cookieSession({
     name: 'session',
-    keys: ['key', 'otherkey'],
+    keys: [process.env.key1, process.env.key2],
     maxAge: 24 * 60 * 60 * 1000
 }))
 
