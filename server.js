@@ -1,82 +1,54 @@
-// COMMON/require('module/npm') JS syntax to import DEPENDENCIES
-const env = require('dotenv').config()
-const express = require('express')
-const app = express()
-const axios = require('axios')
-const ejs = require('ejs')
-const passport = require('./config/ppConfig')
-let routes = require('./routes')
-const db = require('./models')
-// const layouts = require('express-ejs-layouts') did this on a whim for the vanishing smoke '/strains' '/home' .. I might use layouts but feel that if I leave it on, this app will be locked in to 1 way of being. 
-let key1 = process.env.key1 || 'skeletonkey'    // these publically visible string values are different than the [would-be] successful .env variables.
-let key2 = process.env.key2 || 'openkey'
+require('dotenv').config();
+const express = require('express');
+// const layouts = require('express-ejs-layouts');
+const session = require('express-session');
+const passport = require('./config/ppConfig');
+const flash = require('connect-flash');
+const SECRET = process.env.SECRET_SESSION;
+// console.log(SECRET_SESSION);
+const app = express();
+// add the isLoggedIn middleware here:
+const isLoggedIn = require('./middleware/isLoggedIn');
+const { createCanvas, loadImage } = require('canvas')
 
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+app.set('view engine', 'ejs');
 
-const cookie = require("cookie-parser")
-const cookieSession = require('cookie-session')
-const redis = require("redis")
-const session = require('express-session')
+app.use(require('morgan')('dev'));
+console.log("hi morgan")
+console.log(require('morgan'))
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/public'));
+// app.use(require(methodOverride('_method')));
 
-
-// const pg = require('pg')
-// store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-
-const flash = require('connect-flash')
-
-const { createCanvas, loadImage } = require('canvas')// also was considering using canvas with app.use instead of putting into the res.render('index', {canvas]})
-
-
-// const routes = require('./routes')
-const SECRET_SESH = process.env.SECRET_SESSION
-
-// passport = config/ppConfig.js
-// express flash
-const globalVar = (req, res, next) => {
-    res.locals.alerts = req.flash()
-   res.locals.canvas = { createCanvas, loadImage }
-   req.flash()
-   res.locals.sessionUser = req.user // res.locals[within rendering/view scope] vs app.locals. which holds the settings for the app.
-   next()
+const sessionObject = {
+  secret: SECRET,
+  resave: false,
+  saveUninitialized: true
 }
-// rowdy logger?
 
-// let PORT = process.env.PORT || 7777
-// const sessionObject = {
-//     // store: new redisStore({ host: 'localhost', port: 6379, client: redisClient,ttl :  260}),
-//     secret: SECRET_SESH,
-//     // secret: 'mine',
-//     resave: false,
-//     saveUninitialized: true
-// }
-// app.use(
-  // cookieSession({
-    let sessionObject = {
-    // let cookieObject = {
-      // store: new RedisStore({ client: redisClient }),
-      resave: false, 
-      saveUninitialized: true,
-      secret: SECRET_SESH,
-      cookie:  {
-        name: 'session',
-        keys: [key1, key2],
-        maxAge: 24 * 60 * 60 * 1000
-      }
+app.use(session(sessionObject));
 
-    }
+// initialize Passport and run through middleware
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash())
+// FLASH
+// using Flash throughout app to send temp messages to users
+const globalVar = (req, res, next) => {
+  res.locals.alerts = req.flash()
+ res.locals.canvas = { createCanvas, loadImage }
+ req.flash()
+ res.locals.sessionUser = req.user // res.locals[within rendering/view scope] vs app.locals. which holds the settings for the app.
+ next()
+}
 
-// }))
 
+// middleware
 app.use(session(sessionObject))
 // app.use(session(cookieObject))
 // app.use(cookie())
+app.use(globalVar)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
@@ -84,46 +56,24 @@ app.use(flash())
 
 
 
-
-
-// app.use(session(sessionObject));
-
-
-// MIDDLEWARE
-app.set('view engine', 'ejs') 
-// const path = require("path");
-// app.use("/", express.static(path.join(__dirname, "public")));
-
-app.use(express.static(__dirname + '/public'));
-
-// app.use("/", express.static('public'))
-app.use(express.urlencoded({extended: false})) // allows us to parse form data.
-// app.use('/', routes)
-app.use(globalVar)
-    
-
 let getauth = require('./routes/auth')
 let getstrains = require('./routes/strain')
 const gohome = require('./routes')
-const connectPgSimple = require('connect-pg-simple')
 
 app.use('/auth', getauth)
 app.use('/strain', getstrains)
 app.use('/', gohome)
 
-// module functions
-const hello = () => {
-    console.log('hello')
-}
-module.exports = {hello}
+
+const PORT = process.env.PORT || 7777;
+const server = app.listen(PORT, () => {
+  console.log(`insert server pun ${server}`);
+});
 
 
 
-let PORT = process.env.PORT || '7777'
-app
-.listen(PORT)
-.on('listening', () => console.log(`smell the server on: ${process.env.PORT || PORT}`)
-)
 
-module.exports = app
-// app.on('listening', () => console.log(`${process.env.PORT} || ${PORT}`))
+
+
+
+
