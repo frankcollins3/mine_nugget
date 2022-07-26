@@ -19,14 +19,14 @@ router.use('/', (req, res) => {
         const apiToStrainDb = async () => {
         let strainlength = await db.strain.findAll().then(async (all) => {
            let length = all.length
-           console.log('length')
-           console.log(length)
+        //    console.log('length')
+        //    console.log(length)
 
             // console.log(ghres)
             let ghres = await axe.get(`https://bigcode69er.github.io/strainuous/strain.json`)   // can also put it up top with the function. am so backed up on react trying to fly through sorry anyone peeping out for D.R.Y.
 
             if (ghres.status == 200) {
-                console.log('got a good status')
+                // console.log('got a good status')
                 let straindata = ghres.data.strains
                 strainBucket = []
                 const loopAndPush = async () => {
@@ -49,8 +49,8 @@ router.use('/', (req, res) => {
                                         parents: index.parents
                                     }
                                    }).then((strain) => {
-                                    console.log('lets see the strains')
-                                    console.log(strain)
+                                    // console.log('lets see the strains')
+                                    // console.log(strain)
                                 }) // db.strain.findOrCreate
                             }   //add strains end
                             addStrains()                                                  
@@ -84,7 +84,7 @@ router.use('/', (req, res) => {
                   accurateId()
                 }
             })   
-            console.log("yeah were over here")
+            // console.log("yeah were over here")
         }
         apiToStrainDb()
         }
@@ -96,8 +96,8 @@ router.use('/', (req, res) => {
         const apiToEffectsDb = async () => { // antiDRY code accessing github strain data twice. Code was being funny. 
             let effects = await db.effect.findAll().then(async (effects) => {
                 let length = effects.length
-                console.log('length')
-                console.log(length)
+                // console.log('length')
+                // console.log(length)
                     // console.log('gh')
                     let ghres = await axe.get(`https://bigcode69er.github.io/strainuous/strain.json`)   
 
@@ -109,8 +109,8 @@ router.use('/', (req, res) => {
                     const loopAndPush = async () => {
                         straindata.forEach(async (strain) => {
                                 strainBin.push(strain)
-                            console.log('strainBin')
-                            console.log(strainBin)
+                            // console.log('strainBin')
+                            // console.log(strainBin)
                         }) // straindata.forEach
                     }      // loopAndPush()
                     await loopAndPush()
@@ -131,29 +131,29 @@ router.use('/', (req, res) => {
                                     } // effects where object
                                 }).then( (newEffects) => {
                                     console.log('were down here successfully')
-                                    console.log('newEfects')
-                                    console.log(newEffects)
+                                    // console.log('newEfects')
+                                    // console.log(newEffects)
                                 })   // db.effect.findCreate
                             }   // addEffectsEnd
                             addEffects()                                
-                            console.log("NOW YOU KNOW WERE OVER HERE")
+                            // console.log("NOW YOU KNOW WERE OVER HERE")
                         }   // main for loop of apiPg end
                     }   // apiPg
                     apiPg()
                     const accurateId2 = async () => {
                         await db.effect.findAll().then(async (senses) => {
-                            console.log(senses)
+                            // console.log(senses)
                             const updateSense = async () => {
                                 console.log('in the update sense')
                                 for (let i = 0; i < senses.length; i++) {
-                                    console.log("are we over here yet")
+                                    // console.log("are we over here yet")
                                     // console.log('i')
                                     // console.log(i)
                                      await db.effect.findOne({
                                         where: { smell: senses[i].smell }
                                     }).then( (sen) => {
-                                        console.log('sen')
-                                        console.log(sen)
+                                        // console.log('sen')
+                                        // console.log(sen)
                                         sen.update({ strainId: senses[i].id}), {
                                             where: { strainId: null }                       // model:generate, model:migrate, model:citizen
                                         }

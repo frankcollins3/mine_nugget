@@ -7,7 +7,7 @@ const ejs = require('ejs')
 const passport = require('./config/ppConfig')
 let routes = require('./routes')
 // const layouts = require('express-ejs-layouts') did this on a whim for the vanishing smoke '/strains' '/home' .. I might use layouts but feel that if I leave it on, this app will be locked in to 1 way of being. 
-let key1 = process.env.key1 || 'skeletonkey'
+let key1 = process.env.key1 || 'skeletonkey'    // these publically visible string values are different than the [would-be] successful .env variables.
 let key2 = process.env.key2 || 'openkey'
 
 const { Pool } = require('pg');
@@ -18,25 +18,27 @@ const pool = new Pool({
   }
 });
 
-// app.get('/db', async (req, res) => {
-//     try {
-//       const client = await pool.connect();
-//       const result = await client.query('SELECT * FROM test_table');
-//       const results = { 'results': (result) ? result.rows : null};
-//       res.render('pages/db', results );
-//       client.release();
-//     } catch (err) {
-//       console.error(err);
-//       res.send("Error " + err);
-//     }
-//   })
-
 
 const cookieSession = require('cookie-session')
+const redis = require("redis")
+const session = require('express-session')
+let RedisStore = require('connect-redis')(session)
+let redisClient = redis.createClient()
+
+redisClient.on('error', (err) => console.log(`ERROR. FALIURE. redis. ${err}`));
+redisClient.on('connect', () => console.log('successfully connected to redis'));
+// terminal [redis-server]
+console.log('redisClient')
+console.log(redisClient)
+// console.log('redisStore')
+
+// console.log('redis')
+// console.log(redis)
+
+
 
 // const pg = require('pg')
 // store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-const session = require('express-session')
 
 const flash = require('connect-flash')
 
@@ -69,6 +71,7 @@ const globalVar = (req, res, next) => {
 // app.use(
   // cookieSession({
     let cookieObject = {
+      store: new RedisStore({ client: redisClient }),
       resave: false, 
       saveUninitialized: false,
       secret: SECRET_SESH,
