@@ -72,7 +72,7 @@ const globalVar = (req, res, next) => {
       resave: false, 
       saveUninitialized: false,
       secret: SECRET_SESH,
-      cookie: {
+      cookie:  {
         name: 'session',
         keys: [process.env.key1, process.env.key2],
         maxAge: 24 * 60 * 60 * 1000
