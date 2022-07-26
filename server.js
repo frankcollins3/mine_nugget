@@ -7,7 +7,28 @@ const ejs = require('ejs')
 const passport = require('./config/ppConfig')
 let routes = require('./routes')
 // const layouts = require('express-ejs-layouts') did this on a whim for the vanishing smoke '/strains' '/home' .. I might use layouts but feel that if I leave it on, this app will be locked in to 1 way of being. 
+
+
+const cookieSession = require('cookie-session')
+
+// const pg = require('pg')
+// store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
 const session = require('express-session')
+// const redisStore = require("connect-redis")(session)
+// let sessionStore = new redisStore({ client: redisClient})
+
+// tore: new RedisStore({ client: redisClient })
+// const asyncconfig = async () => {
+//     const client = await redis.createClient()
+// }
+
+// Method 1
+// const redisClient1 = redis.createClient({
+//   host: process.env.REDIS_HOST,
+//   port: process.env.REDIS_PORT,
+//   password: process.env.REDIS_PASSWORD
+// })
+
 const flash = require('connect-flash')
 
 const { createCanvas, loadImage } = require('canvas')// also was considering using canvas with app.use instead of putting into the res.render('index', {canvas]})
@@ -29,17 +50,29 @@ const globalVar = (req, res, next) => {
 // rowdy logger?
 
 // let PORT = process.env.PORT || 7777
-const sessionObject = {
-    secret: SECRET_SESH,
-    // secret: 'mine',
-    resave: false,
-    saveUninitialized: true
-}
+// const sessionObject = {
+//     // store: new redisStore({ host: 'localhost', port: 6379, client: redisClient,ttl :  260}),
+//     secret: SECRET_SESH,
+//     // secret: 'mine',
+//     resave: false,
+//     saveUninitialized: true
+// }
 
-app.use(session(sessionObject))
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(session(sessionObject))
+// app.use(cookie())
+// app.use(passport.initialize())
+// app.use(passport.session())
 app.use(flash())
+
+
+
+app.use(cookieSession({
+    name: 'session',
+    keys: ['key', 'otherkey'],
+    maxAge: 24 * 60 * 60 * 1000
+}))
+
+
 
 // app.use(session(sessionObject));
 
@@ -60,6 +93,7 @@ app.use(globalVar)
 let getauth = require('./routes/auth')
 let getstrains = require('./routes/strain')
 const gohome = require('./routes')
+const connectPgSimple = require('connect-pg-simple')
 
 app.use('/auth', getauth)
 app.use('/strain', getstrains)

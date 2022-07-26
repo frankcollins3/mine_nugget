@@ -94,13 +94,13 @@ router.use('/', (req, res) => {
         const dbAsync2 = async () => {
         
         const apiToEffectsDb = async () => { // antiDRY code accessing github strain data twice. Code was being funny. 
-            let effects = await db.effect.findAll().then( (effects) => {
+            let effects = await db.effect.findAll().then(async (effects) => {
                 let length = effects.length
                 console.log('length')
                 console.log(length)
-                ghres().then(async (gh) => {
                     // console.log('gh')
-                    // console.log(gh)
+                    let ghres = await axe.get(`https://bigcode69er.github.io/strainuous/strain.json`)   
+
                     let straindata = ghres.data.strains
                     // console.log('straindata')
                     // console.log(straindata)
@@ -164,7 +164,6 @@ router.use('/', (req, res) => {
                         })
                     }
                     accurateId2()
-                })  // ghres                    
             })  // addEffects
         } // apiToEffectsDb
         apiToEffectsDb()
@@ -180,6 +179,14 @@ dbAsync2()
     })
 })
 
+router.get('/test', function (req, res, next) {
+    console.log("hitting")
+    // Update views
+    req.session.views = (req.session.views || 0) + 1
+  
+    // Write response
+    res.end(req.session.views + ' views')
+  })
 
 
 
