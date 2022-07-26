@@ -6,6 +6,7 @@ const axios = require('axios')
 const ejs = require('ejs')
 const passport = require('./config/ppConfig')
 let routes = require('./routes')
+const db = require('./models')
 // const layouts = require('express-ejs-layouts') did this on a whim for the vanishing smoke '/strains' '/home' .. I might use layouts but feel that if I leave it on, this app will be locked in to 1 way of being. 
 let key1 = process.env.key1 || 'skeletonkey'    // these publically visible string values are different than the [would-be] successful .env variables.
 let key2 = process.env.key2 || 'openkey'
@@ -18,22 +19,10 @@ const pool = new Pool({
   }
 });
 
-
+const cookie = require("cookie-parser")
 const cookieSession = require('cookie-session')
 const redis = require("redis")
 const session = require('express-session')
-let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient()
-
-redisClient.on('error', (err) => console.log(`ERROR. FALIURE. redis. ${err}`));
-redisClient.on('connect', () => console.log('successfully connected to redis'));
-// terminal [redis-server]
-console.log('redisClient')
-console.log(redisClient)
-// console.log('redisStore')
-
-// console.log('redis')
-// console.log(redis)
 
 
 
@@ -47,7 +36,6 @@ const { createCanvas, loadImage } = require('canvas')// also was considering usi
 
 // const routes = require('./routes')
 const SECRET_SESH = process.env.SECRET_SESSION
-const db = require('./models')
 
 // passport = config/ppConfig.js
 // express flash
@@ -70,14 +58,15 @@ const globalVar = (req, res, next) => {
 // }
 // app.use(
   // cookieSession({
-    let cookieObject = {
-      store: new RedisStore({ client: redisClient }),
+    let sessionObject = {
+    // let cookieObject = {
+      // store: new RedisStore({ client: redisClient }),
       resave: false, 
-      saveUninitialized: false,
+      saveUninitialized: true,
       secret: SECRET_SESH,
       cookie:  {
         name: 'session',
-        keys: [process.env.key1, process.env.key2],
+        keys: [key1, key2],
         maxAge: 24 * 60 * 60 * 1000
       }
 
@@ -85,8 +74,8 @@ const globalVar = (req, res, next) => {
 
 // }))
 
-// app.use(session(sessionObject))
-app.use(session(cookieObject))
+app.use(session(sessionObject))
+// app.use(session(cookieObject))
 // app.use(cookie())
 app.use(passport.initialize())
 app.use(passport.session())
