@@ -66,20 +66,31 @@ const globalVar = (req, res, next) => {
 //     resave: false,
 //     saveUninitialized: true
 // }
+// app.use(
+  // cookieSession({
+    let cookieObject = {
+      resave: false, 
+      saveUninitialized: false,
+      secret: SECRET_SESH,
+      cookie: {
+        name: 'session',
+        keys: [process.env.key1, process.env.key2],
+        maxAge: 24 * 60 * 60 * 1000
+      }
+
+    }
+
+// }))
 
 // app.use(session(sessionObject))
+app.use(session(cookieObject))
 // app.use(cookie())
-// app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 
 
-app.use(cookieSession({
-    name: 'session',
-    keys: [process.env.key1, process.env.key2],
-    maxAge: 24 * 60 * 60 * 1000
-}))
 
 
 
