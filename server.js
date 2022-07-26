@@ -14,7 +14,7 @@ const { createCanvas, loadImage } = require('canvas')// also was considering usi
 
 
 // const routes = require('./routes')
-// const SECRET_SESH = process.env.SECRET_SESSION
+const SECRET_SESH = process.env.SECRET_SESSION
 const db = require('./models')
 
 // passport = config/ppConfig.js
@@ -30,8 +30,8 @@ const globalVar = (req, res, next) => {
 
 // let PORT = process.env.PORT || 7777
 const sessionObject = {
-    // secret: SECRET_SESH,
-    secret: 'mine',
+    secret: SECRET_SESH,
+    // secret: 'mine',
     resave: false,
     saveUninitialized: true
 }
